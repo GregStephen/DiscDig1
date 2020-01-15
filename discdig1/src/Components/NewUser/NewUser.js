@@ -9,9 +9,15 @@ import avatarRequests from '../../Helpers/Data/avatarRequests';
 
 import './NewUser.scss';
 
+const defaultNewUser = {
+  firstName: '',
+  lastName: '',
+  imgUrl: ''
+};
+
 class NewUser extends React.Component {
   state = {
-    newUser: {},
+    newUser: defaultNewUser,
     avatars: [],
     email: '',
     password: '',
@@ -32,20 +38,9 @@ class NewUser extends React.Component {
     }
     e.target.classList.add('selected');
     const tempUser = { ...this.state.newUser };
-    tempUser[e.target.id] = e.target.src;
+    tempUser[e.target.id] = e.target.name;
     this.setState({ newUser: tempUser });
   }
-
-  createAvatarSelection = () => {
-    const { avatars } = this.state;
-    const avatarSelection = [];
-    Object.keys(avatars).forEach((key, index) => {
-      avatarSelection.push(<div key={index} className="avatar col-6 col-md-4 col-lg-3 mb-4">
-      <button className="avatar-btn"><img id='imageUrl' className={ index === 0 ? 'avatar-image selected' : 'avatar-image'} src={avatars[key]} alt={key} onClick={this.selectAvatar}></img></button>
-      </div>);
-    });
-    return avatarSelection;
-  };
 
   formFieldStringState = (e) => {
     const tempUser = { ...this.state.newUser };
@@ -53,10 +48,22 @@ class NewUser extends React.Component {
     this.setState({ newUser: tempUser });
   };
 
+  handleChange = (e) => {
+    this.setState({
+      [e.target.id]: e.target.value,
+    });
+  };
+
   render() {
     const {
-      newUser, email, password, error,
+      newUser, email, password, error, avatars
     } = this.state;
+
+    const showAvatars = avatars.map((avatar, index) => (
+      <div key={avatar.id} className="avatar col-6 col-md-4 col-lg-3 mb-4">
+      <button className="avatar-btn"><img id='imageUrl' name={avatar.id} className={ index === 0 ? 'avatar-image selected' : 'avatar-image'} src={avatar.imgUrl} alt={avatar.name} onClick={this.selectAvatar}></img></button>
+      </div>
+    ))
     return (
       <div className="NewUser container">
         <h1 className="join-header">Create an account!</h1>
@@ -111,7 +118,7 @@ class NewUser extends React.Component {
           <div className="form-group col-12 row justify-content-center">
             <p className="avatar-select-header col-12">Select Your Avatar</p>
             <div className="row col-10 justify-content-around">
-              { this.createAvatarSelection()}
+              { showAvatars }
             </div>
           </div>
           <h2 className="error col-12">{error}</h2>

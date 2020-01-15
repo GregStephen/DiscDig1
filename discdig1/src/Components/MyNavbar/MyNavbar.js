@@ -23,7 +23,7 @@ class MyNavbar extends React.Component {
   }
 
   static propTypes = {
-    authed: PropTypes.bool.isRequired,
+    authorized: PropTypes.bool.isRequired,
     userObj: PropTypes.object,
   }
 
@@ -39,13 +39,13 @@ class MyNavbar extends React.Component {
   };
 
   render() {
-    const { authed, userObj } = this.props;
+    const { authorized, userObj } = this.props;
     const buildNavbar = () => {
       let userLink = '';
       if (userObj !== undefined) {
         userLink = `/user/${userObj.id}`;
       }
-      if (authed && userObj !== undefined) {
+      if (authorized && userObj !== undefined) {
         return (
           <Nav className="ml-auto" navbar>
             <UncontrolledDropdown nav inNavbar>
