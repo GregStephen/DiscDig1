@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29326.143
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscDig1", "DiscDig1\DiscDig1.csproj", "{313FF46D-D366-45CE-A3E3-5FE1ED051F3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiscDig1", "DiscDig1.api\DiscDig1.csproj", "{9D1D55E7-E538-4444-BE72-8F455A2ACFD2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{313FF46D-D366-45CE-A3E3-5FE1ED051F3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{313FF46D-D366-45CE-A3E3-5FE1ED051F3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{313FF46D-D366-45CE-A3E3-5FE1ED051F3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{313FF46D-D366-45CE-A3E3-5FE1ED051F3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D1D55E7-E538-4444-BE72-8F455A2ACFD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D1D55E7-E538-4444-BE72-8F455A2ACFD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D1D55E7-E538-4444-BE72-8F455A2ACFD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D1D55E7-E538-4444-BE72-8F455A2ACFD2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
