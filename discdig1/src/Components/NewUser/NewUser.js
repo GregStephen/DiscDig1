@@ -6,6 +6,8 @@ import {
   Form, Label, Input, Button,
 } from 'reactstrap';
 
+import AvatarSelectionButton from '../AvatarSelectionButton/AvatarSelectionButton';
+
 import avatarRequests from '../../Helpers/Data/avatarRequests';
 import userRequests from '../../Helpers/Data/userRequests';
 
@@ -68,7 +70,6 @@ class NewUser extends React.Component {
       .then(() => {
         const saveMe = { ...this.state.newUser };
         saveMe.firebaseUid = firebase.auth().currentUser.uid;
-        console.error(saveMe);
         userRequests.addNewUser(saveMe)
           .then(() => this.props.history.push('/home'))
           .catch(err => console.error('unable to save', err));
@@ -82,9 +83,11 @@ class NewUser extends React.Component {
     } = this.state;
 
     const showAvatars = avatars.map((avatar, index) => (
-      <div key={avatar.id} className="avatar col-6 col-md-4 col-lg-3 mb-4">
-      <button className="avatar-btn"><img id='avatarId' name={avatar.id} className={ index === 0 ? 'avatar-image selected' : 'avatar-image'} src={avatar.imgUrl} alt={avatar.name} onClick={this.selectAvatar}></img></button>
-      </div>
+      <AvatarSelectionButton
+      avatar={ avatar }
+      index={ index }
+      selectAvatar={ this.selectAvatar }
+      />
     ))
 
     return (
