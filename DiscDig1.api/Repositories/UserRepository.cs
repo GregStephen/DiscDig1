@@ -27,6 +27,7 @@ namespace DiscDig1.Repositories
                             FROM [User]
                             WHERE [FirebaseUid] = @firebaseId";
                 var parameters = new { firebaseId };
+                
                 return db.QueryFirstOrDefault<User>(sql, parameters);
             }
         } 

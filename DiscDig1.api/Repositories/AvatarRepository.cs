@@ -26,5 +26,18 @@ namespace DiscDig1.Repositories
                 return avatars;
             }
         }
+
+        public Avatar GetAvatarById(Guid id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT *
+                            FROM [Avatar]
+                            WHERE Id = @id";
+                var parameters = new { id };
+                var avatar = db.QueryFirst<Avatar>(sql, parameters);
+                return avatar;
+            }
+        }
     }
 }

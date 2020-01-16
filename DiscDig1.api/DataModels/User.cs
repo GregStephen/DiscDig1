@@ -11,7 +11,7 @@ namespace DiscDig1.DataModels
         public string FirebaseUid { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public Guid AvatarId { get; set; }
+        public Avatar Avatar { get; set; }
         public DateTime DateCreated { get; set; }
     }
 }
