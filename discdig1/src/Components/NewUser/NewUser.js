@@ -1,18 +1,22 @@
 import React from 'react';
+import firebase from 'firebase/app';
 import 'firebase/auth';
 import $ from 'jquery';
 import {
   Form, Label, Input, Button,
 } from 'reactstrap';
 
+import AvatarSelectionButton from '../AvatarSelectionButton/AvatarSelectionButton';
+
 import avatarRequests from '../../Helpers/Data/avatarRequests';
+import userRequests from '../../Helpers/Data/userRequests';
 
 import './NewUser.scss';
 
 const defaultNewUser = {
   firstName: '',
   lastName: '',
-  imgUrl: ''
+  avatarId: ''
 };
 
 class NewUser extends React.Component {
@@ -25,11 +29,14 @@ class NewUser extends React.Component {
   };
 
   componentDidMount() {
+    // sets state of all avatars from db
     avatarRequests.getAllAvatars()
       .then(avatars => this.setState({ avatars }))
       .catch(err => console.error('trouble getting avatars', err));
   };
 
+
+  // puts border on selected avatar and sets it to state
   selectAvatar = (e) => {
     e.preventDefault();
     const avatarSelection = $('.avatar-image');
@@ -42,17 +49,33 @@ class NewUser extends React.Component {
     this.setState({ newUser: tempUser });
   }
 
+  // sets state for new user info
   formFieldStringState = (e) => {
     const tempUser = { ...this.state.newUser };
     tempUser[e.target.id] = e.target.value;
     this.setState({ newUser: tempUser });
   };
 
+  // sets state for firebase info
   handleChange = (e) => {
     this.setState({
       [e.target.id]: e.target.value,
     });
   };
+
+  formSubmit = (e) => {
+    e.preventDefault();
+    const { email, password } = this.state;
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        const saveMe = { ...this.state.newUser };
+        saveMe.firebaseUid = firebase.auth().currentUser.uid;
+        userRequests.addNewUser(saveMe)
+          .then(() => this.props.history.push('/home'))
+          .catch(err => console.error('unable to save', err));
+      })
+      .catch(err => this.setState({ error: err.message }));
+  }
 
   render() {
     const {
@@ -60,10 +83,13 @@ class NewUser extends React.Component {
     } = this.state;
 
     const showAvatars = avatars.map((avatar, index) => (
-      <div key={avatar.id} className="avatar col-6 col-md-4 col-lg-3 mb-4">
-      <button className="avatar-btn"><img id='imageUrl' name={avatar.id} className={ index === 0 ? 'avatar-image selected' : 'avatar-image'} src={avatar.imgUrl} alt={avatar.name} onClick={this.selectAvatar}></img></button>
-      </div>
+      <AvatarSelectionButton
+      avatar={ avatar }
+      index={ index }
+      selectAvatar={ this.selectAvatar }
+      />
     ))
+
     return (
       <div className="NewUser container">
         <h1 className="join-header">Create an account!</h1>
