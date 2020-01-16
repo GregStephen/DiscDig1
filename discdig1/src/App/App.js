@@ -13,6 +13,7 @@ import Home from '../Components/Home/Home';
 import fbConnect from '../Helpers/Data/fbConnection';
 
 import './App.scss';
+import userRequests from '../Helpers/Data/userRequests';
 
 fbConnect();
 
@@ -45,7 +46,11 @@ class App extends React.Component {
   componentDidMount () {
     this.removeListener = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        this.setState({ authorized: true });
+        userRequests.getUserByFirebaseUid(user.uid)
+        .then((userObj) => {
+          this.setState({ authorized: true, userObj });
+        })
+        .catch(err => console.error(err))
       } else {
         this.setState({ authorized: false, userObj: defaultUser });
       }

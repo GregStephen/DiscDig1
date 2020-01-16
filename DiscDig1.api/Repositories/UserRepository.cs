@@ -13,19 +13,31 @@ namespace DiscDig1.Repositories
     public class UserRepository : IUserRepository
     {
         string _connectionString;
+        private IAvatarRepository _avatarRepo;
 
-        public UserRepository(IConfiguration configuration)
+        public UserRepository(IConfiguration configuration, IAvatarRepository avatarRepo)
         {
             _connectionString = configuration.GetValue<string>("ConnectionString");
+            _avatarRepo = avatarRepo;
         }
 
-        public User GetUserByFirebaseId(Guid firebaseId)
+        public User GetUserByFirebaseId(string firebaseId)
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"";
+                var sql = @"SELECT *
+                            FROM [User]
+                            WHERE [FirebaseUid] = @firebaseId";
                 var parameters = new { firebaseId };
-                return db.QueryFirstOrDefault<User>(sql, parameters);
+                var userFromDb = db.QueryFirstOrDefault<UserDTO>(sql, parameters);
+                var avatar = _avatarRepo.GetAvatarById(userFromDb.AvatarId);
+                var user = new User();
+                user.Avatar = avatar;
+                user.DateCreated = userFromDb.DateCreated;
+                user.Id = userFromDb.Id;
+                user.FirstName = userFromDb.FirstName;
+                user.LastName = userFromDb.LastName;
+                return user;
             }
         } 
 

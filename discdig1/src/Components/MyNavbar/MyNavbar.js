@@ -40,6 +40,7 @@ class MyNavbar extends React.Component {
 
   render() {
     const { authorized, userObj } = this.props;
+    const avatar = userObj.avatar;
     const buildNavbar = () => {
       let userLink = '';
       if (userObj !== undefined) {
@@ -50,7 +51,7 @@ class MyNavbar extends React.Component {
           <Nav className="ml-auto" navbar>
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret className="navbar-user-button">
-                <img className="navbar-user-image" src={userObj.imageUrl} alt="the user"></img>
+                <img className="navbar-user-image" src={avatar.imgUrl} alt={avatar.name}></img>
               </DropdownToggle>
               <DropdownMenu right>
                 <DropdownItem>
