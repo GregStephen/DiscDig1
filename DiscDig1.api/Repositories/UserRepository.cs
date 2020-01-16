@@ -19,11 +19,13 @@ namespace DiscDig1.Repositories
             _connectionString = configuration.GetValue<string>("ConnectionString");
         }
 
-        public User GetUserByFirebaseId(Guid firebaseId)
+        public User GetUserByFirebaseId(string firebaseId)
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"";
+                var sql = @"SELECT *
+                            FROM [User]
+                            WHERE [FirebaseUid] = @firebaseId";
                 var parameters = new { firebaseId };
                 return db.QueryFirstOrDefault<User>(sql, parameters);
             }

@@ -8,7 +8,7 @@ namespace DiscDig1.DataModels
     public class User
     {
         public Guid Id { get; set; }
-        public Guid FirebaseUid { get; set; }
+        public string FirebaseUid { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public Guid AvatarId { get; set; }

@@ -23,8 +23,8 @@ namespace DiscDig1.Controllers
             _repo = repo;
         }
 
-        [HttpGet("{firebaseId}")]
-        public IActionResult GetUserByFirebaseId(Guid firebaseId)
+        [HttpGet("uid/{firebaseId}")]
+        public IActionResult GetUserByFirebaseId(string firebaseId)
         {
             var user = _repo.GetUserByFirebaseId(firebaseId);
             if (user == null)
