@@ -10,7 +10,7 @@ namespace DiscDig1.DTOS
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public Guid AvatarId { get; set; }
-        public Guid FirebaseUid { get; set; }
+        public string FirebaseUid { get; set; }
         public DateTime DateCreated { get; set; }
 
     }
