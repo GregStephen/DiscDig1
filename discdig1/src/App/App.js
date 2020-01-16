@@ -2,6 +2,8 @@ import React from 'react';
 import {
   BrowserRouter as Router, Route, Redirect, Switch,
 } from 'react-router-dom';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 import Auth from '../Components/Auth/Auth';
 import MyNavbar from '../Components/MyNavbar/MyNavbar';
@@ -39,6 +41,20 @@ class App extends React.Component {
     userObj: defaultUser,
     authorized: false
   }
+
+  componentDidMount () {
+    this.removeListener = firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ authorized: true });
+      } else {
+        this.setState({ authorized: false, userObj: defaultUser });
+      }
+    });
+  };
+
+  componentWillUnmount () {
+    this.removeListener();
+  };
 
   render() {
     const {authorized, userObj} = this.state;
