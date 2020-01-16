@@ -9,5 +9,6 @@ namespace DiscDig1.Repositories
     public interface IAvatarRepository
     {
         IEnumerable<Avatar> GetAllAvatars();
+        Avatar GetAvatarById(Guid id);
     }
 }
