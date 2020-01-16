@@ -9,6 +9,7 @@ import Auth from '../Components/Auth/Auth';
 import MyNavbar from '../Components/MyNavbar/MyNavbar';
 import NewUser from '../Components/NewUser/NewUser';
 import Home from '../Components/Home/Home';
+import UserProfile from '../Components/UserProfile/UserProfile';
 
 import fbConnect from '../Helpers/Data/fbConnection';
 
@@ -71,6 +72,7 @@ class App extends React.Component {
             <PublicRoute path='/auth' component={ Auth } authorized={ authorized }/>
             <PublicRoute path='/new-user' component={ NewUser } authorized={ authorized }/>
             <PrivateRoute path='/home' component={ Home } authorized={ authorized } userObj={ userObj }/>
+            <PrivateRoute path='/profile' component={ UserProfile } authorized={ authorized } userObj={ userObj }/>
             <Redirect from='*' to='/auth'/>
           </Switch>
       </Router>

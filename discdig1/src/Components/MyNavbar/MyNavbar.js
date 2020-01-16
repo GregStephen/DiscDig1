@@ -42,10 +42,6 @@ class MyNavbar extends React.Component {
     const { authorized, userObj } = this.props;
     const avatar = userObj.avatar;
     const buildNavbar = () => {
-      let userLink = '';
-      if (userObj !== undefined) {
-        userLink = `/user/${userObj.id}`;
-      }
       if (authorized && userObj !== undefined) {
         return (
           <Nav className="ml-auto" navbar>
@@ -55,7 +51,7 @@ class MyNavbar extends React.Component {
               </DropdownToggle>
               <DropdownMenu right>
                 <DropdownItem>
-                  <Link to={userLink}>User Profile</Link>
+                  <Link to='/profile'>User Profile</Link>
                 </DropdownItem>
                 <DropdownItem onClick={this.logMeOut}>
                     Log Out
