@@ -23,9 +23,22 @@ namespace DiscDig1.Controllers
         }
 
         [HttpGet("{term}")]
-        public IActionResult GetUserByFirebaseId(string term)
+        public IActionResult GetAlbumsFromDiscog(string term)
         {
             var response = _repo.GetAlbumsFromDiscog(term);
+            if (response == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(response);
+            }
+        }
+        [HttpGet("album/{id}")]
+        public IActionResult GetAlbumById(int id)
+        {
+            var response = _repo.GetAlbumFromDiscogById(id);
             if (response == null)
             {
                 return NotFound();
