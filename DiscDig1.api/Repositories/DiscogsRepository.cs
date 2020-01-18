@@ -32,11 +32,20 @@ namespace DiscDig1.Repositories
             _client.AddDefaultHeader("Authorization", $"Discogs key={_key}, secret={_secret}");
 
         }
-        public DiscogResponse GetAlbumsFromDiscog(string query)
+        public DiscogResponse GetAlbumsFromDiscog(string artistQuery, string albumQuery)
         {
             var request = new RestRequest();
+  
+            if (artistQuery != "null")
+            {
+                request.AddParameter("artist", artistQuery, ParameterType.QueryString);
+            }
+            if (albumQuery != "null")
+            {
+                request.AddParameter("release_title", albumQuery, ParameterType.QueryString);
+            }
 
-            request.AddParameter("title", query, ParameterType.QueryString); // used on every request
+            request.AddParameter("format", "Vinyl", ParameterType.QueryString);
             request.AddParameter("type", "release", ParameterType.QueryString);
             request.AddParameter("per_page", 24, ParameterType.QueryString);
             var response = _client.Get<DiscogResponse>(request);

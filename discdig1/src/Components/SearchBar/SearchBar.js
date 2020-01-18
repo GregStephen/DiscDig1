@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Input, InputGroup, InputGroupAddon, Button, Form } from 'reactstrap';
+import { Input, Button, Form } from 'reactstrap';
 
 import './SearchBar.scss';
 
@@ -13,24 +13,33 @@ class SearchBar extends React.Component {
   };
 
   state = {
-    searchTerm : "",
+    artistSearch : "",
+    albumSearch : "",
   }
 
   // this searches the database when the user clicks on the search button
   searchOnSubmit = (e) => {
     e.preventDefault();
-    this.search(this.state.searchTerm);
+    const {artistSearch, albumSearch} = this.state;
+    this.search(artistSearch, albumSearch);
   }
 
   // this is the actual search function
-  search = (term) => {
+  search = (artistSearch, albumSearch) => {
     const {displaySearchedAlbums} = this.props;
-    displaySearchedAlbums(term); 
+    if (artistSearch === ''){
+      artistSearch = 'null'
+    }
+    if (albumSearch === '') {
+      albumSearch = 'null'
+    }
+
+    displaySearchedAlbums(artistSearch, albumSearch); 
   }
 
   // When the user types on the search bar it changes state and searches
   formFieldStringState = (e) => {
-    this.setState({ searchTerm: e.target.value });
+    this.setState({ [e.target.id] : e.target.value });
   //  this.search(e.target.value);
   }
   
@@ -44,20 +53,27 @@ class SearchBar extends React.Component {
 
   render() {
     return (
-      <div className="SearchBar">
-        <Form onSubmit={this.searchOnSubmit}>
-          <InputGroup>
+      <div className="SearchBar container">
+        <Form onSubmit={this.searchOnSubmit} className="row">
             <Input 
+            className="col-4 offset-1"
             maxLength="40"
             type="search"
-            name="searchTerm"
-            id="searchTerm"
-            value={this.state.searchTerm}
+            name="artistSearch"
+            id="artistSearch"
+            placeholder="artist"
+            value={this.state.artistSearch}
             onChange={this.formFieldStringState}/>
-            <InputGroupAddon addonType="append">
-              <Button type="submit" className="searchBtn btn btn-success">Search</Button>
-            </InputGroupAddon>
-          </InputGroup>
+            <Input 
+            className="col-4 offset-1"
+            maxLength="40"
+            type="search"
+            name="albumSearch"
+            id="albumSearch"
+            placeholder="album"
+            value={this.state.albumSearch}
+            onChange={this.formFieldStringState}/>
+            <Button type="submit" className="searchBtn btn btn-success col-1 offset-1">Search</Button>
         </Form>
       </div>
     )

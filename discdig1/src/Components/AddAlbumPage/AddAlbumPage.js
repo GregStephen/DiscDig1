@@ -12,8 +12,8 @@ class AddAlbumPage extends React.Component {
     albums: []
   }
 
-  displaySearchedAlbums = (searchTerm) => {
-    discogRequests.searchAlbums(searchTerm)
+  displaySearchedAlbums = (artistSearch, albumSearch) => {
+    discogRequests.searchAlbums(artistSearch, albumSearch)
       .then((results) => {
         this.setState({ albums: results.results });
         console.error(results);

@@ -2,8 +2,8 @@ import axios from 'axios';
 
 const baseUrl = 'https://localhost:44370/api/discog';
 
-const searchAlbums = (searchTerm) => new Promise((resolve, reject) => {
-  axios.get(`${baseUrl}/${searchTerm}`)
+const searchAlbums = (artistSearch, albumSearch) => new Promise((resolve, reject) => {
+  axios.get(`${baseUrl}/artist/${artistSearch}/album/${albumSearch}`)
   .then(result => resolve(result.data))
   .catch(err => reject(err));
 });

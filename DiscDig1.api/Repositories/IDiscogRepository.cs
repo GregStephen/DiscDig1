@@ -8,7 +8,7 @@ namespace DiscDig1.Repositories
 {
     public interface IDiscogRepository
     {
-        DiscogResponse GetAlbumsFromDiscog(string query);
+        DiscogResponse GetAlbumsFromDiscog(string artistQuery, string albumQuery);
         DiscogAlbumResponse GetAlbumFromDiscogById(int id);
     }
 }

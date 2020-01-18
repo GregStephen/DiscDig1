@@ -3,22 +3,11 @@ import {
   Button, ModalBody, ModalFooter,
 } from 'reactstrap';
 
-import discogRequests from '../../Helpers/Data/discogRequests';
-
-
 class AddAlbumToCollectionModal extends React.Component {
   state = {
     albumToAdd: {}
   };
 
-  componentDidMount() {
-    const { album } = this.props;
-    discogRequests.getAlbumById(album.id)
-      .then((result) => {
-        this.setState({ albumToAdd: result})
-      })
-      .catch()
-  };
 
   toggleModal = (e) => {
     const { toggleModalOpen } = this.props;
@@ -34,7 +23,7 @@ class AddAlbumToCollectionModal extends React.Component {
     return (
       <div>
         <ModalBody>
-          <p>Add this album</p>
+          <p>Add {albumToAdd.title}</p>
         </ModalBody>
         <ModalFooter>
           <Button color="primary" onClick={this.addAlbum}>Commit Change</Button>{' '}
