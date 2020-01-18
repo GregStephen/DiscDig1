@@ -37,6 +37,40 @@ namespace DiscDig1.Controllers
             }
         }
 
+        [HttpGet("{userId}")]
+        public IActionResult GetUser(Guid userId)
+        {
+            var user = _repo.GetUserById(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(user);
+            }
+        }
+
+        [HttpPut]
+        public IActionResult EditUser(EditUserDTO editUserDto)
+        {
+            if (_repo.EditUser(editUserDto))
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpDelete("{userId}")]
+        public IActionResult DeleteUser(Guid userId)
+        {
+            _repo.DeleteUser(userId);
+            return Ok();
+        }
+
         [HttpPost]
         public IActionResult AddNewUserToDatabase(NewUserDTO newUser)
         {

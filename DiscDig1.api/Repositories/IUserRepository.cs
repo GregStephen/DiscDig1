@@ -10,6 +10,9 @@ namespace DiscDig1.Repositories
     public interface IUserRepository
     {
         User GetUserByFirebaseId(string firebaseId);
+        User GetUserById(Guid userId);
+        bool EditUser(EditUserDTO editedUser);
+        bool DeleteUser(Guid userId);
         bool AddNewUserToDatabase(NewUserDTO newUser);
     }
 }

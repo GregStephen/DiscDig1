@@ -1,0 +1,13 @@
+.UserWidget {
+  display: block;
+  .profile-avatar {
+    width: 75%;
+    margin: auto;
+  }
+  .profile-modal {
+    cursor: pointer;
+  }
+  a:not([href]):not([tabindex]):hover {
+    text-decoration: underline;
+  }
+}
