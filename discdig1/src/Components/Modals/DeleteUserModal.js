@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 class DeleteUserModal extends React.Component {
   static propTypes = {
     userObj: PropTypes.object.isRequired,
-    toggleDeleteUser: PropTypes.func,
+    toggleModalOpen: PropTypes.func,
     userDeleted: PropTypes.func,
   };
 

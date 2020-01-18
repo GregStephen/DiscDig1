@@ -12,7 +12,6 @@ import {
   from 'reactstrap';
 import moment from 'moment';
 
-
 import ChangeAvatarModal from '../Modals/ChangeAvatarModal';
 import ChangeEmailModal from '../Modals/ChangeEmailModal';
 import ChangePasswordModal from '../Modals/ChangePasswordModal';
@@ -34,6 +33,14 @@ class UserWidget extends React.Component {
     }));
   };
 
+  userEdited = (editedUser) => {
+    this.props.editTheUser(editedUser);
+  };
+
+  userDeleted = () => {
+    this.props.deleteTheUser();
+  };
+
   render() {
     const { modalOpen } = this.state;
     const { userObj, avatar } = this.props;
@@ -46,7 +53,7 @@ class UserWidget extends React.Component {
             <CardSubtitle>Proud Digger since: {displayDate}</CardSubtitle>
             <CardImg className="profile-avatar" src={avatar.imgUrl} alt={avatar.name} />
             <ListGroup flush>
-             <ListGroupItem className="profile-modal" tag="a"  onClick={() => this.toggleModalOpen('name')}>Change Name</ListGroupItem>
+              <ListGroupItem className="profile-modal" tag="a"  onClick={() => this.toggleModalOpen('name')}>Change Name</ListGroupItem>
               <ListGroupItem className="profile-modal" tag="a" onClick={() => this.toggleModalOpen('avatar')}>Change Avatar</ListGroupItem>
               <ListGroupItem className="profile-modal" tag="a" onClick={() => this.toggleModalOpen('email')}>Change Email</ListGroupItem>
               <ListGroupItem className="profile-modal" tag="a" onClick={() => this.toggleModalOpen('password')}>Change Password</ListGroupItem>

@@ -62,6 +62,38 @@ class App extends React.Component {
     this.removeListener();
   };
 
+  refreshUserObj = () => {
+    const {userObj} = this.state;
+    userRequests.getUserById(userObj.id)
+      .then((refreshedUserObj) => {
+        this.setState({ userObj : refreshedUserObj })
+      })
+      .catch(err => console.error(err));
+  }
+
+  deleteThisUser = () => {
+    const {userObj} = this.state;
+    userRequests.deleteUser(userObj.id)
+      .then(() => {
+        var user = firebase.auth().currentUser;
+        user.delete().then(function() {
+          // bye bitch.
+        }).catch(function(error) {
+          console.error(error)
+        });
+      })
+      .catch(err => console.error(err));
+  };
+
+  editThisUser = (userToEdit) => {
+    console.error(userToEdit);
+    userRequests.editUser(userToEdit)
+      .then(() => {
+        this.refreshUserObj();
+      })
+      .catch(err => console.error(err));
+  };
+
   render() {
     const {authorized, userObj} = this.state;
     return (
@@ -72,7 +104,7 @@ class App extends React.Component {
             <PublicRoute path='/auth' component={ Auth } authorized={ authorized }/>
             <PublicRoute path='/new-user' component={ NewUser } authorized={ authorized }/>
             <PrivateRoute path='/home' component={ Home } authorized={ authorized } userObj={ userObj }/>
-            <PrivateRoute path='/profile' component={ UserProfile } authorized={ authorized } userObj={ userObj }/>
+            <PrivateRoute path='/profile' component={ UserProfile } authorized={ authorized } userObj={ userObj } deleteThisUser={ this.deleteThisUser } editThisUser={ this.editThisUser }/>
             <Redirect from='*' to='/auth'/>
           </Switch>
       </Router>

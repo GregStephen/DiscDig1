@@ -17,7 +17,6 @@ class Auth extends React.Component {
     const { email, password } = this.state;
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(() => {
-        console.error('here');
         this.props.history.push('/home');
       }).catch(err => this.setState({ error: err.message }));
   }

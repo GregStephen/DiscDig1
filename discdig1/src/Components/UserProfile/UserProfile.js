@@ -5,6 +5,14 @@ import UserWidget from '../UserWidget/UserWidget';
 import './UserProfile.scss';
 
 class UserProfile extends React.Component {
+
+  deleteTheUser = () => {
+    this.props.deleteThisUser();
+  }
+
+  editTheUser = (editedUser) => {
+    this.props.editThisUser(editedUser);
+  }
   render() {
     const {userObj} = this.props;
     return (
@@ -13,6 +21,8 @@ class UserProfile extends React.Component {
           <UserWidget 
           userObj={ userObj }
           avatar={ userObj.avatar }
+          deleteTheUser={ this.deleteTheUser }
+          editTheUser={ this.editTheUser }
           />
         </div>
       </div>
