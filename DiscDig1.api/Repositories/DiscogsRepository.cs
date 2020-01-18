@@ -31,7 +31,9 @@ namespace DiscDig1.Repositories
         {
             var request = new RestRequest();
 
-            request.AddParameter("q", query, ParameterType.QueryString); // used on every request
+            request.AddParameter("release_title", query, ParameterType.QueryString); // used on every request
+            request.AddParameter("artist", query, ParameterType.QueryString);
+            request.AddParameter("per_page", 25, ParameterType.QueryString);
             var response = _client.Get<DiscogResponse>(request);
 
             if (response.ErrorException != null)
