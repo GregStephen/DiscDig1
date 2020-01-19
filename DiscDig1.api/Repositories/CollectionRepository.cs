@@ -80,5 +80,27 @@ namespace DiscDig1.Repositories
                 return (db.Execute(sql, parameters) == 1);
             }
         }
+
+        public bool CheckToSeeIfAlbumExistsInUsersMainCollectionAlready(Guid userId, int albumDiscogId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var mainId = GetUsersMainCollectionId(userId);
+                var albumId = _albumRepo.GetAlbumIdByDiscogId(albumDiscogId);
+                var sql = @"SELECT Id
+                            FROM [CollectionAlbum]
+                            WHERE [AlbumId] = @albumId AND [CollectionId] = @mainId";
+                var parameters = new { mainId, albumId };
+                var id = db.QueryFirstOrDefault<Guid>(sql, parameters);
+                if (id == default)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
     }
 }
