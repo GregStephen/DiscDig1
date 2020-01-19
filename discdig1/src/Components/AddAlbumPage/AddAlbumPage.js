@@ -33,7 +33,7 @@ class AddAlbumPage extends React.Component {
         <h1>Add Album Page</h1>
         <SearchBar
         displaySearchedAlbums= { this.displaySearchedAlbums }/>
-        <div className="row">
+        <div className="row justify-content-around">
           { 
           albums.length === 0 ? <h2>Refine Search</h2> 
           : showAlbums

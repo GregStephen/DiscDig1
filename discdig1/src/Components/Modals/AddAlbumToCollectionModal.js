@@ -10,6 +10,8 @@ import {
   CardText
 } from 'reactstrap';
 
+import discogRequests from '../../Helpers/Data/discogRequests'; 
+
 class AddAlbumToCollectionModal extends React.Component {
   state = {
     albumToAdd: {},
@@ -22,13 +24,15 @@ class AddAlbumToCollectionModal extends React.Component {
 
   componentDidMount() {
     const {album} = this.props;
-    const image = album.images[0];
-    const artist = album.artists[0];
-    let styles = [];
-    if (album.styles != null) {
-      styles = album.styles;
-    }
-    this.setState({album: album, artist: artist.name, image: image.resource_url, genres: album.genres, styles: styles })
+    discogRequests.getAlbumById(album.id)
+     .then((result) => {
+       const image = result.images[0];
+       const artist = result.artists[0];
+       let styles = [];
+       if (result.styles != null) {
+         styles = result.styles;
+       }
+       this.setState({album: result, artist: artist.name, image:image.resource_url, genres: result.genres, result: styles })})
   }
 
   toggleModal = (e) => {
@@ -43,7 +47,7 @@ class AddAlbumToCollectionModal extends React.Component {
   render() {
     const {album, artist, image, genres, styles} = this.state;
     const showGenres = genres.map(genre => (
-        <Badge color="primary" pill>{genre}</Badge>
+      <Badge color="primary" pill>{genre}</Badge>
     ));
     const showStyles = styles.map(style => (
       <Badge color="primary" pill>{style}</Badge>
