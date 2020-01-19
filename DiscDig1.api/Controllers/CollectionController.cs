@@ -11,5 +11,6 @@ namespace DiscDig1.Controllers
     [ApiController]
     public class CollectionController : ControllerBase
     {
+
     }
 }

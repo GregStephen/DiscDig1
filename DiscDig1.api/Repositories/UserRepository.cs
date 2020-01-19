@@ -14,11 +14,13 @@ namespace DiscDig1.Repositories
     {
         string _connectionString;
         private IAvatarRepository _avatarRepo;
+        private ICollectionRepository _collectionRepo;
 
-        public UserRepository(IConfiguration configuration, IAvatarRepository avatarRepo)
+        public UserRepository(IConfiguration configuration, IAvatarRepository avatarRepo, ICollectionRepository collectionRepo)
         {
             _connectionString = configuration.GetValue<string>("ConnectionString");
             _avatarRepo = avatarRepo;
+            _collectionRepo = collectionRepo;
         }
 
         public User GetUserByFirebaseId(string firebaseId)
@@ -98,6 +100,7 @@ namespace DiscDig1.Repositories
                              [AvatarId],
                              [DateCreated]
                             )
+                            OUTPUT INSERTED.Id
                             VALUES
                             (
                             @firstName,
@@ -106,7 +109,9 @@ namespace DiscDig1.Repositories
                             @avatarId,
                             @dateCreated
                             )";
-                return (db.Execute(sql, newUser) == 1);
+                var userId = db.QueryFirst<Guid>(sql, newUser);
+
+                return _collectionRepo.addMainCollectionForNewUser(userId);
             }
         }
     }
