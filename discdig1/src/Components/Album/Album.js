@@ -46,7 +46,7 @@ class Album extends React.Component {
    const {album, image, artist} = this.state;
     return (
       <div className="Album col-4">
-        <Card>
+      <Card>
         <CardImg top src={image} alt={album.title} />
         <CardBody>
           <CardTitle>{album.title}</CardTitle>
