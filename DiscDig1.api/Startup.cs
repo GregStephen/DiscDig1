@@ -35,6 +35,8 @@ namespace DiscDig1
             services.AddScoped<IAvatarRepository, AvatarRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICollectionRepository, CollectionRepository>();
+            services.AddScoped<IAlbumRepository, AlbumRepository>();
+            services.AddScoped<IGenreRepository, GenreRepository>();
             services.AddScoped<IDiscogRepository, DiscogsRepository>();
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {

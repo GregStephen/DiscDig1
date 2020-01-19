@@ -28,7 +28,7 @@ namespace DiscDig1.Controllers
         {
             if (_repo.AddNewAlbumToMainCollection(albumToCollectionDTO))
             {
-                return Created($"collection/{albumToCollectionDTO.AlbumId}", albumToCollectionDTO);
+                return Created($"collection/{albumToCollectionDTO.NewAlbum.Title}", albumToCollectionDTO);
             }
             else
             {

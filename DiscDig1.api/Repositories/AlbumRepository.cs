@@ -12,10 +12,12 @@ namespace DiscDig1.Repositories
     public class AlbumRepository : IAlbumRepository
     {
         string _connectionString;
+        private IGenreRepository _genreRepo;
 
-        public AlbumRepository(IConfiguration configuration)
+        public AlbumRepository(IConfiguration configuration, IGenreRepository genreRepo)
         {
             _connectionString = configuration.GetValue<string>("ConnectionString");
+            _genreRepo = genreRepo;
         }
 
         public Guid GetAlbumIdByDiscogId(int discogId)
@@ -34,6 +36,7 @@ namespace DiscDig1.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
+                
                 var sql = @"INSERT INTO [Album]
                             (
                                 [Title],
@@ -55,6 +58,10 @@ namespace DiscDig1.Repositories
                             )";
                 var parameters = new { newAlbumDTO };
                 var id = db.QueryFirst<Guid>(sql, parameters);
+                foreach(string genreName in newAlbumDTO.Genre)
+                {
+                    _genreRepo.AddGenreToAlbum(id, genreName);
+                }
                 return id;
             }
         }
