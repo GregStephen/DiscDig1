@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using DiscDig1.DTOS;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -11,10 +12,12 @@ namespace DiscDig1.Repositories
     public class CollectionRepository : ICollectionRepository
     {
         string _connectionString;
+        private IAlbumRepository _albumRepo;
 
-        public CollectionRepository(IConfiguration configuration)
+        public CollectionRepository(IConfiguration configuration, IAlbumRepository albumRepo)
         {
             _connectionString = configuration.GetValue<string>("ConnectionString");
+            _albumRepo = albumRepo;
         }
 
         public bool addMainCollectionForNewUser(Guid newUserId)
@@ -32,6 +35,48 @@ namespace DiscDig1.Repositories
                                 'Main'
                             )";
                 var parameters = new { newUserId };
+                return (db.Execute(sql, parameters) == 1);
+            }
+        }
+
+        public Guid GetUsersMainCollectionId(Guid userId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT Id
+                            FROM [Collection]
+                            WHERE [Name] = 'Main'";
+                var parameters = new { userId };
+                return db.QueryFirst<Guid>(sql, parameters);
+            }
+        }
+        public bool AddNewAlbumToMainCollection(AlbumToCollectionDTO albumToCollectionDTO)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var album = albumToCollectionDTO.NewAlbum;
+                Guid albumId;
+                var albumCheck = _albumRepo.GetAlbumIdByDiscogId(album.DiscogId);
+                if (albumCheck == null)
+                {
+                    albumId = _albumRepo.AddNewAlbumToDatabase(album);
+                }
+                else
+                {
+                    albumId = albumCheck;
+                }
+                var mainId = GetUsersMainCollectionId(albumToCollectionDTO.UserId);
+                var sql = @"INSERT INTO [CollectionAlbum]
+                        (
+                            [CollectionId],
+                            [AlbumId]
+                        )
+                            VALUES
+                        (
+                            @mainId,
+                            @albumId
+                        )";
+                var parameters = new { albumId, mainId };
                 return (db.Execute(sql, parameters) == 1);
             }
         }
