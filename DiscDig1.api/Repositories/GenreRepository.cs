@@ -68,5 +68,19 @@ namespace DiscDig1.Repositories
                 return (db.Execute(sql, parameters) == 1);
             }
         }
+
+        public List<string> GetListOfGenreNamesForAlbum(Guid albumId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT g.Name
+                            FROM AlbumGenre ag
+                            JOIN Genre g
+                            ON ag.GenreId = g.Id
+                            WHERE ag.AlbumId =  @albumId";
+                var parameters = new { albumId };
+                return db.Query<string>(sql, parameters).ToList();
+            }
+        }
     }
 }

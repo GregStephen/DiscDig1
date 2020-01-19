@@ -8,5 +8,6 @@ namespace DiscDig1.Repositories
     public interface IGenreRepository
     {
         bool AddGenreToAlbum(Guid albumId, string genreName);
+        List<string> GetListOfGenreNamesForAlbum(Guid albumId);
     }
 }

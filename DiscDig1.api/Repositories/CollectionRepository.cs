@@ -1,9 +1,11 @@
 ﻿using Dapper;
+using DiscDig1.DataModels;
 using DiscDig1.DTOS;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,13 +15,44 @@ namespace DiscDig1.Repositories
     {
         string _connectionString;
         private IAlbumRepository _albumRepo;
+        private IGenreRepository _genreRepo;
+        private IStyleRepository _styleRepo;
 
-        public CollectionRepository(IConfiguration configuration, IAlbumRepository albumRepo)
+        public CollectionRepository(IConfiguration configuration, IAlbumRepository albumRepo, IGenreRepository genreRepo, IStyleRepository styleRepo)
         {
             _connectionString = configuration.GetValue<string>("ConnectionString");
             _albumRepo = albumRepo;
+            _genreRepo = genreRepo;
+            _styleRepo = styleRepo;
         }
 
+        public AlbumCollection GetUsersMainCollection(Guid userId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var collection = new AlbumCollection();
+                var mainId = GetUsersMainCollectionId(userId);
+                collection.Id = mainId;
+                collection.Name = "Main";
+                var sql = @"SELECT a.*
+                            FROM CollectionAlbum ca
+                            JOIN Album a
+                            ON ca.AlbumId = a.Id
+                            WHERE ca.CollectionId = @mainId";
+
+                var parameters = new { mainId };
+                var albums = db.Query<Album>(sql, parameters).ToList();
+                
+                foreach (Album album in albums)
+                {
+                    album.Genre = _genreRepo.GetListOfGenreNamesForAlbum(album.Id);
+                    album.Style = _styleRepo.GetListOfStyleNamesForAlbum(album.Id);
+                }
+                collection.Albums = albums;
+                collection.NumberInCollection = albums.Count;
+                return collection;
+            }
+        }
         public bool addMainCollectionForNewUser(Guid newUserId)
         {
             using (var db = new SqlConnection(_connectionString))

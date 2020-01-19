@@ -23,6 +23,19 @@ namespace DiscDig1.Controllers
             _repo = repo;
         }
 
+        [HttpGet("{uid}")]
+        public IActionResult GetUsersMainCollection(Guid userId)
+        {
+            var collection = _repo.GetUsersMainCollection(userId);
+            if (collection == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(collection);
+            }
+        }
         [HttpPost]
         public IActionResult AddNewAlbumToCollection(AlbumToCollectionDTO albumToCollectionDTO)
         {
