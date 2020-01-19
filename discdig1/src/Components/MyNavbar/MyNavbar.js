@@ -12,6 +12,7 @@ import {
   DropdownMenu,
   DropdownToggle,
   DropdownItem,
+  NavLink
 } from 'reactstrap';
 import PropTypes from 'prop-types';
 
@@ -45,6 +46,7 @@ class MyNavbar extends React.Component {
       if (authorized && userObj !== undefined) {
         return (
           <Nav className="ml-auto" navbar>
+            <NavLink tag={RRNavLink} to={'/add-album'}>Add Album</NavLink>
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret className="navbar-user-button">
                 <img className="navbar-user-image" src={avatar.imgUrl} alt={avatar.name}></img>

@@ -10,6 +10,7 @@ import MyNavbar from '../Components/MyNavbar/MyNavbar';
 import NewUser from '../Components/NewUser/NewUser';
 import Home from '../Components/Home/Home';
 import UserProfile from '../Components/UserProfile/UserProfile';
+import AddAlbumPage from '../Components/AddAlbumPage/AddAlbumPage';
 
 import fbConnect from '../Helpers/Data/fbConnection';
 
@@ -86,7 +87,6 @@ class App extends React.Component {
   };
 
   editThisUser = (userToEdit) => {
-    console.error(userToEdit);
     userRequests.editUser(userToEdit)
       .then(() => {
         this.refreshUserObj();
@@ -105,6 +105,7 @@ class App extends React.Component {
             <PublicRoute path='/new-user' component={ NewUser } authorized={ authorized }/>
             <PrivateRoute path='/home' component={ Home } authorized={ authorized } userObj={ userObj }/>
             <PrivateRoute path='/profile' component={ UserProfile } authorized={ authorized } userObj={ userObj } deleteThisUser={ this.deleteThisUser } editThisUser={ this.editThisUser }/>
+            <PrivateRoute path='/add-album' component={ AddAlbumPage } authorized={ authorized } userObj={ userObj }/>
             <Redirect from='*' to='/auth'/>
           </Switch>
       </Router>

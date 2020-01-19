@@ -22,10 +22,23 @@ namespace DiscDig1.Controllers
             _repo = repo;
         }
 
-        [HttpGet("{term}")]
-        public IActionResult GetUserByFirebaseId(string term)
+        [HttpGet("artist/{artistTerm}/album/{albumTerm}")]
+        public IActionResult GetAlbumsFromDiscog(string artistTerm, string albumTerm)
         {
-            var response = _repo.GetAlbumsFromDiscog(term);
+            var response = _repo.GetAlbumsFromDiscog(artistTerm, albumTerm);
+            if (response == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(response);
+            }
+        }
+        [HttpGet("album/{id}")]
+        public IActionResult GetAlbumById(int id)
+        {
+            var response = _repo.GetAlbumFromDiscogById(id);
             if (response == null)
             {
                 return NotFound();
