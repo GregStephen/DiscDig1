@@ -11,10 +11,22 @@ import {
 } from 'reactstrap';
 
 import discogRequests from '../../Helpers/Data/discogRequests'; 
+import collectionRequests from '../../Helpers/Data/collectionRequests';
+
+const defaultAlbum = {
+  title: '',
+  imgUrl: '',
+  label: '',
+  artist: '',
+  releaseYear: '',
+  discogId: '',
+  genre: [],
+  style: []
+}
 
 class AddAlbumToCollectionModal extends React.Component {
   state = {
-    albumToAdd: {},
+    newAlbum: defaultAlbum,
     album: {},
     artist: '',
     image: '',
@@ -28,11 +40,24 @@ class AddAlbumToCollectionModal extends React.Component {
      .then((result) => {
        const image = result.images[0];
        const artist = result.artists[0];
+       const label = result.labels[0];
+       const year = new Date(result.year);
        let styles = [];
        if (result.styles != null) {
          styles = result.styles;
        }
-       this.setState({album: result, artist: artist.name, image:image.resource_url, genres: result.genres, result: styles })})
+       this.setState({album: result, artist: artist.name, image:image.resource_url, genres: result.genres, result: styles })
+       const tempAlbum = {...this.state.newAlbum}
+       tempAlbum.title = result.title;
+       tempAlbum.imgUrl = image.resource_url;
+       tempAlbum.artist = artist.name;
+       tempAlbum.genre = result.genres;
+       tempAlbum.style = styles;
+       tempAlbum.discogId = result.id;
+       tempAlbum.releaseYear = year;
+       tempAlbum.label = label.name;
+       this.setState({ newAlbum : tempAlbum });
+      });
   }
 
   toggleModal = (e) => {
@@ -41,7 +66,14 @@ class AddAlbumToCollectionModal extends React.Component {
   };
 
   addAlbum = () => {
-    console.error('added');
+    const {newAlbum} = this.state;
+    const userId = this.props.userObj.id;
+    const albumToAdd = {};
+    albumToAdd.newAlbum = newAlbum;
+    albumToAdd.userId = userId;
+    collectionRequests.addAlbumToMainCollection(albumToAdd)
+      .then(result => console.error(result))
+      .catch(err => console.error(err))
   };
 
   render() {

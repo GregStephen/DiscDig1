@@ -56,8 +56,7 @@ namespace DiscDig1.Repositories
                                 @releaseYear,
                                 @discogId
                             )";
-                var parameters = new { newAlbumDTO };
-                var id = db.QueryFirst<Guid>(sql, parameters);
+                var id = db.QueryFirst<Guid>(sql, newAlbumDTO);
                 foreach(string genreName in newAlbumDTO.Genre)
                 {
                     _genreRepo.AddGenreToAlbum(id, genreName);

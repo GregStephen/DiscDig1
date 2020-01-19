@@ -17,6 +17,23 @@ namespace DiscDig1.Repositories
             _connectionString = configuration.GetValue<string>("ConnectionString");
         }
 
+        public Guid CreateNewGenre(string name)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"INSERT INTO [Genre]
+                            (
+                            [Name]
+                            )
+                            OUTPUT INSERTED.Id
+                            VALUES
+                            (
+                            @name
+                            )";
+                var parameters = new { name };
+                return db.QueryFirst<Guid>(sql, parameters);
+            }
+        }
         public Guid GetGenreIdByName(string name)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -25,7 +42,7 @@ namespace DiscDig1.Repositories
                             FROM [Genre]
                             WHERE [Name] = @name";
                 var parameters = new { name };
-                return db.QueryFirst<Guid>(sql, parameters);
+                return db.QueryFirstOrDefault<Guid>(sql, parameters);
             }
         }
         public bool AddGenreToAlbum(Guid albumId, string genreName)
@@ -33,6 +50,10 @@ namespace DiscDig1.Repositories
             using (var db = new SqlConnection(_connectionString))
             {
                 var genreId = GetGenreIdByName(genreName);
+                if (genreId == default)
+                {
+                    genreId = CreateNewGenre(genreName);
+                }
                 var sql = @"INSERT INTO [AlbumGenre]
                             (
                                 [AlbumId],

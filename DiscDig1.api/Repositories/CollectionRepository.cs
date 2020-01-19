@@ -57,7 +57,7 @@ namespace DiscDig1.Repositories
                 var album = albumToCollectionDTO.NewAlbum;
                 Guid albumId;
                 var albumCheck = _albumRepo.GetAlbumIdByDiscogId(album.DiscogId);
-                if (albumCheck == null)
+                if (albumCheck == default)
                 {
                     albumId = _albumRepo.AddNewAlbumToDatabase(album);
                 }

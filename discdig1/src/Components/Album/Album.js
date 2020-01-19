@@ -49,6 +49,7 @@ class Album extends React.Component {
         <AddAlbumToCollectionModal
         toggleModalOpen={ this.toggleModalOpen }
         album={ album }
+        userObj={ this.props.userObj }
         />
       </Modal>
       </div>

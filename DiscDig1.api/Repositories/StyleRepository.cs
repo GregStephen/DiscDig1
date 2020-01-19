@@ -25,6 +25,7 @@ namespace DiscDig1.Repositories
                             (
                             [Name]
                             )
+                            OUTPUT INSERTED.Id
                             VALUES
                             (
                             @name
@@ -41,7 +42,7 @@ namespace DiscDig1.Repositories
                             FROM [Style]
                             WHERE [Name] = @name";
                 var parameters = new { name };
-                return db.QueryFirst<Guid>(sql, parameters);
+                return db.QueryFirstOrDefault<Guid>(sql, parameters);
             }
         }
         public bool AddStyleToAlbum(Guid albumId, string styleName)
@@ -49,7 +50,7 @@ namespace DiscDig1.Repositories
             using (var db = new SqlConnection(_connectionString))
             {
                 var styleId = GetStyleIdByName(styleName);
-                if (styleId == null)
+                if (styleId == default)
                 {
                     styleId = CreateNewStyle(styleName);
                 }

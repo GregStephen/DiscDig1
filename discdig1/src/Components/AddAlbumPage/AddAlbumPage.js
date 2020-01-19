@@ -26,6 +26,7 @@ class AddAlbumPage extends React.Component {
         <Album
         key={ album.id }
         album={ album }
+        userObj={ this.props.userObj}
         />
     ))
     return (
