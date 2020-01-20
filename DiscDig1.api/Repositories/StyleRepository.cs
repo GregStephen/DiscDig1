@@ -73,10 +73,10 @@ namespace DiscDig1.Repositories
             using (var db = new SqlConnection(_connectionString))
             {
                 var sql = @"SELECT s.Name
-                            FROM AlbumStyle as
+                            FROM AlbumStyle ast
                             JOIN Style s
-                            ON as.StyleId = s.Id
-                            WHERE as.AlbumId =  @albumId";
+                            ON ast.StyleId = s.Id
+                            WHERE ast.AlbumId =  @albumId";
                 var parameters = new { albumId };
                 return db.Query<string>(sql, parameters).ToList();
             }
