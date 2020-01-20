@@ -13,7 +13,7 @@ namespace DiscDig1.DataModels
         public List<string> Genre { get; set; }
         public List<string> Style { get; set; }
         public string Label { get; set; }
-        public DateTime YearReleased { get; set; }
+        public int ReleaseYear { get; set; }
         public int DiscogId { get; set; }
         public string ImgUrl { get; set; }
     }

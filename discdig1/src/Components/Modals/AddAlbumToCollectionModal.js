@@ -27,9 +27,6 @@ const defaultAlbum = {
 class AddAlbumToCollectionModal extends React.Component {
   state = {
     newAlbum: defaultAlbum,
-    album: {},
-    genres: [],
-    styles: []
   };
 
   componentDidMount() {
@@ -39,12 +36,10 @@ class AddAlbumToCollectionModal extends React.Component {
        const image = result.images[0];
        const artist = result.artists[0];
        const label = result.labels[0];
-       const year = new Date(result.year);
        let styles = [];
        if (result.styles != null) {
          styles = result.styles;
        }
-       this.setState({album: result, genres: result.genres, result: styles })
        const tempAlbum = {...this.state.newAlbum}
        tempAlbum.title = result.title;
        tempAlbum.imgUrl = image.resource_url;
@@ -52,7 +47,7 @@ class AddAlbumToCollectionModal extends React.Component {
        tempAlbum.genre = result.genres;
        tempAlbum.style = styles;
        tempAlbum.discogId = result.id;
-       tempAlbum.releaseYear = year;
+       tempAlbum.releaseYear = result.year;
        tempAlbum.label = label.name;
        this.setState({ newAlbum : tempAlbum });
       });
@@ -69,13 +64,16 @@ class AddAlbumToCollectionModal extends React.Component {
     const albumToAdd = {};
     albumToAdd.newAlbum = newAlbum;
     albumToAdd.userId = userId;
+    console.error(albumToAdd);
     collectionRequests.addAlbumToMainCollection(albumToAdd)
       .then(() => this.toggleModal())
       .catch(err => console.error(err))
   };
 
   render() {
-    const {newAlbum, album, genres, styles} = this.state;
+    const { newAlbum } = this.state;
+    const genres = newAlbum.genre;
+    const styles = newAlbum.style;
     const showGenres = genres.map(genre => (
       <Badge key={genre}color="primary" pill>{genre}</Badge>
     ));
@@ -88,7 +86,7 @@ class AddAlbumToCollectionModal extends React.Component {
           <Card className="col-12">
           <CardImg src={newAlbum.imgUrl} alt={newAlbum.title}/>
           <CardTitle>Are you sure you want to add this version of {newAlbum.title} to your collection?</CardTitle>
-          <CardText>Released: {album.year === 0 ? 'Unknown' : album.year}</CardText>
+          <CardText>Released: {newAlbum.releaseYear === 0 ? 'Unknown' : newAlbum.releaseYear}</CardText>
           <CardText>By: {newAlbum.artist}</CardText>
           { genres.length > 0 ? 
           <div>
