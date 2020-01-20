@@ -14,14 +14,6 @@ class Album extends React.Component {
     addAlbumModalIsOpen: false,
   };
 
-  componentDidMount() {
-    
-  }
-
-  addToCollection = () => {
-    console.error('added to collection');
-  };
-
   toggleModalOpen = () => {
     this.setState(prevState => ({
       addAlbumModalIsOpen: !prevState.addAlbumModalIsOpen,

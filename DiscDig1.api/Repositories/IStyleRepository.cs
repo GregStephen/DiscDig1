@@ -8,5 +8,6 @@ namespace DiscDig1.Repositories
     public interface IStyleRepository
     {
         bool AddStyleToAlbum(Guid albumId, string styleName);
+        List<string> GetListOfStyleNamesForAlbum(Guid albumId);
     }
 }

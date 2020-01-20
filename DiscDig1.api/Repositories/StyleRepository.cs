@@ -68,6 +68,19 @@ namespace DiscDig1.Repositories
                 return (db.Execute(sql, parameters) == 1);
             }
         }
+        public List<string> GetListOfStyleNamesForAlbum(Guid albumId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT s.Name
+                            FROM AlbumStyle ast
+                            JOIN Style s
+                            ON ast.StyleId = s.Id
+                            WHERE ast.AlbumId =  @albumId";
+                var parameters = new { albumId };
+                return db.Query<string>(sql, parameters).ToList();
+            }
+        }
 
     }
 }

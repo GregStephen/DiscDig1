@@ -1,4 +1,5 @@
-﻿using DiscDig1.DTOS;
+﻿using DiscDig1.DataModels;
+using DiscDig1.DTOS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,7 @@ namespace DiscDig1.Repositories
     {
         bool addMainCollectionForNewUser(Guid newUserId);
         bool AddNewAlbumToMainCollection(AlbumToCollectionDTO albumToCollectionDTO);
+
+        AlbumCollection GetUsersMainCollection(Guid userId);
     }
 }

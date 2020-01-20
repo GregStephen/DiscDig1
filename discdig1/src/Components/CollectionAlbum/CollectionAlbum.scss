@@ -1,0 +1,10 @@
+.CollectionAlbum {
+  display: block;
+  margin-top: 2em;
+  box-shadow: 3px 3px 3px grey;
+  border-top: .3px solid grey;
+  border-left: .3px solid grey;
+  .album-img {
+    height: 20em;
+  }
+}
