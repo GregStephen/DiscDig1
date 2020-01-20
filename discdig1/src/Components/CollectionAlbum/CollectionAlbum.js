@@ -20,8 +20,8 @@ class CollectionAlbum extends React.Component {
             {album.title}
             </Media>
             <p>{album.artist}</p>
-            <p>{album.label}</p>
-            <p>Released: {album.yearReleased}</p>
+            <p>Label: {album.label}</p>
+            <p>Released: {album.releaseYear}</p>
           </Media>
         </Media>
       </div>

@@ -11,7 +11,7 @@ namespace DiscDig1.DTOS
         public string ImgUrl { get; set; }
         public string Label { get; set; }
         public string Artist { get; set; }
-        public DateTime ReleaseYear { get; set; }
+        public int ReleaseYear { get; set; }
         public int DiscogId { get; set; }
         public List<string> Genre { get; set; }
         public List<string> Style { get; set; }
