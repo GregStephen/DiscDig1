@@ -1,42 +1,54 @@
 import React from 'react';
+import { Button } from 'reactstrap';
 
 import CollectionAlbum from '../CollectionAlbum/CollectionAlbum';
 
 import './Collection.scss';
 
-import collectionRequests from '../../Helpers/Data/collectionRequests';
-const defaultCollection = {
-  albums :[],
-  name : '',
+const defaultCheckedAlbums = {
+  0: false
+};
 
-}
 class Collection extends React.Component{
   state = {
-    collection : defaultCollection,
-  }
+    checkedAlbums: defaultCheckedAlbums
+  };
 
-  componentDidMount() {
-    const {userObj} = this.props;
-    collectionRequests.getUsersMainCollection(userObj.id)
-      .then((result) => this.setState({collection: result }))
-      .catch(err => console.error(err));
-  }
+  handleAlbumChecks = (e) => {
+    const tempAlbumsChecked = { ...this.state.checkedAlbums };
+    tempAlbumsChecked[e.target.id] = e.target.checked;
+    this.setState({ checkedAlbums: tempAlbumsChecked });
+  };
 
+  deleteSelectedAlbums = () => {
+    const { collection, deleteAlbums } = this.props;
+    const { checkedAlbums } = this.state;
+    const albumsToDelete = Object.keys(checkedAlbums).filter(function(id) {
+        return checkedAlbums[id]
+    })
+    const objectForDeletion = {};
+    objectForDeletion.collectionId = collection.id;
+    objectForDeletion.deleteTheseAlbums = albumsToDelete;
+    deleteAlbums(objectForDeletion);
+  }
   render() {
-    const {collection} = this.state;
+    const { collection } = this.props;
     const albums = collection.albums;
-    const showCollection = albums.map((album, index) => (
+    const showCollection = albums.map((album) => (
       <CollectionAlbum
       album={ album }
-      key={ index }
+      key={ album.id }
+      onCheck={ this.handleAlbumChecks }
+      isChecked={ this.state.checkedAlbums[album.id] }
       />
     ))
 
     return (
       <div className="Collection container">
-        <p>{collection.name}</p>
+        <Button className="btn-danger" onClick={ this.deleteSelectedAlbums }>Delete Selected Albums</Button>
+        <p>{ collection.name }</p>
         <div className="row justify-content-around">
-        {showCollection}
+        { showCollection }
         </div>
       </div>
     )

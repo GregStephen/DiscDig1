@@ -11,7 +11,7 @@ namespace DiscDig1.Repositories
     {
         bool addMainCollectionForNewUser(Guid newUserId);
         bool AddNewAlbumToMainCollection(AlbumToCollectionDTO albumToCollectionDTO);
-
         AlbumCollection GetUsersMainCollection(Guid userId);
+        bool DeleteTheseAlbumsFromTheCollection(AlbumsToDelete albumsToDelete);
     }
 }

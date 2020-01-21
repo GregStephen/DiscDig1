@@ -135,5 +135,16 @@ namespace DiscDig1.Repositories
                 }
             }
         }
+
+        public bool DeleteTheseAlbumsFromTheCollection(AlbumsToDelete albumsToDelete)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"DELETE
+                            FROM [CollectionAlbum]
+                            WHERE [CollectionId] = @collectionId AND [AlbumId] in @deleteTheseAlbums";
+                return (db.Execute(sql, albumsToDelete) >= 1);
+            }
+        }
     }
 }

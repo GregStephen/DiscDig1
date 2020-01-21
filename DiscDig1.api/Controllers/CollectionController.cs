@@ -48,5 +48,17 @@ namespace DiscDig1.Controllers
                 return BadRequest();
             }
         }
+        [HttpDelete]
+        public IActionResult DeleteTheseAlbumsFromTheCollection(AlbumsToDelete albumsToDelete)
+        {
+            if(_repo.DeleteTheseAlbumsFromTheCollection(albumsToDelete))
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
     }
 }
