@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormGroup, Label, Input, Button } from 'reactstrap';
 
 import Collection from '../Collection/Collection';
 
@@ -14,30 +15,61 @@ const defaultCollection = {
 class Home extends React.Component {
   state = {
     collection: defaultCollection,
+    subCollections: [],
+    collectionChoice: ''
   };
 
-  getMainCollection = () => {
-    const {userObj} = this.props;
-    collectionRequests.getUsersMainCollection(userObj.id)
-    .then((result) => this.setState({collection: result }))
+  componentDidMount(){
+    const { userObj } = this.props;
+   collectionRequests.getUsersSubCollections(userObj.id)
+    .then(result => this.setState({subCollections: result}))
+    .catch(err => console.error(err));
+
+  };
+
+  showChosenCollection = (choice) => {
+    collectionRequests.getCollectionById(choice)
+    .then(result => this.setState({collection: result}))
     .catch(err => console.error(err));
   }
-  componentDidMount(){
-   this.getMainCollection();
-  };
 
   deleteAlbums = (objectForDeletion) => {
     collectionRequests.deleteTheseAlbumsFromCollection(objectForDeletion)
-      .then(() => this.getMainCollection())
+      .then(() => this.showChosenCollection(this.state.collectionChoice))
       .catch(err => console.error(err))
   }
+
+  changeCollectionState = (e) => {
+    const tempChosenCollectionId = e.target.value;
+    this.setState({ collectionChoice: tempChosenCollectionId });
+    this.showChosenCollection(tempChosenCollectionId);
+  };
+
   render() {
-    const { userObj }= this.props;
-    const { collection }= this.state;
+    const { userObj, mainCollectionId }= this.props;
+    const { collection, collectionChoice, subCollections }= this.state;
+
     return (
       <div className="Home container">
         <h1>Home</h1>
         <h2>Hey {userObj.firstName}</h2>
+        <FormGroup>
+        <Label for="collectionChoice">Collection</Label>
+        <Input 
+        type="select"
+        name="collectionChoice"
+        id="collectionChoice"
+        value={collectionChoice}
+        onChange={this.changeCollectionState}
+        >
+          <option value=''>Chose a collection to display</option>
+        <option key={mainCollectionId} value={mainCollectionId}>Main</option>
+        { subCollections.map(subCollection => (
+          <option key={subCollection.id} value={subCollection.id}>{subCollection.name}</option>
+        )) }
+        <option value=''><Button>Create a new sub collection</Button></option>
+        </Input>
+      </FormGroup>
         <Collection
         userObj= { userObj }
         collection= { collection }

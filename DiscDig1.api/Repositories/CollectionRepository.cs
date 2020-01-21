@@ -53,6 +53,44 @@ namespace DiscDig1.Repositories
                 return collection;
             }
         }
+
+        public string GetCollectionNameById(Guid id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT [Name]
+                            FROM [Collection]
+                            WHERE [Id] = @id";
+                var parameters = new { id };
+                var name = db.QueryFirst<string>(sql, parameters);
+                return name;
+            }
+        }
+        public AlbumCollection GetUsersCollectionById(Guid id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var collection = new AlbumCollection();
+                collection.Id = id;
+                collection.Name = GetCollectionNameById(id);
+                var sql = @"SELECT a.*
+                            FROM CollectionAlbum ca
+                            JOIN Album a
+                            ON ca.AlbumId = a.Id
+                            WHERE ca.CollectionId = @id";
+
+                var parameters = new { id };
+                var albums = db.Query<Album>(sql, parameters).ToList();
+                foreach (Album album in albums)
+                {
+                    album.Genre = _genreRepo.GetListOfGenreNamesForAlbum(album.Id);
+                    album.Style = _styleRepo.GetListOfStyleNamesForAlbum(album.Id);
+                }
+                collection.Albums = albums;
+                collection.NumberInCollection = albums.Count;
+                return collection;
+            }
+        }
         public bool addMainCollectionForNewUser(Guid newUserId)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -83,6 +121,19 @@ namespace DiscDig1.Repositories
                 return db.QueryFirst<Guid>(sql, parameters);
             }
         }
+
+        public IEnumerable<SubCollectionsInfo> GetUsersSubCollections(Guid userId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT [Id], [Name]
+                            FROM [Collection]
+                            WHERE [UserId] = @userId AND [Name] != 'Main'";
+                var parameters = new { userId };
+                return db.Query<SubCollectionsInfo>(sql, parameters);
+            }
+        }
+
         public bool AddNewAlbumToMainCollection(AlbumToCollectionDTO albumToCollectionDTO)
         {
             using (var db = new SqlConnection(_connectionString))

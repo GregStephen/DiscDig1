@@ -24,9 +24,9 @@ namespace DiscDig1.Controllers
         }
 
         [HttpGet("{uid}")]
-        public IActionResult GetUsersMainCollection(Guid userId)
+        public IActionResult GetUsersMainCollection(Guid uid)
         {
-            var collection = _repo.GetUsersMainCollection(userId);
+            var collection = _repo.GetUsersMainCollection(uid);
             if (collection == null)
             {
                 return NotFound();
@@ -36,6 +36,35 @@ namespace DiscDig1.Controllers
                 return Ok(collection);
             }
         }
+
+        [HttpGet("subcollections/{userid}")]
+        public IActionResult GetUsersSubCollections(Guid userId)
+        {
+            var collections = _repo.GetUsersSubCollections(userId);
+            if (collections == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(collections);
+            }
+        }
+
+        [HttpGet("id/{id}")]
+        public IActionResult GetCollectionById(Guid id)
+        {
+            var collection = _repo.GetUsersCollectionById(id);
+            if (collection == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(collection);
+            }
+        }
+
         [HttpPost]
         public IActionResult AddNewAlbumToCollection(AlbumToCollectionDTO albumToCollectionDTO)
         {
