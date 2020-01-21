@@ -134,6 +134,21 @@ namespace DiscDig1.Repositories
             }
         }
 
+        public bool AddNewSubcollection(NewSubDTO newSubDTO)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"INSERT INTO [Collection]
+                            ([Name],
+                            [UserId])
+                            VALUES
+                            (
+                             @SubCollectionName,
+                             @UserId)";
+                return (db.Execute(sql, newSubDTO) == 1);
+            }
+        }
+
         public bool AddNewAlbumToMainCollection(AlbumToCollectionDTO albumToCollectionDTO)
         {
             using (var db = new SqlConnection(_connectionString))

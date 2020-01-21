@@ -77,6 +77,18 @@ namespace DiscDig1.Controllers
                 return BadRequest();
             }
         }
+        [HttpPost("newsub")]
+        public IActionResult AddNewSubcollection(NewSubDTO newSubDto)
+        {
+            if (_repo.AddNewSubcollection(newSubDto))
+            {
+                return Created($"collection/newsub/{newSubDto.SubCollectionName}", newSubDto);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
         [HttpDelete]
         public IActionResult DeleteTheseAlbumsFromTheCollection(AlbumsToDelete albumsToDelete)
         {

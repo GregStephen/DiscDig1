@@ -30,6 +30,11 @@ const deleteTheseAlbumsFromCollection = objectForDeletion => new Promise((resolv
   axios.delete(`${baseUrl}`, {params: objectForDeletion, headers: {"Content-Type": "application/json"}, data: objectForDeletion})
     .then(result => resolve(result.data))
     .catch(err => reject(err));
-})
+});
 
-export default {addAlbumToMainCollection, getUsersMainCollection, getUsersSubCollections, getCollectionById, deleteTheseAlbumsFromCollection};
+const addNewSubcollection = newSubInfo => new Promise((resolve, reject) => {
+  axios.post(`${baseUrl}/newsub`, newSubInfo)
+    .then(result => resolve(result.data))
+    .catch(err => reject(err))
+})
+export default {addAlbumToMainCollection, getUsersMainCollection, getUsersSubCollections, getCollectionById, deleteTheseAlbumsFromCollection, addNewSubcollection};

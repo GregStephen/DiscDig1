@@ -11,6 +11,7 @@ import NewUser from '../Components/NewUser/NewUser';
 import Home from '../Components/Home/Home';
 import UserProfile from '../Components/UserProfile/UserProfile';
 import AddAlbumPage from '../Components/AddAlbumPage/AddAlbumPage';
+import Subcollections from '../Components/Subcollections/Subcollections';
 
 import userRequests from '../Helpers/Data/userRequests';
 import collectionRequests from '../Helpers/Data/collectionRequests';
@@ -114,6 +115,7 @@ class App extends React.Component {
             <PrivateRoute path='/home' component={ Home } authorized={ authorized } userObj={ userObj } mainCollectionId={mainCollectionId}/>
             <PrivateRoute path='/profile' component={ UserProfile } authorized={ authorized } userObj={ userObj } deleteThisUser={ this.deleteThisUser } editThisUser={ this.editThisUser } mainCollectionId={mainCollectionId}/>
             <PrivateRoute path='/add-album' component={ AddAlbumPage } authorized={ authorized } userObj={ userObj }/>
+            <PrivateRoute path='/subcollections' component={ Subcollections } authorized={ authorized } userObj={ userObj }/>
             <Redirect from='*' to='/auth'/>
           </Switch>
       </Router>

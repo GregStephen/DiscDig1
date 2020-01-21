@@ -1,5 +1,6 @@
 import React from 'react';
-import { FormGroup, Label, Input, Button } from 'reactstrap';
+import { FormGroup, Label, Input } from 'reactstrap';
+import {Link} from 'react-router-dom';
 
 import Collection from '../Collection/Collection';
 
@@ -67,9 +68,9 @@ class Home extends React.Component {
         { subCollections.map(subCollection => (
           <option key={subCollection.id} value={subCollection.id}>{subCollection.name}</option>
         )) }
-        <option value=''><Button>Create a new sub collection</Button></option>
         </Input>
       </FormGroup>
+      <Link className="btn btn-info" to='/subcollections'>Manage Subcollections</Link>
         <Collection
         userObj= { userObj }
         collection= { collection }
