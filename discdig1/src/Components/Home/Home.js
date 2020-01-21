@@ -25,7 +25,6 @@ class Home extends React.Component {
    collectionRequests.getUsersSubCollections(userObj.id)
     .then(result => this.setState({subCollections: result}))
     .catch(err => console.error(err));
-
   };
 
   showChosenCollection = (choice) => {

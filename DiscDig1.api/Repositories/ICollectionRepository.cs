@@ -16,5 +16,6 @@ namespace DiscDig1.Repositories
         bool DeleteTheseAlbumsFromTheCollection(AlbumsToDelete albumsToDelete);
         bool AddNewSubcollection(NewSubDTO newSubDTO);
         IEnumerable<SubCollectionsInfo> GetUsersSubCollections(Guid userId);
+        bool AddAlbumsToSubcollection(AddToSubcollectionDTO addToSubcollection);
     }
 }

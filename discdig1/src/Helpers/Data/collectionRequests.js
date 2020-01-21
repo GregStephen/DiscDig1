@@ -36,5 +36,19 @@ const addNewSubcollection = newSubInfo => new Promise((resolve, reject) => {
   axios.post(`${baseUrl}/newsub`, newSubInfo)
     .then(result => resolve(result.data))
     .catch(err => reject(err))
-})
-export default {addAlbumToMainCollection, getUsersMainCollection, getUsersSubCollections, getCollectionById, deleteTheseAlbumsFromCollection, addNewSubcollection};
+});
+
+const addAlbumsToSubcollection = albumAddObj => new Promise((resolve, reject) => {
+  axios.post(`${baseUrl}/addtosubcollection`, albumAddObj)
+    .then(result => resolve(result.data))
+    .catch(err => reject(err))
+});
+export default {
+  addAlbumToMainCollection,
+  getUsersMainCollection,
+  getUsersSubCollections,
+  getCollectionById,
+  deleteTheseAlbumsFromCollection,
+  addNewSubcollection,
+  addAlbumsToSubcollection
+};

@@ -180,6 +180,28 @@ namespace DiscDig1.Repositories
             }
         }
 
+        public bool AddAlbumsToSubcollection(AddToSubcollectionDTO addToSubcollection)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var albumId = addToSubcollection.AlbumsToAdd;
+                var collectionId = addToSubcollection.CollectionId;
+                var parameters = new { albumId, collectionId };
+                var sql = @"INSERT INTO [CollectionAlbum]
+                            (
+                                [CollectionId],
+                                [AlbumId]
+                            )
+                                VALUES
+                            (
+                                @collectionId,
+                                @albumId
+                            )
+                        ";
+                return (db.Execute(sql, parameters) >= 1);
+            }
+        }
+
         public bool CheckToSeeIfAlbumExistsInUsersMainCollectionAlready(Guid userId, int albumDiscogId)
         {
             using (var db = new SqlConnection(_connectionString))
