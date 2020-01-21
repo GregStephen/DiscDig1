@@ -14,4 +14,10 @@ const getUsersMainCollection = userId => new Promise((resolve, reject) => {
     .catch(err => reject(err));
 })
 
-export default {addAlbumToMainCollection, getUsersMainCollection};
+const deleteTheseAlbumsFromCollection = objectForDeletion => new Promise((resolve, reject) => {
+  axios.delete(`${baseUrl}`, {params: objectForDeletion, headers: {"Content-Type": "application/json"}, data: objectForDeletion})
+    .then(result => resolve(result.data))
+    .catch(err => reject(err));
+})
+
+export default {addAlbumToMainCollection, getUsersMainCollection, deleteTheseAlbumsFromCollection};
