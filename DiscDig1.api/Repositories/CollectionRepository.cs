@@ -223,8 +223,7 @@ namespace DiscDig1.Repositories
                             (
                                 @collectionId,
                                 @albumId
-                            )
-                        ";
+                            )";
                 return (db.Execute(sql, parameters) >= 1);
             }
         }
@@ -251,14 +250,48 @@ namespace DiscDig1.Repositories
             }
         }
 
+        public List<Guid> GetSubCollectionIdsByUserId(Guid userId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT [Id]
+                            FROM [Collection]
+                            WHERE [UserId] = @userId AND [Name] != 'Main'";
+                var parameters = new { userId };
+                return db.Query<Guid>(sql, parameters).ToList();
+            }
+        }
         public bool DeleteTheseAlbumsFromTheCollection(AlbumsToDelete albumsToDelete)
         {
             using (var db = new SqlConnection(_connectionString))
             {
+                var userId = GetUserIdFromCollectionId(albumsToDelete.CollectionId);
+                if (albumsToDelete.CollectionId == GetUsersMainCollectionId(userId))
+                {
+                    var SubIds = GetSubCollectionIdsByUserId(userId);
+                    var sql2 = @"DELETE
+                                FROM [CollectionALbum]
+                                WHERE [CollectionId] IN @SubIds AND [AlbumId] IN @deleteTheseAlbums";
+                    var deleteTheseAlbums = albumsToDelete.DeleteTheseAlbums;
+                    var parameters = new { SubIds, deleteTheseAlbums };
+                    db.Execute(sql2, parameters);
+                }
                 var sql = @"DELETE
                             FROM [CollectionAlbum]
                             WHERE [CollectionId] = @collectionId AND [AlbumId] in @deleteTheseAlbums";
                 return (db.Execute(sql, albumsToDelete) >= 1);
+            }
+        }
+
+        public Guid GetUserIdFromCollectionId(Guid collectionId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT UserId
+                            FROM [Collection]
+                            WHERE Id = @collectionId";
+                var parameters = new { collectionId };
+                return db.QueryFirst<Guid>(sql, parameters);
             }
         }
         public IEnumerable<Guid> AlbumIdsForSubcollection(Guid id)

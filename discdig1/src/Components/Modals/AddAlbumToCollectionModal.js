@@ -11,7 +11,6 @@ import {
 } from 'reactstrap';
 
 import discogRequests from '../../Helpers/Data/discogRequests'; 
-import collectionRequests from '../../Helpers/Data/collectionRequests';
 
 const defaultAlbum = {
   title: '',
@@ -60,14 +59,12 @@ class AddAlbumToCollectionModal extends React.Component {
 
   addAlbum = () => {
     const {newAlbum} = this.state;
-    const userId = this.props.userObj.id;
+    const {userObj, addAlbumToMain} = this.props;
     const albumToAdd = {};
     albumToAdd.newAlbum = newAlbum;
-    albumToAdd.userId = userId;
-    console.error(albumToAdd);
-    collectionRequests.addAlbumToMainCollection(albumToAdd)
-      .then(() => this.toggleModal())
-      .catch(err => console.error(err))
+    albumToAdd.userId = userObj.id;
+    addAlbumToMain(albumToAdd);
+    this.toggleModal();
   };
 
   render() {

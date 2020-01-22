@@ -34,9 +34,9 @@ class Home extends React.Component {
   }
 
   deleteAlbums = (objectForDeletion) => {
-    collectionRequests.deleteTheseAlbumsFromCollection(objectForDeletion)
-      .then(() => this.showChosenCollection(this.state.collectionChoice))
-      .catch(err => console.error(err))
+    const {deleteAllTheseAlbums} = this.props;
+    deleteAllTheseAlbums(objectForDeletion);
+    this.showChosenCollection(this.state.collectionChoice);
   }
 
   changeCollectionState = (e) => {

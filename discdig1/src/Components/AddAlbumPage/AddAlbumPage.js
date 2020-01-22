@@ -20,6 +20,12 @@ class AddAlbumPage extends React.Component {
       })
       .catch(err => console.error(err))
   }
+
+  addAlbToMain = (albumToAdd) => {
+    const { addThisAlbumToMain } = this.props;
+    addThisAlbumToMain(albumToAdd);
+  };
+  
   render() {
     const { albums } = this.state;
     const showAlbums = albums.map(album => (
@@ -27,6 +33,7 @@ class AddAlbumPage extends React.Component {
         key={ album.id }
         album={ album }
         userObj={ this.props.userObj}
+        addAlbToMain={ this.addAlbToMain }
         />
     ))
     return (
