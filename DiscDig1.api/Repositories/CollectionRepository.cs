@@ -54,6 +54,31 @@ namespace DiscDig1.Repositories
             }
         }
 
+        public List<AlbumCollection> GetAllCollectionsByUserId(Guid userId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var listToReturn = new List<AlbumCollection>();
+                var listOfCollectionInfo = GetAllCollectionInfoByUserId(userId);
+                foreach (SubCollectionsInfo collectionInfo in listOfCollectionInfo)
+                {
+                    listToReturn.Add(GetUsersCollectionById(collectionInfo.Id));
+                }
+                return listToReturn;
+            }
+        }
+
+        public IEnumerable<SubCollectionsInfo> GetAllCollectionInfoByUserId(Guid userId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT [Id], [Name]
+                            FROM [Collection]
+                            WHERE [userId] = @userId";
+                var parameters = new { userId };
+                return db.Query<SubCollectionsInfo>(sql, parameters);
+            }
+        }
         public string GetCollectionNameById(Guid id)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -133,6 +158,8 @@ namespace DiscDig1.Repositories
                 return db.Query<SubCollectionsInfo>(sql, parameters);
             }
         }
+   
+
 
         public bool AddNewSubcollection(NewSubDTO newSubDTO)
         {
@@ -180,6 +207,28 @@ namespace DiscDig1.Repositories
             }
         }
 
+        public bool AddAlbumsToSubcollection(AddToSubcollectionDTO addToSubcollection)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var albumId = addToSubcollection.AlbumsToAdd;
+                var collectionId = addToSubcollection.CollectionId;
+                var parameters = new { albumId, collectionId };
+                var sql = @"INSERT INTO [CollectionAlbum]
+                            (
+                                [CollectionId],
+                                [AlbumId]
+                            )
+                                VALUES
+                            (
+                                @collectionId,
+                                @albumId
+                            )
+                        ";
+                return (db.Execute(sql, parameters) >= 1);
+            }
+        }
+
         public bool CheckToSeeIfAlbumExistsInUsersMainCollectionAlready(Guid userId, int albumDiscogId)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -210,6 +259,33 @@ namespace DiscDig1.Repositories
                             FROM [CollectionAlbum]
                             WHERE [CollectionId] = @collectionId AND [AlbumId] in @deleteTheseAlbums";
                 return (db.Execute(sql, albumsToDelete) >= 1);
+            }
+        }
+        public IEnumerable<Guid> AlbumIdsForSubcollection(Guid id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT AlbumId
+                            FROM [CollectionAlbum]
+                            WHERE CollectionId = @id";
+                var parameters = new { id };
+                return db.Query<Guid>(sql, parameters);
+            }
+        }
+        public bool DeleteThisSubcollection(Guid id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var albums = AlbumIdsForSubcollection(id);
+                var deleteThese = new AlbumsToDelete();
+                deleteThese.CollectionId = id;
+                deleteThese.DeleteTheseAlbums = albums.ToList();
+                DeleteTheseAlbumsFromTheCollection(deleteThese);
+                var sql = @"DELETE
+                            FROM [Collection]
+                            WHERE [Id] = @id";
+                var parameters = new { id };
+                return (db.Execute(sql, parameters) >= 1);
             }
         }
     }

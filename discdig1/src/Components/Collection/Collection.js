@@ -4,6 +4,8 @@ import { Button } from 'reactstrap';
 import CollectionAlbum from '../CollectionAlbum/CollectionAlbum';
 
 import './Collection.scss';
+import AddToSubcollection from '../AddToSubcollection/AddToSubcollection';
+import collectionRequests from '../../Helpers/Data/collectionRequests';
 
 const defaultCheckedAlbums = {
   0: false
@@ -30,7 +32,21 @@ class Collection extends React.Component{
     objectForDeletion.collectionId = collection.id;
     objectForDeletion.deleteTheseAlbums = albumsToDelete;
     deleteAlbums(objectForDeletion);
+  };
+
+  addToSubcollection = (subcollectionChoice) => {
+    const { checkedAlbums } = this.state;
+    const albumsToAdd = Object.keys(checkedAlbums).filter(function(id) {
+      return checkedAlbums[id]
+  })
+    const objForAddingAlbum = {};
+    objForAddingAlbum.albumsToAdd = albumsToAdd;
+    objForAddingAlbum.collectionId = subcollectionChoice;
+    collectionRequests.addAlbumsToSubcollection(objForAddingAlbum)
+      .then()
+      .catch(err => console.error(err));
   }
+
   render() {
     const { collection } = this.props;
     const albums = collection.albums;
@@ -46,6 +62,10 @@ class Collection extends React.Component{
     return (
       <div className="Collection container">
         <Button className="btn-danger" onClick={ this.deleteSelectedAlbums }>Delete Selected Albums</Button>
+        <AddToSubcollection 
+        addToSubcollection={ this.addToSubcollection }
+        userObj= {this.props.userObj}
+        />
         <p>{ collection.name }</p>
         <div className="row justify-content-around">
         { showCollection }

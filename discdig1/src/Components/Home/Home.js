@@ -25,7 +25,6 @@ class Home extends React.Component {
    collectionRequests.getUsersSubCollections(userObj.id)
     .then(result => this.setState({subCollections: result}))
     .catch(err => console.error(err));
-
   };
 
   showChosenCollection = (choice) => {
@@ -47,8 +46,8 @@ class Home extends React.Component {
   };
 
   render() {
-    const { userObj, mainCollectionId }= this.props;
-    const { collection, collectionChoice, subCollections }= this.state;
+    const { userObj, collections }= this.props;
+    const { collection, collectionChoice }= this.state;
 
     return (
       <div className="Home container">
@@ -64,9 +63,8 @@ class Home extends React.Component {
         onChange={this.changeCollectionState}
         >
           <option value=''>Chose a collection to display</option>
-        <option key={mainCollectionId} value={mainCollectionId}>Main</option>
-        { subCollections.map(subCollection => (
-          <option key={subCollection.id} value={subCollection.id}>{subCollection.name}</option>
+        { collections.map(subCollection => (
+          <option key={subCollection.id} value={subCollection.id}>{subCollection.name} ({subCollection.numberInCollection})</option>
         )) }
         </Input>
       </FormGroup>

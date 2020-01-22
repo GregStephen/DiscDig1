@@ -13,8 +13,11 @@ namespace DiscDig1.Repositories
         bool AddNewAlbumToMainCollection(AlbumToCollectionDTO albumToCollectionDTO);
         AlbumCollection GetUsersMainCollection(Guid userId);
         AlbumCollection GetUsersCollectionById(Guid id);
+        List<AlbumCollection> GetAllCollectionsByUserId(Guid userId);
         bool DeleteTheseAlbumsFromTheCollection(AlbumsToDelete albumsToDelete);
         bool AddNewSubcollection(NewSubDTO newSubDTO);
         IEnumerable<SubCollectionsInfo> GetUsersSubCollections(Guid userId);
+        bool AddAlbumsToSubcollection(AddToSubcollectionDTO addToSubcollection);
+        bool DeleteThisSubcollection(Guid id);
     }
 }

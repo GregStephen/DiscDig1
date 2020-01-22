@@ -14,6 +14,11 @@ const getUsersMainCollection = userId => new Promise((resolve, reject) => {
     .catch(err => reject(err));
 });
 
+const getAllUsersCollectionsByUserId = userId => new Promise((resolve, reject) => {
+  axios.get(`${baseUrl}/allCollections/${userId}`)
+    .then(result => resolve(result.data))
+    .catch(err => reject(err));
+})
 const getUsersSubCollections = userId => new Promise((resolve, reject) => {
   axios.get(`${baseUrl}/subcollections/${userId}`)
     .then(result => resolve(result.data))
@@ -36,5 +41,28 @@ const addNewSubcollection = newSubInfo => new Promise((resolve, reject) => {
   axios.post(`${baseUrl}/newsub`, newSubInfo)
     .then(result => resolve(result.data))
     .catch(err => reject(err))
-})
-export default {addAlbumToMainCollection, getUsersMainCollection, getUsersSubCollections, getCollectionById, deleteTheseAlbumsFromCollection, addNewSubcollection};
+});
+
+const addAlbumsToSubcollection = albumAddObj => new Promise((resolve, reject) => {
+  axios.post(`${baseUrl}/addtosubcollection`, albumAddObj)
+    .then(result => resolve(result.data))
+    .catch(err => reject(err))
+});
+
+const deleteThisSubcollection = id => new Promise((resolve, reject) => {
+  axios.delete(`${baseUrl}/sub/${id}`)
+    .then(result => resolve(result.data))
+    .catch(err => reject(err));
+});
+
+export default {
+  addAlbumToMainCollection,
+  getUsersMainCollection,
+  getAllUsersCollectionsByUserId,
+  getUsersSubCollections,
+  getCollectionById,
+  deleteTheseAlbumsFromCollection,
+  addNewSubcollection,
+  addAlbumsToSubcollection,
+  deleteThisSubcollection,
+};

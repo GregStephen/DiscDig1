@@ -36,7 +36,20 @@ namespace DiscDig1.Controllers
                 return Ok(collection);
             }
         }
+        [HttpGet("allCollections/{uid}")]
+        public IActionResult GetAllUsersCollections(Guid uid)
+        {
+            var collections = _repo.GetAllCollectionsByUserId(uid);
+            if (collections == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(collections);
+            }
 
+        }
         [HttpGet("subcollections/{userid}")]
         public IActionResult GetUsersSubCollections(Guid userId)
         {
@@ -77,6 +90,7 @@ namespace DiscDig1.Controllers
                 return BadRequest();
             }
         }
+
         [HttpPost("newsub")]
         public IActionResult AddNewSubcollection(NewSubDTO newSubDto)
         {
@@ -89,10 +103,36 @@ namespace DiscDig1.Controllers
                 return BadRequest();
             }
         }
+        [HttpPost("addtosubcollection")]
+        public IActionResult AddAlbumsToSubcollection(AddToSubcollectionDTO addToSubcollection)
+        {
+            if (_repo.AddAlbumsToSubcollection(addToSubcollection))
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpDelete]
         public IActionResult DeleteTheseAlbumsFromTheCollection(AlbumsToDelete albumsToDelete)
         {
-            if(_repo.DeleteTheseAlbumsFromTheCollection(albumsToDelete))
+            if (_repo.DeleteTheseAlbumsFromTheCollection(albumsToDelete))
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpDelete("sub/{id}")]
+        public IActionResult DeleteThisSubcollection(Guid id)
+        {
+            if (_repo.DeleteThisSubcollection(id))
             {
                 return Ok();
             }
