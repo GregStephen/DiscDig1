@@ -47,7 +47,7 @@ class App extends React.Component {
   state = {
     userObj: defaultUser,
     authorized: false,
-    mainCollectionId: ''
+    collections: []
   }
 
   componentDidMount () {
@@ -55,9 +55,9 @@ class App extends React.Component {
       if (user) {
         userRequests.getUserByFirebaseUid(user.uid)
         .then((userObj) => {
-            collectionRequests.getUsersMainCollection(userObj.id)
+            collectionRequests.getAllUsersCollectionsByUserId(userObj.id)
             .then((result) => {
-              this.setState({ mainCollectionId: result.id })})
+              this.setState({ collections: result })})
             .catch(err => console.error(err));
           this.setState({ authorized: true, userObj });
         })
@@ -104,7 +104,7 @@ class App extends React.Component {
   };
 
   render() {
-    const {authorized, userObj, mainCollectionId} = this.state;
+    const {authorized, userObj, collections} = this.state;
     return (
       <div className="App">
       <Router>
@@ -112,8 +112,8 @@ class App extends React.Component {
           <Switch>
             <PublicRoute path='/auth' component={ Auth } authorized={ authorized }/>
             <PublicRoute path='/new-user' component={ NewUser } authorized={ authorized }/>
-            <PrivateRoute path='/home' component={ Home } authorized={ authorized } userObj={ userObj } mainCollectionId={mainCollectionId}/>
-            <PrivateRoute path='/profile' component={ UserProfile } authorized={ authorized } userObj={ userObj } deleteThisUser={ this.deleteThisUser } editThisUser={ this.editThisUser } mainCollectionId={mainCollectionId}/>
+            <PrivateRoute path='/home' component={ Home } authorized={ authorized } userObj={ userObj } collections={collections}/>
+            <PrivateRoute path='/profile' component={ UserProfile } authorized={ authorized } userObj={ userObj } deleteThisUser={ this.deleteThisUser } editThisUser={ this.editThisUser } collections={collections}/>
             <PrivateRoute path='/add-album' component={ AddAlbumPage } authorized={ authorized } userObj={ userObj }/>
             <PrivateRoute path='/subcollections' component={ Subcollections } authorized={ authorized } userObj={ userObj }/>
             <Redirect from='*' to='/auth'/>

@@ -14,6 +14,11 @@ const getUsersMainCollection = userId => new Promise((resolve, reject) => {
     .catch(err => reject(err));
 });
 
+const getAllUsersCollectionsByUserId = userId => new Promise((resolve, reject) => {
+  axios.get(`${baseUrl}/allCollections/${userId}`)
+    .then(result => resolve(result.data))
+    .catch(err => reject(err));
+})
 const getUsersSubCollections = userId => new Promise((resolve, reject) => {
   axios.get(`${baseUrl}/subcollections/${userId}`)
     .then(result => resolve(result.data))
@@ -46,6 +51,7 @@ const addAlbumsToSubcollection = albumAddObj => new Promise((resolve, reject) =>
 export default {
   addAlbumToMainCollection,
   getUsersMainCollection,
+  getAllUsersCollectionsByUserId,
   getUsersSubCollections,
   getCollectionById,
   deleteTheseAlbumsFromCollection,

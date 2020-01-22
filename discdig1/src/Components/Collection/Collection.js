@@ -42,11 +42,9 @@ class Collection extends React.Component{
     const objForAddingAlbum = {};
     objForAddingAlbum.albumsToAdd = albumsToAdd;
     objForAddingAlbum.collectionId = subcollectionChoice;
-    console.error(objForAddingAlbum);
     collectionRequests.addAlbumsToSubcollection(objForAddingAlbum)
       .then()
       .catch(err => console.error(err));
-    
   }
 
   render() {

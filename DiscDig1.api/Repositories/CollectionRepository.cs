@@ -54,6 +54,31 @@ namespace DiscDig1.Repositories
             }
         }
 
+        public List<AlbumCollection> GetAllCollectionsByUserId(Guid userId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var listToReturn = new List<AlbumCollection>();
+                var listOfCollectionInfo = GetAllCollectionInfoByUserId(userId);
+                foreach (SubCollectionsInfo collectionInfo in listOfCollectionInfo)
+                {
+                    listToReturn.Add(GetUsersCollectionById(collectionInfo.Id));
+                }
+                return listToReturn;
+            }
+        }
+
+        public IEnumerable<SubCollectionsInfo> GetAllCollectionInfoByUserId(Guid userId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT [Id], [Name]
+                            FROM [Collection]
+                            WHERE [userId] = @userId";
+                var parameters = new { userId };
+                return db.Query<SubCollectionsInfo>(sql, parameters);
+            }
+        }
         public string GetCollectionNameById(Guid id)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -133,6 +158,8 @@ namespace DiscDig1.Repositories
                 return db.Query<SubCollectionsInfo>(sql, parameters);
             }
         }
+   
+
 
         public bool AddNewSubcollection(NewSubDTO newSubDTO)
         {

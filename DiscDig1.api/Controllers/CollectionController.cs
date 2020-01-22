@@ -36,7 +36,20 @@ namespace DiscDig1.Controllers
                 return Ok(collection);
             }
         }
+        [HttpGet("allCollections/{uid}")]
+        public IActionResult GetAllUsersCollections(Guid uid)
+        {
+            var collections = _repo.GetAllCollectionsByUserId(uid);
+            if (collections == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(collections);
+            }
 
+        }
         [HttpGet("subcollections/{userid}")]
         public IActionResult GetUsersSubCollections(Guid userId)
         {
