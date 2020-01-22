@@ -114,6 +114,20 @@ class App extends React.Component {
       .catch(err => console.error(err));
   };
 
+  addThisAlbumToMain = (albumToAdd) => {
+    const {userObj} = this.state;
+    collectionRequests.addAlbumToMainCollection(albumToAdd)
+    .then(() => this.getAllUsersCollections(userObj))
+    .catch(err => console.error(err))
+  }
+
+  deleteAllTheseAlbums = (obj) => {
+    const {userObj} = this.state;
+    collectionRequests.deleteTheseAlbumsFromCollection(obj)
+    .then(() => this.getAllUsersCollections(userObj))
+    .catch(err => console.error(err))
+  }
+  
   render() {
     const {authorized, userObj, collections} = this.state;
     return (
@@ -123,9 +137,9 @@ class App extends React.Component {
           <Switch>
             <PublicRoute path='/auth' component={ Auth } authorized={ authorized }/>
             <PublicRoute path='/new-user' component={ NewUser } authorized={ authorized }/>
-            <PrivateRoute path='/home' component={ Home } authorized={ authorized } userObj={ userObj } collections={collections}/>
+            <PrivateRoute path='/home' component={ Home } authorized={ authorized } userObj={ userObj } collections={collections} deleteAllTheseAlbums={this.deleteAllTheseAlbums}/>
             <PrivateRoute path='/profile' component={ UserProfile } authorized={ authorized } userObj={ userObj } deleteThisUser={ this.deleteThisUser } editThisUser={ this.editThisUser } collections={collections}/>
-            <PrivateRoute path='/add-album' component={ AddAlbumPage } authorized={ authorized } userObj={ userObj }/>
+            <PrivateRoute path='/add-album' component={ AddAlbumPage } authorized={ authorized } userObj={ userObj } addThisAlbumToMain={ this.addThisAlbumToMain }/>
             <PrivateRoute path='/subcollections' component={ Subcollections } authorized={ authorized } userObj={ userObj } collections={ collections } deleteSub={ this.deleteSub }/>
             <Redirect from='*' to='/auth'/>
           </Switch>

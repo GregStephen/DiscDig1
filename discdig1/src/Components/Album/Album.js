@@ -20,6 +20,11 @@ class Album extends React.Component {
     }));
   };
 
+  addAlbumToMain = (albumToAdd) => {
+    const { addAlbToMain } = this.props;
+    addAlbToMain(albumToAdd);
+  }
+  
   render() {
    const {album} = this.props;
     return (
@@ -42,6 +47,7 @@ class Album extends React.Component {
         toggleModalOpen={ this.toggleModalOpen }
         album={ album }
         userObj={ this.props.userObj }
+        addAlbumToMain={ this.addAlbumToMain }
         />
       </Modal>
       </div>

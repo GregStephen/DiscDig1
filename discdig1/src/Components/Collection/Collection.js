@@ -32,6 +32,7 @@ class Collection extends React.Component{
     objectForDeletion.collectionId = collection.id;
     objectForDeletion.deleteTheseAlbums = albumsToDelete;
     deleteAlbums(objectForDeletion);
+    
   };
 
   addToSubcollection = (subcollectionChoice) => {
