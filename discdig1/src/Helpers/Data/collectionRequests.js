@@ -48,6 +48,13 @@ const addAlbumsToSubcollection = albumAddObj => new Promise((resolve, reject) =>
     .then(result => resolve(result.data))
     .catch(err => reject(err))
 });
+
+const deleteThisSubcollection = id => new Promise((resolve, reject) => {
+  axios.delete(`${baseUrl}/sub/${id}`)
+    .then(result => resolve(result.data))
+    .catch(err => reject(err));
+});
+
 export default {
   addAlbumToMainCollection,
   getUsersMainCollection,
@@ -56,5 +63,6 @@ export default {
   getCollectionById,
   deleteTheseAlbumsFromCollection,
   addNewSubcollection,
-  addAlbumsToSubcollection
+  addAlbumsToSubcollection,
+  deleteThisSubcollection,
 };

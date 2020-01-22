@@ -55,10 +55,7 @@ class App extends React.Component {
       if (user) {
         userRequests.getUserByFirebaseUid(user.uid)
         .then((userObj) => {
-            collectionRequests.getAllUsersCollectionsByUserId(userObj.id)
-            .then((result) => {
-              this.setState({ collections: result })})
-            .catch(err => console.error(err));
+          this.getAllUsersCollections(userObj);
           this.setState({ authorized: true, userObj });
         })
         .catch(err => console.error(err))
@@ -72,6 +69,13 @@ class App extends React.Component {
     this.removeListener();
   };
 
+  getAllUsersCollections = (userObj) => {
+    collectionRequests.getAllUsersCollectionsByUserId(userObj.id)
+    .then((result) => {
+      this.setState({ collections: result })})
+    .catch(err => console.error(err));
+  };
+
   refreshUserObj = () => {
     const {userObj} = this.state;
     userRequests.getUserById(userObj.id)
@@ -79,6 +83,13 @@ class App extends React.Component {
         this.setState({ userObj : refreshedUserObj })
       })
       .catch(err => console.error(err));
+  }
+
+  deleteSub = (subId) => {
+    const {userObj} = this.state;
+    collectionRequests.deleteThisSubcollection(subId)
+    .then(() => this.getAllUsersCollections(userObj))
+    .catch(err => console.error(err));
   }
 
   deleteThisUser = () => {
@@ -115,7 +126,7 @@ class App extends React.Component {
             <PrivateRoute path='/home' component={ Home } authorized={ authorized } userObj={ userObj } collections={collections}/>
             <PrivateRoute path='/profile' component={ UserProfile } authorized={ authorized } userObj={ userObj } deleteThisUser={ this.deleteThisUser } editThisUser={ this.editThisUser } collections={collections}/>
             <PrivateRoute path='/add-album' component={ AddAlbumPage } authorized={ authorized } userObj={ userObj }/>
-            <PrivateRoute path='/subcollections' component={ Subcollections } authorized={ authorized } userObj={ userObj }/>
+            <PrivateRoute path='/subcollections' component={ Subcollections } authorized={ authorized } userObj={ userObj } collections={ collections } deleteSub={ this.deleteSub }/>
             <Redirect from='*' to='/auth'/>
           </Switch>
       </Router>

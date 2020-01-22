@@ -261,5 +261,32 @@ namespace DiscDig1.Repositories
                 return (db.Execute(sql, albumsToDelete) >= 1);
             }
         }
+        public IEnumerable<Guid> AlbumIdsForSubcollection(Guid id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT AlbumId
+                            FROM [CollectionAlbum]
+                            WHERE CollectionId = @id";
+                var parameters = new { id };
+                return db.Query<Guid>(sql, parameters);
+            }
+        }
+        public bool DeleteThisSubcollection(Guid id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var albums = AlbumIdsForSubcollection(id);
+                var deleteThese = new AlbumsToDelete();
+                deleteThese.CollectionId = id;
+                deleteThese.DeleteTheseAlbums = albums.ToList();
+                DeleteTheseAlbumsFromTheCollection(deleteThese);
+                var sql = @"DELETE
+                            FROM [Collection]
+                            WHERE [Id] = @id";
+                var parameters = new { id };
+                return (db.Execute(sql, parameters) >= 1);
+            }
+        }
     }
 }

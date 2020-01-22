@@ -4,6 +4,7 @@ import { Button, Collapse, Form, Input, InputGroup, InputGroupAddon } from 'reac
 import collectionRequests from '../../Helpers/Data/collectionRequests';
 
 import './Subcollections.scss';
+import SubcollectionObject from '../SubcollectionObject/SubcollectionObject';
 
 class Subcollections extends React.Component {
   state = {
@@ -14,7 +15,13 @@ class Subcollections extends React.Component {
   }
 
   componentDidMount() {
-    this.getUsersSubCollections();
+    this.loadPage();
+  };
+
+  loadPage = () => {
+    const { collections } = this.props;
+    const subs = collections.filter(collection => collection.name !== 'Main');
+    this.setState({subCollections: subs });
   };
 
   getUsersSubCollections = () => {
@@ -61,17 +68,24 @@ class Subcollections extends React.Component {
       })
       .catch(err=> console.error(err));
   }
+
+  deleteThisSub = (subId) => {
+    const {deleteSub} = this.props;
+    deleteSub(subId);
+    this.loadPage();
+  }
+
   render() {
     const {subCollections} = this.state;
-
     const createSubcollectionList = subCollections.map((subCollection) => (
-      <li key={subCollection.id}>{subCollection.name}</li>
+      <SubcollectionObject
+      key={ subCollection.id }
+      subCollection={ subCollection }
+      deleteThisSub={ this.deleteThisSub }
+      />
     ))
     return (
-      <div className="Subcollections">
-        <ul>
-        {createSubcollectionList}
-        </ul>
+      <div className="Subcollections container">
         <Button className="btn-info" onClick={this.toggle}>Add New Subcollection</Button>
         <Collapse
           className="no-transition"
@@ -96,6 +110,8 @@ class Subcollections extends React.Component {
               </InputGroup>
             </Form>
           </Collapse>
+        {createSubcollectionList}
+
       </div>
     )
   }

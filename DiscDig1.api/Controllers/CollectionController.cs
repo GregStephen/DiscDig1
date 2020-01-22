@@ -119,7 +119,20 @@ namespace DiscDig1.Controllers
         [HttpDelete]
         public IActionResult DeleteTheseAlbumsFromTheCollection(AlbumsToDelete albumsToDelete)
         {
-            if(_repo.DeleteTheseAlbumsFromTheCollection(albumsToDelete))
+            if (_repo.DeleteTheseAlbumsFromTheCollection(albumsToDelete))
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpDelete("sub/{id}")]
+        public IActionResult DeleteThisSubcollection(Guid id)
+        {
+            if (_repo.DeleteThisSubcollection(id))
             {
                 return Ok();
             }
