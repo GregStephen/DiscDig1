@@ -17,6 +17,12 @@ class Collection extends React.Component{
     chosenSubcollectionId: ''
   };
 
+  componentDidUpdate({ collection }) {
+    if (this.props.collection !== collection) {
+      this.setState({ checkedAlbums: defaultCheckedAlbums });
+    }
+  };
+  
   handleAlbumChecks = (e) => {
     const tempAlbumsChecked = { ...this.state.checkedAlbums };
     tempAlbumsChecked[e.target.id] = e.target.checked;
@@ -33,6 +39,7 @@ class Collection extends React.Component{
     objectForDeletion.collectionId = collection.id;
     objectForDeletion.deleteTheseAlbums = albumsToDelete;
     deleteAlbums(objectForDeletion);
+    this.setState({ checkedAlbums: defaultCheckedAlbums });
     
   };
 
@@ -46,6 +53,7 @@ class Collection extends React.Component{
     objForAddingAlbum.albumsToAdd = albumsToAdd;
     objForAddingAlbum.collectionId = subcollectionChoice;
     addAlbumToSubCollection(objForAddingAlbum);
+    this.setState({ checkedAlbums: defaultCheckedAlbums });
   }
 
 changeSubCollection = (e) => {

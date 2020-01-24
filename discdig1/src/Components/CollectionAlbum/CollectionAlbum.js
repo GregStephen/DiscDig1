@@ -33,6 +33,7 @@ getAlreadyAddedStatus = () => {
       this.getAlreadyAddedStatus()
     }
   };
+  
   render() {
    const {album, isChecked, onCheck} = this.props;
     return (
