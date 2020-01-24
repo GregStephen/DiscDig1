@@ -81,10 +81,11 @@ class Home extends React.Component {
       </FormGroup>
       <Link className="btn btn-info" to='/subcollections'>Manage Subcollections</Link>
         <Collection
-        userObj= { userObj }
-        collection= { collection }
-        deleteAlbums= { this.deleteAlbums }
-        addAlbumToSubCollection= { this.addAlbumToSubCollection }
+        userObj={ userObj }
+        collection={ collection }
+        deleteAlbums={ this.deleteAlbums }
+        addAlbumToSubCollection={ this.addAlbumToSubCollection }
+        collections={ this.props.collections }
         />
       </div>
     )

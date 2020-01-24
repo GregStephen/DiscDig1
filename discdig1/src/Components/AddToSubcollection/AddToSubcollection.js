@@ -23,6 +23,8 @@ class AddToSubcollection extends React.Component {
   };
 
   changeCollectionState = (e) => {
+    const {changeSubCollection} = this.props;
+    changeSubCollection(e);
     const tempChosenCollectionId = e.target.value;
     this.setState({ chosenSubcollectionId: tempChosenCollectionId });
   };

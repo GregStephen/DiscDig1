@@ -13,7 +13,8 @@ const defaultCheckedAlbums = {
 
 class Collection extends React.Component{
   state = {
-    checkedAlbums: defaultCheckedAlbums
+    checkedAlbums: defaultCheckedAlbums,
+    chosenSubcollectionId: ''
   };
 
   handleAlbumChecks = (e) => {
@@ -47,6 +48,11 @@ class Collection extends React.Component{
     addAlbumToSubCollection(objForAddingAlbum);
   }
 
+changeSubCollection = (e) => {
+  const tempChosenCollectionId = e.target.value;
+  this.setState({ chosenSubcollectionId: tempChosenCollectionId })
+}
+
   render() {
     const { collection } = this.props;
     const albums = collection.albums;
@@ -56,6 +62,9 @@ class Collection extends React.Component{
       key={ album.id }
       onCheck={ this.handleAlbumChecks }
       isChecked={ this.state.checkedAlbums[album.id] }
+      collection={ this.props.collection }
+      chosenSubcollectionId={ this.state.chosenSubcollectionId }
+      collections={ this.props.collections }
       />
     ))
 
@@ -65,6 +74,7 @@ class Collection extends React.Component{
         <AddToSubcollection 
         addToSubcollection={ this.addToSubcollection }
         userObj= {this.props.userObj}
+        changeSubCollection={ this.changeSubCollection }
         />
         <p>{ collection.name }</p>
         <div className="row justify-content-around">
