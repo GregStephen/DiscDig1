@@ -62,7 +62,7 @@ changeSubCollection = (e) => {
       key={ album.id }
       onCheck={ this.handleAlbumChecks }
       isChecked={ this.state.checkedAlbums[album.id] }
-      collection={ this.props.collection }
+      collection={ collection }
       chosenSubcollectionId={ this.state.chosenSubcollectionId }
       collections={ this.props.collections }
       />
@@ -72,6 +72,7 @@ changeSubCollection = (e) => {
       <div className="Collection container">
         <Button className="btn-danger" onClick={ this.deleteSelectedAlbums }>Delete Selected Albums</Button>
         <AddToSubcollection 
+        collection={ collection }
         addToSubcollection={ this.addToSubcollection }
         userObj= {this.props.userObj}
         changeSubCollection={ this.changeSubCollection }

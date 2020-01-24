@@ -14,11 +14,15 @@ getAlreadyAddedStatus = () => {
   const { collections, chosenSubcollectionId, album } = this.props;
   const selectedCol = collections.filter(collection => collection.id === chosenSubcollectionId);
   const albumsList = selectedCol.albums;
-  if (albumsList.some(singleAlbum => singleAlbum.discogId === album.id)) {
-    this.setState({ alreadyAddedToSub: true })
+  if (albumsList !== undefined) 
+  {
+    if (albumsList.some(singleAlbum => singleAlbum.discogId === album.id)) {
+      this.setState({ alreadyAddedToSub: true })
+    }
+    console.error(selectedCol)
   }
-  console.error(selectedCol)
-}
+};
+
   componentDidMount() {
     this.getAlreadyAddedStatus();
 
