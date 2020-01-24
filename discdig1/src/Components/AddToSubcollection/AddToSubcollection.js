@@ -27,6 +27,7 @@ class AddToSubcollection extends React.Component {
       this.getSubCollectionWithOutMainChoice()
     }
   };
+  
   addToThisSubcollection = (e) => {
     e.preventDefault();
     const {chosenSubcollectionId} = this.state;

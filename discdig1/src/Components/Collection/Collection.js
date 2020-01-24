@@ -22,7 +22,7 @@ class Collection extends React.Component{
       this.setState({ checkedAlbums: defaultCheckedAlbums });
     }
   };
-  
+
   handleAlbumChecks = (e) => {
     const tempAlbumsChecked = { ...this.state.checkedAlbums };
     tempAlbumsChecked[e.target.id] = e.target.checked;
@@ -45,10 +45,15 @@ class Collection extends React.Component{
 
   addToSubcollection = (subcollectionChoice) => {
     const { checkedAlbums } = this.state;
-    const { addAlbumToSubCollection } = this.props;
+    const { addAlbumToSubCollection, collections } = this.props;
     const albumsToAdd = Object.keys(checkedAlbums).filter(function(id) {
       return checkedAlbums[id]
   })
+    const subCollectionBeingAddedTo = collections.filter(coll => coll.id === subcollectionChoice);
+    const subCollectionBeingAddedToAlbumsList = subCollectionBeingAddedTo[0].albums;
+    const albumsToAddNotDuplicated = albumsToAdd.filter(album => album !== subCollectionBeingAddedToAlbumsList.id);
+    console.error(subCollectionBeingAddedToAlbumsList, 'list');
+    console.error(albumsToAddNotDuplicated, 'not dup');
     const objForAddingAlbum = {};
     objForAddingAlbum.albumsToAdd = albumsToAdd;
     objForAddingAlbum.collectionId = subcollectionChoice;
