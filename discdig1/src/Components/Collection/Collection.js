@@ -3,9 +3,9 @@ import { Button } from 'reactstrap';
 
 import CollectionAlbum from '../CollectionAlbum/CollectionAlbum';
 
-import './Collection.scss';
 import AddToSubcollection from '../AddToSubcollection/AddToSubcollection';
-import collectionRequests from '../../Helpers/Data/collectionRequests';
+
+import './Collection.scss';
 
 const defaultCheckedAlbums = {
   0: false
@@ -37,15 +37,14 @@ class Collection extends React.Component{
 
   addToSubcollection = (subcollectionChoice) => {
     const { checkedAlbums } = this.state;
+    const { addAlbumToSubCollection } = this.props;
     const albumsToAdd = Object.keys(checkedAlbums).filter(function(id) {
       return checkedAlbums[id]
   })
     const objForAddingAlbum = {};
     objForAddingAlbum.albumsToAdd = albumsToAdd;
     objForAddingAlbum.collectionId = subcollectionChoice;
-    collectionRequests.addAlbumsToSubcollection(objForAddingAlbum)
-      .then()
-      .catch(err => console.error(err));
+    addAlbumToSubCollection(objForAddingAlbum);
   }
 
   render() {

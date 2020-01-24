@@ -15,11 +15,12 @@ class Subcollections extends React.Component {
   componentDidMount() {
     this.loadPage();
   };
+
   componentDidUpdate({ collections }) {
     if (this.props.collections !== collections) {
       this.loadPage();
     }
-  }
+  };
 
   loadPage = () => {
     const { collections } = this.props;

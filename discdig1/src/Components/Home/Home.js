@@ -21,22 +21,27 @@ class Home extends React.Component {
   };
 
   componentDidMount(){
-    const { userObj } = this.props;
-   collectionRequests.getUsersSubCollections(userObj.id)
-    .then(result => this.setState({subCollections: result}))
-    .catch(err => console.error(err));
+    const { collections } = this.props;
+    const subs = collections.filter(collection => collection.name !== 'Main');
+    this.setState({subCollections: subs });
+  };
+
+  componentDidUpdate({ collections }) {
+    if (this.props.collections !== collections) {
+      this.showChosenCollection(this.state.collectionChoice);
+    }
   };
 
   showChosenCollection = (choice) => {
     collectionRequests.getCollectionById(choice)
     .then(result => this.setState({collection: result}))
     .catch(err => console.error(err));
-  }
+  };
 
   deleteAlbums = (objectForDeletion) => {
     const {deleteAllTheseAlbums} = this.props;
-    deleteAllTheseAlbums(objectForDeletion);
-    this.showChosenCollection(this.state.collectionChoice);
+    deleteAllTheseAlbums(objectForDeletion)
+      .then(this.showChosenCollection(this.state.collectionChoice));
   }
 
   changeCollectionState = (e) => {
@@ -44,6 +49,12 @@ class Home extends React.Component {
     this.setState({ collectionChoice: tempChosenCollectionId });
     this.showChosenCollection(tempChosenCollectionId);
   };
+
+  addAlbumToSubCollection = (objToAdd) => {
+    const {addSelectedAlbumsToSubCollection} = this.props;
+    addSelectedAlbumsToSubCollection(objToAdd);
+  }
+
 
   render() {
     const { userObj, collections }= this.props;
@@ -73,6 +84,7 @@ class Home extends React.Component {
         userObj= { userObj }
         collection= { collection }
         deleteAlbums= { this.deleteAlbums }
+        addAlbumToSubCollection= { this.addAlbumToSubCollection }
         />
       </div>
     )
