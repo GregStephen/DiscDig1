@@ -12,6 +12,14 @@ import AddAlbumToCollectionModal from '../Modals/AddAlbumToCollectionModal';
 class Album extends React.Component {
   state = {
     addAlbumModalIsOpen: false,
+    alreadyInCollection: false
+  };
+
+  componentDidMount() {
+    const {mainCollectionAlbums, album } = this.props;
+    if (mainCollectionAlbums.some(e => e.discogId === album.id)) {
+      this.setState({ alreadyInCollection: true })
+    }
   };
 
   toggleModalOpen = () => {
@@ -38,7 +46,9 @@ class Album extends React.Component {
             {album.title}
             </Media>
             <p>Released: {album.year === 0 ? 'Unknown' : album.year}</p>
-              <Button onClick={this.toggleModalOpen}>Add To Collection</Button>
+             { this.state.alreadyInCollection ? <Button disabled >Already Added To Collection</Button>
+             : <Button onClick={this.toggleModalOpen}>Add To Collection</Button>
+             }
           </Media>
         </Media>
       <Modal isOpen={this.state.addAlbumModalIsOpen} toggle={this.toggleModal}>
