@@ -85,13 +85,25 @@ class App extends React.Component {
       .catch(err => console.error(err));
   }
 
-  deleteSub = (subId) => {
+  deleteSub = (subId) => new Promise((resolve, reject) =>  {
     const {userObj} = this.state;
     collectionRequests.deleteThisSubcollection(subId)
-    .then(() => this.getAllUsersCollections(userObj))
-    .catch(err => console.error(err));
-  }
+    .then(() => {
+      this.getAllUsersCollections(userObj)
+      resolve('deleted')})
+    .catch(err => reject(err));
+  })
 
+  createNewSubColl = (toSend) => new Promise((resolve, reject) => {
+    const {userObj} = this.state;
+    collectionRequests.addNewSubcollection(toSend)
+    .then(() => {
+      this.getAllUsersCollections(userObj)
+      resolve('created');
+    })
+    .catch(err=> reject(err));
+  })
+  
   deleteThisUser = () => {
     const {userObj} = this.state;
     userRequests.deleteUser(userObj.id)
@@ -121,13 +133,22 @@ class App extends React.Component {
     .catch(err => console.error(err))
   }
 
-  deleteAllTheseAlbums = (obj) => {
+  deleteAllTheseAlbums = (obj) => new Promise((resolve, reject) => {
     const {userObj} = this.state;
     collectionRequests.deleteTheseAlbumsFromCollection(obj)
+    .then(() => {
+      resolve('deleted');
+      this.getAllUsersCollections(userObj)})
+    .catch(err => reject(err))
+  })
+
+  addSelectedAlbumsToSubCollection = (objToAdd) => {
+    const {userObj} = this.state;
+    collectionRequests.addAlbumsToSubcollection(objToAdd)
     .then(() => this.getAllUsersCollections(userObj))
-    .catch(err => console.error(err))
-  }
-  
+    .catch(err => console.error(err));
+  };
+
   render() {
     const {authorized, userObj, collections} = this.state;
     return (
@@ -137,10 +158,10 @@ class App extends React.Component {
           <Switch>
             <PublicRoute path='/auth' component={ Auth } authorized={ authorized }/>
             <PublicRoute path='/new-user' component={ NewUser } authorized={ authorized }/>
-            <PrivateRoute path='/home' component={ Home } authorized={ authorized } userObj={ userObj } collections={collections} deleteAllTheseAlbums={this.deleteAllTheseAlbums}/>
-            <PrivateRoute path='/profile' component={ UserProfile } authorized={ authorized } userObj={ userObj } deleteThisUser={ this.deleteThisUser } editThisUser={ this.editThisUser } collections={collections}/>
+            <PrivateRoute path='/home' component={ Home } authorized={ authorized } userObj={ userObj } collections={ collections } deleteAllTheseAlbums={ this.deleteAllTheseAlbums } addSelectedAlbumsToSubCollection={ this.addSelectedAlbumsToSubCollection }/>
+            <PrivateRoute path='/profile' component={ UserProfile } authorized={ authorized } userObj={ userObj } deleteThisUser={ this.deleteThisUser } editThisUser={ this.editThisUser } collections={ collections }/>
             <PrivateRoute path='/add-album' component={ AddAlbumPage } authorized={ authorized } userObj={ userObj } addThisAlbumToMain={ this.addThisAlbumToMain }/>
-            <PrivateRoute path='/subcollections' component={ Subcollections } authorized={ authorized } userObj={ userObj } collections={ collections } deleteSub={ this.deleteSub }/>
+            <PrivateRoute path='/subcollections' component={ Subcollections } authorized={ authorized } userObj={ userObj } collections={ collections } deleteSub={ this.deleteSub } createNewSubColl={ this.createNewSubColl }/>
             <Redirect from='*' to='/auth'/>
           </Switch>
       </Router>

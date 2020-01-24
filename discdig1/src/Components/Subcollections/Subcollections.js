@@ -1,8 +1,6 @@
 import React from 'react';
 import { Button, Collapse, Form, Input, InputGroup, InputGroupAddon } from 'reactstrap';
 
-import collectionRequests from '../../Helpers/Data/collectionRequests';
-
 import './Subcollections.scss';
 import SubcollectionObject from '../SubcollectionObject/SubcollectionObject';
 
@@ -18,18 +16,18 @@ class Subcollections extends React.Component {
     this.loadPage();
   };
 
+  componentDidUpdate({ collections }) {
+    if (this.props.collections !== collections) {
+      this.loadPage();
+    }
+  };
+
   loadPage = () => {
     const { collections } = this.props;
     const subs = collections.filter(collection => collection.name !== 'Main');
     this.setState({subCollections: subs });
   };
 
-  getUsersSubCollections = () => {
-    const { userObj } = this.props;
-    collectionRequests.getUsersSubCollections(userObj.id)
-      .then(result => this.setState({subCollections: result}))
-      .catch(err => console.error(err));
-  }
   onEntering = () => {
     this.setState({ status: 'Opening...' });
   }
@@ -57,22 +55,19 @@ class Subcollections extends React.Component {
   createNewSubcollection = (e) => {
     e.preventDefault();
     const {newSubcollection} = this.state;
-    const {userObj} = this.props;
+    const {userObj, createNewSubColl} = this.props;
     const toSend = {};
     toSend.userId = userObj.id;
     toSend.subCollectionName = newSubcollection;
-    collectionRequests.addNewSubcollection(toSend)
-      .then(() => {
-        this.toggle();
-        this.getUsersSubCollections();
-      })
-      .catch(err=> console.error(err));
+    createNewSubColl(toSend).then(() => {
+      this.toggle();
+      this.loadPage();
+    })
   }
 
   deleteThisSub = (subId) => {
     const {deleteSub} = this.props;
-    deleteSub(subId);
-    this.loadPage();
+    deleteSub(subId).then(this.loadPage());
   }
 
   render() {
