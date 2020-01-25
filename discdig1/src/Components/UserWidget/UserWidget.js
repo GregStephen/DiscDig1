@@ -46,7 +46,7 @@ class UserWidget extends React.Component {
     const { userObj, avatar } = this.props;
     const displayDate = moment(userObj.dateCreated).format('LL');
     return (
-      <div className="UserWidget col-4">
+      <div className="UserWidget col-12">
         <Card>
           <CardBody>
             <CardTitle>{userObj.firstName} {userObj.lastName}</CardTitle>

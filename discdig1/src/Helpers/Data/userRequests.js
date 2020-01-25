@@ -20,6 +20,12 @@ const addNewUser = userobj => new Promise((resolve, reject) => {
     .catch(err => reject(err))
 });
 
+const getUserDashboardData = userId => new Promise((resolve, reject) => {
+  axios.get(`${baseUrl}/dashboard/${userId}`)
+    .then(results => resolve(results.data))
+    .catch(err => reject(err));
+});
+
 const editUser = (editedUser) => new Promise((resolve, reject) => {
   axios.put(`${baseUrl}`, editedUser)
       .then(result => resolve(result.data))
@@ -32,4 +38,11 @@ const deleteUser = (id) => new Promise((resolve, reject) => {
     .catch(err => reject(err))
 });
 
-export default { getUserByFirebaseUid, getUserById, addNewUser, editUser, deleteUser };
+export default {
+  getUserByFirebaseUid,
+  getUserById,
+  addNewUser,
+  getUserDashboardData,
+  editUser,
+  deleteUser
+};

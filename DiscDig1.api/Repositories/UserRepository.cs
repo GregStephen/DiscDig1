@@ -63,6 +63,56 @@ namespace DiscDig1.Repositories
             }
         }
 
+        public DashboardData GetUsersDashboardData(Guid userId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var dashboardData = new DashboardData();
+                dashboardData.TopGenre = GetUsersTopGenre(userId);
+                dashboardData.TopArtist = GetUsersTopArtist(userId);
+                return dashboardData;
+            }
+        }
+
+        public TopGenre GetUsersTopGenre(Guid userId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT TOP(1) g.Name AS Genre, Count(*) AS TotalInCollection
+                            FROM [Collection] c
+                            JOIN [CollectionAlbum] ca
+                            ON ca.CollectionId = c.Id
+                            JOIN [Album] a
+                            ON a.Id = ca.AlbumId
+                            JOIN [AlbumGenre] ag
+                            ON ag.AlbumId = a.Id
+                            JOIN [Genre] g
+                            ON g.Id = ag.GenreId
+                            WHERE c.UserId = @userId AND c.[name] = 'Main'
+                            GROUP BY g.Name
+                            ORDER BY TotalInCollection DESC";
+                var parameters = new { userId };
+                return db.QueryFirstOrDefault<TopGenre>(sql, parameters);
+            }
+        }
+
+        public TopArtist GetUsersTopArtist(Guid userId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT TOP(1) a.Artist, Count(*) as TotalInCollection 
+                            FROM [Collection] c
+                            JOIN [CollectionAlbum] ca
+                            ON ca.CollectionId = c.Id
+                            JOIN [Album] a
+                            ON a.Id = ca.AlbumId
+                            WHERE c.UserId = '88250FB2-C9DB-42C4-8F09-782AB4EB2D26' AND c.[name] = 'Main'
+                            GROUP BY a.Artist
+                            ORDER BY TotalInCollection DESC";
+                var parameters = new { userId };
+                return db.QueryFirstOrDefault<TopArtist>(sql, parameters);
+            }
+        }
         public bool EditUser(EditUserDTO editedUser)
         {
             using (var db = new SqlConnection(_connectionString))

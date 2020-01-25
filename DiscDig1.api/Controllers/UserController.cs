@@ -51,6 +51,19 @@ namespace DiscDig1.Controllers
             }
         }
 
+        [HttpGet("dashboard/{userId}")]
+        public IActionResult GetUsersDashboardData(Guid userId)
+        {
+            var dashboardData = _repo.GetUsersDashboardData(userId);
+            if (dashboardData == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(dashboardData);
+            }
+        }
         [HttpPut]
         public IActionResult EditUser(EditUserDTO editUserDto)
         {
