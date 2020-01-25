@@ -1,20 +1,94 @@
 import React from 'react';
-import { Card, CardTitle, CardText, Button } from 'reactstrap';
+import { Card, CardTitle, CardText, Button, Collapse, Form, Input, InputGroup, InputGroupAddon } from 'reactstrap';
 import './SubcollectionObject.scss';
 
 class SubcollectionObject extends React.Component {
+  state = {
+    subCollectionName: '',
+    collapse: false,
+    status: 'Closed',
+  };
+
+  componentDidMount() {
+    const {subCollection} = this.props
+    this.setState({subCollectionName: subCollection.name})
+  };
+
+  onEntering = () => {
+    this.setState({ status: 'Opening...' });
+  };
+
+  onEntered = () => {
+    this.setState({ status: 'Opened' });
+  };
+
+  onExiting = () => {
+    this.setState({ status: 'Closing...' });
+  };
+
+  onExited = () => {
+    this.setState({ status: 'Closed' });
+  };
+
+  toggle = () => {
+    this.setState(state => ({ collapse: !state.collapse }));
+  };
+
+
   deleteSubcolleciton = () => {
     const { deleteThisSub, subCollection } = this.props;
     deleteThisSub(subCollection.id);
   };
+
+  changeSubcollectionName = (e) => {
+    e.preventDefault();
+    const {subCollectionName} = this.state;
+    const {changeSubColName, subCollection} = this.props;
+    const subObj = {
+      newSubCollectionName: subCollectionName,
+      collectionId: subCollection.id
+    }
+    changeSubColName(subObj);
+    this.toggle();
+  };
   
+  subcollectionNameChange = (e) => {
+    this.setState({ subCollectionName: e.target.value })
+  };
+
   render() {
     const {subCollection} = this.props;
+    const {subCollectionName, status} = this.state;
     return (
       <div className="SubcollectionObject row">
         <Card body className="col-4">
-          <CardTitle>{subCollection.name}</CardTitle>
+        {status === 'Closed' ? <CardTitle>{subCollectionName}</CardTitle> : '' }
+          <Collapse
+          className="no-transition"
+          isOpen={this.state.collapse}
+          onEntering={this.onEntering}
+          onEntered={this.onEntered}
+          onExiting={this.onExiting}
+          onExited={this.onExited}
+          >
+            <Form onSubmit={this.changeSubcollectionName}>
+              <InputGroup>
+                <Input 
+                maxLength="30"
+                type="text"
+                name="subCollectionName"
+                id="subCollectionName"
+                value={this.state.subCollectionName}
+                onChange={this.subcollectionNameChange}/>
+                <InputGroupAddon addonType="append">
+                  <Button type="submit" className="searchBtn btn btn-success">edit</Button>
+                </InputGroupAddon>
+              </InputGroup>
+            </Form>
+          </Collapse>
           <CardText>Number of Albums: {subCollection.numberInCollection} </CardText>
+          {status === 'Closed' ? <Button className="btn-info" onClick={this.toggle}>Change Name</Button>
+          : ''}
           <Button className="btn-danger" onClick={this.deleteSubcolleciton}>Delete</Button>
         </Card>
       </div>

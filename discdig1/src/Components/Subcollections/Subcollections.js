@@ -70,6 +70,11 @@ class Subcollections extends React.Component {
     deleteSub(subId).then(this.loadPage());
   }
 
+  changeSubColName = (subObj) => {
+    const {changeSubName} = this.props;
+    changeSubName(subObj).then(this.loadPage());
+  }
+  
   render() {
     const {subCollections} = this.state;
     const createSubcollectionList = subCollections.map((subCollection) => (
@@ -77,6 +82,7 @@ class Subcollections extends React.Component {
       key={ subCollection.id }
       subCollection={ subCollection }
       deleteThisSub={ this.deleteThisSub }
+      changeSubColName={ this.changeSubColName }
       />
     ))
     return (
@@ -95,8 +101,8 @@ class Subcollections extends React.Component {
                 <Input 
                 maxLength="30"
                 type="text"
-                name="searchTerm"
-                id="searchTerm"
+                name="newSubcollectionName"
+                id="newSubcollectionName"
                 value={this.state.newSubcollection}
                 onChange={this.newSubcollectionNameChange}/>
                 <InputGroupAddon addonType="append">

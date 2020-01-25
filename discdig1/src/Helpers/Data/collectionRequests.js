@@ -58,6 +58,12 @@ const deleteThisSubcollection = id => new Promise((resolve, reject) => {
     .catch(err => reject(err));
 });
 
+const changeSubName = subObj => new Promise((resolve, reject) => {
+  axios.put(`${baseUrl}/changeSubName`, subObj)
+    .then(result => resolve(result.data))
+    .catch(err => reject(err));
+});
+
 export default {
   addAlbumToMainCollection,
   getUsersMainCollection,
@@ -68,4 +74,5 @@ export default {
   addNewSubcollection,
   addAlbumsToSubcollection,
   deleteThisSubcollection,
+  changeSubName
 };

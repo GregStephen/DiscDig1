@@ -330,5 +330,16 @@ namespace DiscDig1.Repositories
                 return (db.Execute(sql, parameters) >= 1);
             }
         }
+
+        public bool ChangeSubCollectionName(ChangeSubNameDTO changeSubNameDTO)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"UPDATE [Collection]
+                            SET [Name] = @newSubCollectionName
+                            WHERE [Id] = @collectionId";
+                return (db.Execute(sql, changeSubNameDTO) == 1);
+            }
+        }
     }
 }
