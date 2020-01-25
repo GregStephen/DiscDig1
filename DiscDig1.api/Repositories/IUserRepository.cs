@@ -14,5 +14,6 @@ namespace DiscDig1.Repositories
         bool EditUser(EditUserDTO editedUser);
         bool DeleteUser(Guid userId);
         bool AddNewUserToDatabase(NewUserDTO newUser);
+        DashboardData GetUsersDashboardData(Guid userId);
     }
 }
