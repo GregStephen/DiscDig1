@@ -46,18 +46,31 @@ class Collection extends React.Component{
   addToSubcollection = (subcollectionChoice) => {
     const { checkedAlbums } = this.state;
     const { addAlbumToSubCollection, collections } = this.props;
+    // creates an array of the ids of the albums checked
     const albumsToAdd = Object.keys(checkedAlbums).filter(function(id) {
       return checkedAlbums[id]
   })
+
+    // gets the array of albums that already exist in the chosen subcollection
     const subCollectionBeingAddedTo = collections.filter(coll => coll.id === subcollectionChoice);
     const subCollectionBeingAddedToAlbumsList = subCollectionBeingAddedTo[0].albums;
-    const albumsToAddNotDuplicated = albumsToAdd.filter(album => album !== subCollectionBeingAddedToAlbumsList.id);
-    console.error(subCollectionBeingAddedToAlbumsList, 'list');
-    console.error(albumsToAddNotDuplicated, 'not dup');
-    const objForAddingAlbum = {};
-    objForAddingAlbum.albumsToAdd = albumsToAdd;
-    objForAddingAlbum.collectionId = subcollectionChoice;
-    addAlbumToSubCollection(objForAddingAlbum);
+
+    // checks to see if each album is already in the subcollection
+    const albumsToAddNotDuplicated = [];
+    albumsToAdd.forEach((album) => {
+      const check = subCollectionBeingAddedToAlbumsList.filter(existingAlbum => existingAlbum.id === album);
+      if (check.length === 0) {
+        albumsToAddNotDuplicated.push(album);
+      }
+    })
+
+    // creates the object of albums and subcollection id to push
+    if ( albumsToAddNotDuplicated.length > 0) {
+      const objForAddingAlbum = {};
+      objForAddingAlbum.albumsToAdd = albumsToAddNotDuplicated;
+      objForAddingAlbum.collectionId = subcollectionChoice;
+      addAlbumToSubCollection(objForAddingAlbum);
+    }
     this.setState({ checkedAlbums: defaultCheckedAlbums });
   }
 
