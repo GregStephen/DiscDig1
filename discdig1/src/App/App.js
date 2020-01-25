@@ -102,7 +102,17 @@ class App extends React.Component {
       resolve('created');
     })
     .catch(err=> reject(err));
-  })
+  });
+
+  changeSubName = (subObj) => new Promise((resolve, reject) => {
+    const {userObj} = this.state;
+    collectionRequests.changeSubName(subObj)
+    .then(() => {
+      this.getAllUsersCollections(userObj)
+      resolve('changed name');
+    })
+    .catch(err => reject(err));
+  });
   
   deleteThisUser = () => {
     const {userObj} = this.state;
@@ -161,7 +171,7 @@ class App extends React.Component {
             <PrivateRoute path='/home' component={ Home } authorized={ authorized } userObj={ userObj } collections={ collections } deleteAllTheseAlbums={ this.deleteAllTheseAlbums } addSelectedAlbumsToSubCollection={ this.addSelectedAlbumsToSubCollection }/>
             <PrivateRoute path='/profile' component={ UserProfile } authorized={ authorized } userObj={ userObj } deleteThisUser={ this.deleteThisUser } editThisUser={ this.editThisUser } collections={ collections }/>
             <PrivateRoute path='/add-album' component={ AddAlbumPage } authorized={ authorized } userObj={ userObj } addThisAlbumToMain={ this.addThisAlbumToMain } collections={ collections }/>
-            <PrivateRoute path='/subcollections' component={ Subcollections } authorized={ authorized } userObj={ userObj } collections={ collections } deleteSub={ this.deleteSub } createNewSubColl={ this.createNewSubColl }/>
+            <PrivateRoute path='/subcollections' component={ Subcollections } authorized={ authorized } userObj={ userObj } collections={ collections } deleteSub={ this.deleteSub } createNewSubColl={ this.createNewSubColl } changeSubName= { this.changeSubName }/>
             <Redirect from='*' to='/auth'/>
           </Switch>
       </Router>

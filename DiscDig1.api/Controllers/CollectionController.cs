@@ -116,6 +116,18 @@ namespace DiscDig1.Controllers
             }
         }
 
+        [HttpPut("changeSubName")]
+        public IActionResult ChangeSubCollectionName(ChangeSubNameDTO changeSubNameDTO)
+        {
+            if (_repo.ChangeSubCollectionName(changeSubNameDTO))
+            {
+                return Ok();
+            }
+            else;
+            {
+                return BadRequest();
+            }
+        }
         [HttpDelete]
         public IActionResult DeleteTheseAlbumsFromTheCollection(AlbumsToDelete albumsToDelete)
         {
