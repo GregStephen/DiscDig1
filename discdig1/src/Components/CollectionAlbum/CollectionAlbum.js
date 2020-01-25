@@ -6,7 +6,34 @@ import {
 import './CollectionAlbum.scss';
 
 class CollectionAlbum extends React.Component {
+state = {
+  alreadyAddedToSub: false,
+}
 
+getAlreadyAddedStatus = () => {
+  const { collections, chosenSubcollectionId, album } = this.props;
+  const selectedCol = collections.filter(collection => collection.id === chosenSubcollectionId);
+  const albumsList = selectedCol.albums;
+  if (albumsList !== undefined) 
+  {
+    if (albumsList.some(singleAlbum => singleAlbum.discogId === album.id)) {
+      this.setState({ alreadyAddedToSub: true })
+    }
+    console.error(selectedCol)
+  }
+};
+
+  componentDidMount() {
+    this.getAlreadyAddedStatus();
+
+  };
+
+  componentDidUpdate({ chosenSubcollectionId }) {
+    if (this.props.chosenSubcollectionId !== chosenSubcollectionId) {
+      this.getAlreadyAddedStatus()
+    }
+  };
+  
   render() {
    const {album, isChecked, onCheck} = this.props;
     return (

@@ -10,11 +10,24 @@ class AddToSubcollection extends React.Component {
   }
 
   componentDidMount(){
-    const { userObj } = this.props;
-   collectionRequests.getUsersSubCollections(userObj.id)
-    .then(result => this.setState({subCollections: result}))
-    .catch(err => console.error(err));
+    this.getSubCollectionWithOutMainChoice();
   };
+  
+  getSubCollectionWithOutMainChoice = () => {
+    const { userObj, collection } = this.props;
+    collectionRequests.getUsersSubCollections(userObj.id)
+     .then((result) => {
+       const withoutMainChoiceAvailable = result.filter(res => res.id !== collection.id)
+       this.setState({subCollections: withoutMainChoiceAvailable})})
+     .catch(err => console.error(err));
+  }
+
+  componentDidUpdate({ collection }) {
+    if (this.props.collection !== collection) {
+      this.getSubCollectionWithOutMainChoice()
+    }
+  };
+  
   addToThisSubcollection = (e) => {
     e.preventDefault();
     const {chosenSubcollectionId} = this.state;
@@ -23,6 +36,8 @@ class AddToSubcollection extends React.Component {
   };
 
   changeCollectionState = (e) => {
+    const {changeSubCollection} = this.props;
+    changeSubCollection(e);
     const tempChosenCollectionId = e.target.value;
     this.setState({ chosenSubcollectionId: tempChosenCollectionId });
   };

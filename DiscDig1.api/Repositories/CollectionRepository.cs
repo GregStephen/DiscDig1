@@ -213,7 +213,16 @@ namespace DiscDig1.Repositories
             {
                 var albumId = addToSubcollection.AlbumsToAdd;
                 var collectionId = addToSubcollection.CollectionId;
-                var parameters = new { albumId, collectionId };
+                List<Object> parameters = new List<Object>();
+                foreach (Guid id in albumId)
+                {
+                    var obj = new
+                    {
+                        AlbumId = id,
+                        CollectionId = collectionId
+                    };
+                    parameters.Add(obj);
+                }
                 var sql = @"INSERT INTO [CollectionAlbum]
                             (
                                 [CollectionId],

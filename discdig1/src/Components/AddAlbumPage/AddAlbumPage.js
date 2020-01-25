@@ -9,9 +9,16 @@ import './AddAlbumPage.scss';
 
 class AddAlbumPage extends React.Component {
   state = {
-    albums: []
+    albums: [],
+    mainCollectionAlbums: []
   }
 
+  componentDidMount () {
+    const { collections }= this.props;
+    const main = collections.filter(collection => collection.name === 'Main');
+    this.setState({mainCollectionAlbums: main[0].albums });
+
+  }
   displaySearchedAlbums = (artistSearch, albumSearch) => {
     discogRequests.searchAlbums(artistSearch, albumSearch)
       .then((results) => {
@@ -34,6 +41,7 @@ class AddAlbumPage extends React.Component {
         album={ album }
         userObj={ this.props.userObj}
         addAlbToMain={ this.addAlbToMain }
+        mainCollectionAlbums={ this.state.mainCollectionAlbums }
         />
     ))
     return (
