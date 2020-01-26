@@ -15,6 +15,10 @@ class UserProfile extends React.Component {
   editTheUser = (editedUser) => {
     this.props.editThisUser(editedUser);
   }
+
+  changeAvatar = (changedAvatar) => {
+    this.props.changeThisAvatar(changedAvatar);
+  }
   render() {
     const {userObj} = this.props;
     return (
@@ -26,6 +30,7 @@ class UserProfile extends React.Component {
             avatar={ userObj.avatar }
             deleteTheUser={ this.deleteTheUser }
             editTheUser={ this.editTheUser }
+            changeAvatar={ this.changeAvatar }
             />
           </div>
           <div className="row col-sm-12 col-lg-6">

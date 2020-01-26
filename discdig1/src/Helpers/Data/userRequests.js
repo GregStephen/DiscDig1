@@ -49,11 +49,18 @@ const deleteUser = (id) => new Promise((resolve, reject) => {
     .catch(err => reject(err))
 });
 
+const changeAvatar = (avatarObj) => new Promise((resolve, reject) => {
+  axios.put(`${baseUrl}/changeAvatar`, avatarObj)
+    .then(results => resolve(results.data))
+    .catch(err => reject(err));
+});
+
 export default {
   getUserByFirebaseUid,
   getUserById,
   addNewUser,
   getUserDashboardData,
   editUser,
-  deleteUser
+  deleteUser,
+  changeAvatar
 };

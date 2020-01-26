@@ -6,8 +6,6 @@ class AvatarSelectionButton extends React.Component {
   }
   render() {
     const {avatar, index} = this.props;
-
-
     return (
       <div key={avatar.id} className="avatar col-6 col-md-4 col-lg-3 mb-4">
         <button className="avatar-btn">

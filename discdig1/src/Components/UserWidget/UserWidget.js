@@ -41,6 +41,10 @@ class UserWidget extends React.Component {
     this.props.deleteTheUser();
   };
 
+  avatarChanged = (changedAvatar) => {
+    this.props.changeAvatar(changedAvatar);
+  }
+
   render() {
     const { modalOpen } = this.state;
     const { userObj, avatar } = this.props;
@@ -61,7 +65,7 @@ class UserWidget extends React.Component {
             </ListGroup>
           </CardBody>
         </Card>
-        <Modal isOpen={this.state.userPageModalIsOpen} toggle={this.toggleModal}>
+        <Modal size='lg' isOpen={this.state.userPageModalIsOpen} toggle={this.toggleModal}>
           <ModalHeader toggle={this.userPageModalIsOpen}>
             {modalOpen === 'name' ? 'Edit Name' : 
             modalOpen === 'avatar' ? 'Change Avatar' :
@@ -71,30 +75,32 @@ class UserWidget extends React.Component {
           </ModalHeader>
           { modalOpen === 'name' ? 
             <EditUserNameModal
-            toggleModalOpen = { this.toggleModalOpen } 
-            userObj = { userObj }  
-            userEdited = { this.userEdited }                 
+            toggleModalOpen= { this.toggleModalOpen } 
+            userObj= { userObj }  
+            userEdited= { this.userEdited }                 
             /> 
             : modalOpen === 'avatar' ?
             <ChangeAvatarModal
-            toggleModalOpen = { this.toggleModalOpen }
-            userObj = { userObj }
+            toggleModalOpen= { this.toggleModalOpen }
+            userObj= { userObj }
+            avatar= { avatar }
+            avatarChanged= { this.avatarChanged }
             />
             : modalOpen === 'password' ?
             <ChangePasswordModal
-            toggleModalOpen = { this.toggleModalOpen } 
-            userObj = { userObj }               
+            toggleModalOpen= { this.toggleModalOpen } 
+            userObj= { userObj }               
             />
             : modalOpen === 'email' ?
             <ChangeEmailModal
-            toggleModalOpen = { this.toggleModalOpen }
-            userObj = { userObj }
+            toggleModalOpen= { this.toggleModalOpen }
+            userObj= { userObj }
             />
             : modalOpen === 'delete' ? 
             <DeleteUserModal
-            toggleModalOpen = { this.toggleModalOpen } 
-            userObj = { userObj }
-            userDeleted = { this.userDeleted } 
+            toggleModalOpen= { this.toggleModalOpen } 
+            userObj= { userObj }
+            userDeleted= { this.userDeleted } 
             />
             : ''
           }

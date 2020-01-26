@@ -78,6 +78,19 @@ namespace DiscDig1.Controllers
             }
         }
 
+        [HttpPut("changeAvatar")]
+        public IActionResult ChangeAvatar(ChangeAvatarDTO changeAvatarDTO)
+        {
+            if (_repo.ChangeAvatar(changeAvatarDTO))
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpDelete("{userId}")]
         public IActionResult DeleteUser(Guid userId)
         {
