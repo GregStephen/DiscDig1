@@ -51,7 +51,7 @@ class MyNavbar extends React.Component {
             <NavLink tag={RRNavLink} to={'/subcollections'}>Manage Subcollections</NavLink>
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret className="navbar-user-button">
-                <img className="navbar-user-image" src={avatar.imgUrl} alt={avatar.name}></img>
+              <img className="navbar-user-image" src={avatar.imgUrl} alt={avatar.name}></img>
               </DropdownToggle>
               <DropdownMenu right>
                 <DropdownItem>

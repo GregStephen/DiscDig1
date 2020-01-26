@@ -40,7 +40,10 @@ const defaultUser = {
   firstName: '',
   lastName: '',
   firebaseUid: '',
-  avatarId: ''
+  avatar: {
+    imgUrl: '',
+    name: ''
+  }
 };
 
 class App extends React.Component {
@@ -50,15 +53,10 @@ class App extends React.Component {
     collections: []
   }
 
+  
   componentDidMount () {
     this.removeListener = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        userRequests.getUserByFirebaseUid(user.uid)
-        .then((userObj) => {
-          this.getAllUsersCollections(userObj);
-          this.setState({ authorized: true, userObj });
-        })
-        .catch(err => console.error(err))
       } else {
         this.setState({ authorized: false, userObj: defaultUser });
       }
@@ -67,6 +65,16 @@ class App extends React.Component {
 
   componentWillUnmount () {
     this.removeListener();
+  };
+
+  logIn = (email, password) => {
+    firebase.auth().signInWithEmailAndPassword(email, password)
+    .then(cred => cred.user.getIdToken())
+    .then(token => sessionStorage.setItem('token', token))
+    .then(() => userRequests.getUserByFirebaseUid(firebase.auth().currentUser.uid))
+    .then((userObj) => this.setState({ userObj }))
+    .then(() => this.setState({ authorized: true }))
+    .catch(err => this.setState({ error: err.message }))
   };
 
   getAllUsersCollections = (userObj) => {
@@ -166,8 +174,8 @@ class App extends React.Component {
       <Router>
         <MyNavbar authorized={ authorized } userObj={ userObj } userLoggedOut={ this.userLoggedOut }/>
           <Switch>
-            <PublicRoute path='/auth' component={ Auth } authorized={ authorized }/>
-            <PublicRoute path='/new-user' component={ NewUser } authorized={ authorized }/>
+            <PublicRoute path='/auth' component={ Auth } authorized={ authorized } logIn={ this.logIn }/>
+            <PublicRoute path='/new-user' component={ NewUser } authorized={ authorized } logIn={ this.logIn }/>
             <PrivateRoute path='/home' component={ Home } authorized={ authorized } userObj={ userObj } collections={ collections } deleteAllTheseAlbums={ this.deleteAllTheseAlbums } addSelectedAlbumsToSubCollection={ this.addSelectedAlbumsToSubCollection }/>
             <PrivateRoute path='/profile' component={ UserProfile } authorized={ authorized } userObj={ userObj } deleteThisUser={ this.deleteThisUser } editThisUser={ this.editThisUser } collections={ collections }/>
             <PrivateRoute path='/add-album' component={ AddAlbumPage } authorized={ authorized } userObj={ userObj } addThisAlbumToMain={ this.addThisAlbumToMain } collections={ collections }/>

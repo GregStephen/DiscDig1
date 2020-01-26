@@ -66,12 +66,15 @@ class NewUser extends React.Component {
   formSubmit = (e) => {
     e.preventDefault();
     const { email, password } = this.state;
+    const { logIn } = this.props;
     firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then(() => {
+      .then((cred) => {
+        cred.user.getIdToken()
+        .then(token => sessionStorage.setItem('token', token))
         const saveMe = { ...this.state.newUser };
         saveMe.firebaseUid = firebase.auth().currentUser.uid;
         userRequests.addNewUser(saveMe)
-          .then(() => this.props.history.push('/home'))
+          .then(() => logIn(email, password))
           .catch(err => console.error('unable to save', err));
       })
       .catch(err => this.setState({ error: err.message }));

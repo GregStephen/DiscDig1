@@ -130,7 +130,7 @@ namespace DiscDig1.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                // need to delete collections first
+                _collectionRepo.DeleteAllUsersCollections(userId);
                 var sql = @"DELETE [User]
                             WHERE Id = @userId";
                 var parameters = new { userId };
