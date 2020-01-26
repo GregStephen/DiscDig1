@@ -2,6 +2,17 @@ import axios from 'axios';
 
 const baseUrl = 'https://localhost:44370/api/user';
 
+axios.interceptors.request.use(function (request) {
+  const token = sessionStorage.getItem('token');
+
+  if (token != null) {
+      request.headers.Authorization = `Bearer ${token}`;
+  }
+  return request;
+}, function (err) {
+  return Promise.reject(err);
+});
+
 const getUserByFirebaseUid = uid => new Promise((resolve, reject) => {
   axios.get(`${baseUrl}/uid/${uid}`)
     .then(results => resolve(results.data))

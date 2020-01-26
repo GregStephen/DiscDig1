@@ -158,8 +158,6 @@ namespace DiscDig1.Repositories
                 return db.Query<SubCollectionsInfo>(sql, parameters);
             }
         }
-   
-
 
         public bool AddNewSubcollection(NewSubDTO newSubDTO)
         {
@@ -339,6 +337,23 @@ namespace DiscDig1.Repositories
                             SET [Name] = @newSubCollectionName
                             WHERE [Id] = @collectionId";
                 return (db.Execute(sql, changeSubNameDTO) == 1);
+            }
+        }
+
+        public bool DeleteAllUsersCollections(Guid userId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var collectionInfo = GetAllCollectionInfoByUserId(userId);
+                foreach(SubCollectionsInfo collInfo in collectionInfo)
+                {
+                    DeleteThisSubcollection(collInfo.Id);
+                }
+                var sql = @"DELETE
+                            FROM [Collection]
+                            WHERE [UserId] = @userId";
+                var parameters = new { userId };
+                return (db.Execute(sql, parameters) == 1);
             }
         }
     }

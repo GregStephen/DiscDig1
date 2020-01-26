@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DiscDig1.DTOS;
 using DiscDig1.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -11,8 +12,8 @@ using Microsoft.Extensions.Logging;
 namespace DiscDig1.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
-    public class UserController : ControllerBase
+    [ApiController, Authorize]
+    public class UserController : FirebaseEnabledController
     {
         private readonly ILogger<UserController> _logger;
         private readonly IUserRepository _repo;

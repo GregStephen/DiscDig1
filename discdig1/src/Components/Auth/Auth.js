@@ -1,7 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import firebase from 'firebase/app';
-import 'firebase/auth';
 
 import './Auth.scss';
 
@@ -15,10 +13,8 @@ class Auth extends React.Component {
   logIntoDiscDig = (e) => {
     e.preventDefault();
     const { email, password } = this.state;
-    firebase.auth().signInWithEmailAndPassword(email, password)
-      .then(() => {
-        this.props.history.push('/home');
-      }).catch(err => this.setState({ error: err.message }));
+    const {logIn} = this.props;
+    logIn(email, password);
   }
 
   handleChange = (e) => {
@@ -29,7 +25,8 @@ class Auth extends React.Component {
 
 
   render() {
-    const { email, password, error } = this.state;
+    const { email, password } = this.state;
+    const {error} = this.props;
     return (
       <div className="Auth">
         <h1>Auth Page</h1> 
