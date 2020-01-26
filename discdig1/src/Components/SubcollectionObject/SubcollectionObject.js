@@ -76,8 +76,8 @@ class SubcollectionObject extends React.Component {
                 <Input 
                 maxLength="30"
                 type="text"
-                name="subCollectionName"
-                id="subCollectionName"
+                name={subCollection.id}
+                id={subCollection.id}
                 value={this.state.subCollectionName}
                 onChange={this.subcollectionNameChange}/>
                 <InputGroupAddon addonType="append">

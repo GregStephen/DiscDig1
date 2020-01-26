@@ -72,7 +72,9 @@ class App extends React.Component {
     .then(cred => cred.user.getIdToken())
     .then(token => sessionStorage.setItem('token', token))
     .then(() => userRequests.getUserByFirebaseUid(firebase.auth().currentUser.uid))
-    .then((userObj) => this.setState({ userObj }))
+    .then((userObj) => {
+      this.getAllUsersCollections(userObj)
+      this.setState({ userObj })})
     .then(() => this.setState({ authorized: true }))
     .catch(err => this.setState({ error: err.message }))
   };
