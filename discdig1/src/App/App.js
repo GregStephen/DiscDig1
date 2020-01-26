@@ -168,14 +168,14 @@ class App extends React.Component {
   };
 
   render() {
-    const {authorized, userObj, collections} = this.state;
+    const {authorized, userObj, collections, error} = this.state;
     return (
       <div className="App">
       <Router>
         <MyNavbar authorized={ authorized } userObj={ userObj } userLoggedOut={ this.userLoggedOut }/>
           <Switch>
-            <PublicRoute path='/auth' component={ Auth } authorized={ authorized } logIn={ this.logIn }/>
-            <PublicRoute path='/new-user' component={ NewUser } authorized={ authorized } logIn={ this.logIn }/>
+            <PublicRoute path='/auth' component={ Auth } authorized={ authorized } logIn={ this.logIn } error={ error }/>
+            <PublicRoute path='/new-user' component={ NewUser } authorized={ authorized } logIn={ this.logIn } error={ error }/>
             <PrivateRoute path='/home' component={ Home } authorized={ authorized } userObj={ userObj } collections={ collections } deleteAllTheseAlbums={ this.deleteAllTheseAlbums } addSelectedAlbumsToSubCollection={ this.addSelectedAlbumsToSubCollection }/>
             <PrivateRoute path='/profile' component={ UserProfile } authorized={ authorized } userObj={ userObj } deleteThisUser={ this.deleteThisUser } editThisUser={ this.editThisUser } collections={ collections }/>
             <PrivateRoute path='/add-album' component={ AddAlbumPage } authorized={ authorized } userObj={ userObj } addThisAlbumToMain={ this.addThisAlbumToMain } collections={ collections }/>
