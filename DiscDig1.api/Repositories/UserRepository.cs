@@ -126,6 +126,18 @@ namespace DiscDig1.Repositories
             }
         }
 
+        public bool ChangeAvatar(ChangeAvatarDTO changeAvatarDTO)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"UPDATE [User]
+                            SET
+                                [AvatarId] = @avatarId
+                            WHERE [Id] = @userId";
+                return (db.Execute(sql, changeAvatarDTO) == 1);
+            }
+        }
+
         public bool DeleteUser(Guid userId)
         {
             using (var db = new SqlConnection(_connectionString))
