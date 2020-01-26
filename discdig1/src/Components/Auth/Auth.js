@@ -7,8 +7,14 @@ class Auth extends React.Component {
   state = {
     email: '',
     password: '',
-    error: ''
+    errorMsg: ''
   }
+
+  componentDidUpdate({ error }) {
+    if (this.props.error !== error) {
+      this.setState({ errorMsg: this.props.error });
+    }
+  };
 
   logIntoDiscDig = (e) => {
     e.preventDefault();
@@ -25,8 +31,7 @@ class Auth extends React.Component {
 
 
   render() {
-    const { email, password } = this.state;
-    const {error} = this.props;
+    const { email, password, errorMsg } = this.state;
     return (
       <div className="Auth">
         <h1>Auth Page</h1> 
@@ -57,7 +62,7 @@ class Auth extends React.Component {
               />
             </div>
             <button type="submit" className="btn btn-success">Log In</button>
-            <p className="error">{error}</p>
+            <p className="error">{errorMsg}</p>
           </form>
       </div>
     )
