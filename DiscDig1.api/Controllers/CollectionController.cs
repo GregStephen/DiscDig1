@@ -78,6 +78,21 @@ namespace DiscDig1.Controllers
             }
         }
 
+        [HttpGet("search/q={term}&collection={id}")]
+        public IActionResult SearchThruCollection(string term, Guid id)
+        {
+            var result = _repo.SearchThruCollection(term, id);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(result);
+            }
+        }
+        
+
         [HttpPost]
         public IActionResult AddNewAlbumToCollection(AlbumToCollectionDTO albumToCollectionDTO)
         {

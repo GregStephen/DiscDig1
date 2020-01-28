@@ -64,6 +64,15 @@ const changeSubName = subObj => new Promise((resolve, reject) => {
     .catch(err => reject(err));
 });
 
+const searchCollection = (term, collectionId) => new Promise((resolve, reject) => {
+  if (term === '') {
+    term = " "
+}
+  axios.get(`${baseUrl}/search/q=${term}&collection=${collectionId}`)
+    .then(result => resolve(result.data))
+    .catch(err => reject(err));
+})
+
 export default {
   addAlbumToMainCollection,
   getUsersMainCollection,
@@ -74,5 +83,6 @@ export default {
   addNewSubcollection,
   addAlbumsToSubcollection,
   deleteThisSubcollection,
-  changeSubName
+  changeSubName,
+  searchCollection
 };

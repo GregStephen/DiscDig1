@@ -116,6 +116,42 @@ namespace DiscDig1.Repositories
                 return collection;
             }
         }
+
+        public AlbumCollection SearchThruCollection(string term, Guid id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var collection = new AlbumCollection();
+                var regex = "%";
+                if (term != null)
+                {
+
+                    char[] charArr = term.ToCharArray();
+                    foreach (char ch in charArr)
+                    {
+                        regex += "[" + ch + "]";
+                    }
+                    regex += "%";
+                }
+                    collection.Id = id;
+                collection.Name = GetCollectionNameById(id);
+                var sql = @"SELECT a.*
+                            FROM [CollectionAlbum] ca
+                            JOIN [Album] a
+                            ON ca.AlbumId = a.Id
+                            WHERE ca.CollectionId = @id AND ([Title] LIKE @regex OR [Artist] LIKE @regex)";
+                var parameters = new { regex, id };
+                var albums = db.Query<Album>(sql, parameters).ToList();
+                foreach (Album album in albums)
+                {
+                    album.Genre = _genreRepo.GetListOfGenreNamesForAlbum(album.Id);
+                    album.Style = _styleRepo.GetListOfStyleNamesForAlbum(album.Id);
+                }
+                collection.Albums = albums;
+                collection.NumberInCollection = albums.Count;
+                return collection;
+            }
+        }
         public bool addMainCollectionForNewUser(Guid newUserId)
         {
             using (var db = new SqlConnection(_connectionString))
