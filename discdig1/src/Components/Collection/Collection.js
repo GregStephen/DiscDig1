@@ -14,10 +14,10 @@ const defaultCheckedAlbums = {
 class Collection extends React.Component{
   state = {
     checkedAlbums: defaultCheckedAlbums,
-    chosenSubcollectionId: ''
+    chosenSubcollectionId: '',
   };
 
-  componentDidUpdate({ collection }) {
+  componentDidUpdate({ collection, searchedTerm }) {
     if (this.props.collection !== collection) {
       this.setState({ checkedAlbums: defaultCheckedAlbums });
     }
@@ -80,7 +80,7 @@ changeSubCollection = (e) => {
 }
 
   render() {
-    const { collection } = this.props;
+    const { collection, searchedTerm } = this.props;
     const albums = collection.albums;
     const showCollection = albums.map((album) => (
       <CollectionAlbum
@@ -96,14 +96,17 @@ changeSubCollection = (e) => {
 
     return (
       <div className="Collection container">
-        <Button className="btn-danger" onClick={ this.deleteSelectedAlbums }>Delete Selected Albums</Button>
+  
         <AddToSubcollection 
         collection={ collection }
         addToSubcollection={ this.addToSubcollection }
         userObj= {this.props.userObj}
         changeSubCollection={ this.changeSubCollection }
         />
+        <Button className="btn-danger" onClick={ this.deleteSelectedAlbums }>Delete Selected Albums</Button>
         <p>{ collection.name }</p>
+        {searchedTerm !== '' ? <p>{collection.numberInCollection} results for { searchedTerm }</p>
+        : "" }
         <div className="row justify-content-around">
         { showCollection }
         </div>

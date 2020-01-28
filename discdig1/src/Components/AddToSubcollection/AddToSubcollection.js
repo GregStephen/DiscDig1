@@ -1,5 +1,6 @@
 import React from 'react';
 import {Form, FormGroup, Label, Input, Button} from 'reactstrap';
+import {Link} from 'react-router-dom';
 
 import collectionRequests from '../../Helpers/Data/collectionRequests';
 
@@ -45,10 +46,11 @@ class AddToSubcollection extends React.Component {
   render() {
     const {chosenSubcollectionId, subCollections} = this.state;
     return(
-      <div>
-        <Form onSubmit={this.addToThisSubcollection}>
+      <div className="row">
+        <Link className="btn btn-info" to='/subcollections'>Manage Subcollections</Link>
+        <Form onSubmit={this.addToThisSubcollection} className="col-6">
         <FormGroup>
-        <Label for="chosenSubcollectionId">Collection</Label>
+        <Label for="chosenSubcollectionId"></Label>
         <Input 
         type="select"
         name="chosenSubcollectionId"
@@ -56,7 +58,7 @@ class AddToSubcollection extends React.Component {
         value={chosenSubcollectionId}
         onChange={this.changeCollectionState}
         >
-          <option value=''>Chose a subcollection</option>
+          <option value=''>Choose a subcollection</option>
         { subCollections.map(subCollection => (
           <option key={subCollection.id} value={subCollection.id}>{subCollection.name}</option>
         )) }
