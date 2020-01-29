@@ -78,10 +78,10 @@ namespace DiscDig1.Controllers
             }
         }
 
-        [HttpGet("search/q={term}&collection={id}")]
-        public IActionResult SearchThruCollection(string term, Guid id)
+        [HttpGet("search/q={term}&collection={id}&genres")]
+        public IActionResult SearchThruCollection(string term, Guid id, [FromQuery(Name="genre")]string[] searchGenres)
         {
-            var result = _repo.SearchThruCollection(term, id);
+            var result = _repo.SearchThruCollection(term, id, searchGenres);
             if (result == null)
             {
                 return NotFound();
@@ -138,7 +138,7 @@ namespace DiscDig1.Controllers
             {
                 return Ok();
             }
-            else;
+            else
             {
                 return BadRequest();
             }

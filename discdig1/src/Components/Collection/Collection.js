@@ -17,7 +17,7 @@ class Collection extends React.Component{
     chosenSubcollectionId: '',
   };
 
-  componentDidUpdate({ collection, searchedTerm }) {
+  componentDidUpdate({ collection }) {
     if (this.props.collection !== collection) {
       this.setState({ checkedAlbums: defaultCheckedAlbums });
     }

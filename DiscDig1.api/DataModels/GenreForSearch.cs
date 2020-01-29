@@ -5,12 +5,10 @@ using System.Threading.Tasks;
 
 namespace DiscDig1.DataModels
 {
-    public class AlbumCollection
+    public class GenreForSearch
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public int NumberInCollection { get; set; }
-        public List<Album> Albums { get; set; }
-        public IEnumerable<GenreForSearch> TotalForEachGenre { get; set; }
+        public int TotalAlbums { get; set; }
     }
 }
