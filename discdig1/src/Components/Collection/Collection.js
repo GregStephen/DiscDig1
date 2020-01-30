@@ -40,7 +40,6 @@ class Collection extends React.Component{
     objectForDeletion.deleteTheseAlbums = albumsToDelete;
     deleteAlbums(objectForDeletion);
     this.setState({ checkedAlbums: defaultCheckedAlbums });
-    
   };
 
   addToSubcollection = (subcollectionChoice) => {
@@ -103,7 +102,9 @@ changeSubCollection = (e) => {
         userObj= {this.props.userObj}
         changeSubCollection={ this.changeSubCollection }
         />
-        <Button className="btn-danger" onClick={ this.deleteSelectedAlbums }>Delete Selected Albums</Button>
+        { collection.id !== undefined ? 
+          <Button className="btn-danger" onClick={ this.deleteSelectedAlbums }>Delete Selected Albums</Button> 
+        : ''}
         <p>{ collection.name }</p>
         {searchedTerm !== '' ? <p>{collection.numberInCollection} results for { searchedTerm }</p>
         : "" }
