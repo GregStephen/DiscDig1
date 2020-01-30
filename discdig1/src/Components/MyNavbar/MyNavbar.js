@@ -54,8 +54,8 @@ class MyNavbar extends React.Component {
               <img className="navbar-user-image" src={avatar.imgUrl} alt={avatar.name}></img>
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem>
-                  <Link to='/profile'>User Profile</Link>
+                <DropdownItem tag={Link} to='/profile'>
+                  User Profile
                 </DropdownItem>
                 <DropdownItem onClick={this.logMeOut}>
                     Log Out
