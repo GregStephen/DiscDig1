@@ -15,7 +15,7 @@ class GenreCheckBox extends React.Component{
           onChange= { onChange }
           checked= { !!isChecked }
           />
-          { genre.name } 
+          { genre.name } ({genre.totalAlbums})
         </Label>
       </div>
     )

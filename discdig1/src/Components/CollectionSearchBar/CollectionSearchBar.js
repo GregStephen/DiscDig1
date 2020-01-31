@@ -143,12 +143,6 @@ class CollectionSearchBar extends React.Component {
     this.setCheckboxes();
   }
 
-  componentDidUpdate({ collection }) {
-    if (this.props.collection !== collection) {
-     // this.setCheckboxes();
-    }
-  };
-
   componentWillUnmount() {
     this._isMounted = false;
   }
