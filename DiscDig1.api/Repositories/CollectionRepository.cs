@@ -117,12 +117,25 @@ namespace DiscDig1.Repositories
             }
         }
 
-        public AlbumCollection SearchThruCollection(string term, Guid id)
+        public AlbumCollection SearchThruCollection(string term, Guid id, string[] searchGenres)
         {
             using (var db = new SqlConnection(_connectionString))
             {
                 var collection = new AlbumCollection();
+                var sql = @"SELECT a.*
+                            FROM [CollectionAlbum] ca
+                            JOIN [Album] a
+                            ON ca.AlbumId = a.Id
+                            JOIN AlbumGenre ag
+                            ON a.Id = ag.AlbumId
+                            JOIN Genre g
+                            ON g.Id = ag.GenreId";
+                var whereStatement = " WHERE ca.CollectionId = @id ";
                 var regex = "%";
+                if (searchGenres.Length != 0)
+                {
+                    whereStatement += "AND g.id in @searchGenres";
+                }
                 if (term != null)
                 {
 
@@ -132,23 +145,31 @@ namespace DiscDig1.Repositories
                         regex += "[" + ch + "]";
                     }
                     regex += "%";
+                    if (searchGenres.Length == 0)
+                    {
+                        whereStatement = " WHERE ca.CollectionId = @id AND ([Title] LIKE @regex OR [Artist] LIKE @regex)";
+                    }
+                    else
+                    {
+                        whereStatement = @" WHERE ca.CollectionId = @id AND ([Title] LIKE @regex OR [Artist] LIKE @regex)
+                                            AND g.id in @searchGenres";
+                    }
                 }
-                    collection.Id = id;
+                sql += whereStatement;
+                collection.Id = id;
                 collection.Name = GetCollectionNameById(id);
-                var sql = @"SELECT a.*
-                            FROM [CollectionAlbum] ca
-                            JOIN [Album] a
-                            ON ca.AlbumId = a.Id
-                            WHERE ca.CollectionId = @id AND ([Title] LIKE @regex OR [Artist] LIKE @regex)";
-                var parameters = new { regex, id };
+
+                var parameters = new { regex, id, searchGenres };
                 var albums = db.Query<Album>(sql, parameters).ToList();
                 foreach (Album album in albums)
                 {
                     album.Genre = _genreRepo.GetListOfGenreNamesForAlbum(album.Id);
                     album.Style = _styleRepo.GetListOfStyleNamesForAlbum(album.Id);
                 }
+                var genreTotalResults = _genreRepo.GetAlbumsInCategories(regex, id);
                 collection.Albums = albums;
                 collection.NumberInCollection = albums.Count;
+                collection.TotalForEachGenre = genreTotalResults;
                 return collection;
             }
         }

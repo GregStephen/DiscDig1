@@ -64,13 +64,31 @@ const changeSubName = subObj => new Promise((resolve, reject) => {
     .catch(err => reject(err));
 });
 
-const searchCollection = (term, collectionId) => new Promise((resolve, reject) => {
-  if (term === '') {
-    term = " "
-}
-  axios.get(`${baseUrl}/search/q=${term}&collection=${collectionId}`)
-    .then(result => resolve(result.data))
-    .catch(err => reject(err));
+const searchCollection = (term, collectionId, searchGenres) => new Promise((resolve, reject) => {
+  if (collectionId !== undefined) {
+    if (term === '') {
+      term = " ";
+    }
+    const genreIds = Object.keys(searchGenres);
+    const selectedGenres = genreIds.filter(function(id) {
+      return searchGenres[id]
+    })
+    let stringedGenres = "?";
+    selectedGenres.forEach((genre, index) => {
+      let toAdd = '';
+      if (index === 0) {
+        toAdd += `genre=${genre}`;
+      }
+      else {
+        toAdd += `&genre=${genre}`;
+      }
+      stringedGenres += toAdd;
+    })
+    console.error(term, 'term');
+      axios.get(`${baseUrl}/search/q=${term}&collection=${collectionId}&genres${stringedGenres}`)
+        .then(result => resolve(result.data))
+        .catch(err => reject(err));
+  }
 })
 
 export default {

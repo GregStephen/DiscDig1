@@ -22,41 +22,40 @@ class Home extends React.Component {
     searchedTerm: ''
   };
 
-  componentDidMount(){
-    const { collections } = this.props;
-    const subs = collections.filter(collection => collection.name !== 'Main');
-    this.setState({subCollections: subs });
-  };
-
+  // when the collections get updated by deleting an album, it rerenders it with the updated collection
   componentDidUpdate({ collections }) {
     if (this.props.collections !== collections) {
       this.showChosenCollection(this.state.collectionChoice);
     }
   };
 
-  showChosenCollection = (choice) => {
-    collectionRequests.getCollectionById(choice)
+  // Takes in an id of chosen collection and sets the state of the collection to that particular one
+  showChosenCollection = (idOfChosenCollection) => {
+    collectionRequests.getCollectionById(idOfChosenCollection)
     .then(result => this.setState({collection: result}))
     .catch(err => console.error(err));
   };
 
+  // Takes in an object and then passes it up to App.js to delete it and then rerenders with componentDidUpdate
   deleteAlbums = (objectForDeletion) => {
     const {deleteAllTheseAlbums} = this.props;
-    deleteAllTheseAlbums(objectForDeletion)
-      .then(this.showChosenCollection(this.state.collectionChoice));
+    deleteAllTheseAlbums(objectForDeletion);
   }
 
+  // sets the state of the collectionChoice for use later, passes in the actual id to the function
   changeCollectionState = (e) => {
     const tempChosenCollectionId = e.target.value;
     this.setState({ collectionChoice: tempChosenCollectionId });
     this.showChosenCollection(tempChosenCollectionId);
   };
 
+  // Passes in an object to App.js to add albums to a selected subcollection
   addAlbumToSubCollection = (objToAdd) => {
     const {addSelectedAlbumsToSubCollection} = this.props;
     addSelectedAlbumsToSubCollection(objToAdd);
   }
 
+  // sets state of the collection by what results come up from the search bar
   displaySearchedCollection = (results, term) => {
     this.setState({ collection: results, searchedTerm: term })
   }
