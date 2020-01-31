@@ -123,13 +123,11 @@ class CollectionSearchBar extends React.Component {
     genreRequests.getAllGenres()
       .then((results) => {
         results.forEach((genre) => {
-          console.error(genre, 'genre')
           genreRequests.getTotalForEachGenreByCollection(genre.id, collection.id)
           .then((result) => genre.totalAlbums = result.totalAlbums)
             })
         if (this._isMounted)
         {
-          console.error('results', results)
           this.setState({ genres: results });
           let checkboxes = {};
           results.forEach((result => {
@@ -147,7 +145,7 @@ class CollectionSearchBar extends React.Component {
 
   componentDidUpdate({ collection }) {
     if (this.props.collection !== collection) {
-      this.setCheckboxes();
+     // this.setCheckboxes();
     }
   };
 

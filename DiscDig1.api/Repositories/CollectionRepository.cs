@@ -130,11 +130,11 @@ namespace DiscDig1.Repositories
                             ON a.Id = ag.AlbumId
                             JOIN Genre g
                             ON g.Id = ag.GenreId";
-                var whereStatement = "";
+                var whereStatement = " WHERE ca.CollectionId = @id ";
                 var regex = "%";
                 if (searchGenres.Length != 0)
                 {
-                    whereStatement = " WHERE g.id in @searchGenres";
+                    whereStatement += "AND g.id in @searchGenres";
                 }
                 if (term != null)
                 {

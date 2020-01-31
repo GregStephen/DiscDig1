@@ -17,18 +17,22 @@ class Collection extends React.Component{
     chosenSubcollectionId: '',
   };
 
+  // if the collection is updated, all the checkboxes in the albums become unchecked
   componentDidUpdate({ collection }) {
     if (this.props.collection !== collection) {
       this.setState({ checkedAlbums: defaultCheckedAlbums });
     }
   };
 
+  // sets the state for whichever album is checked or then unchecked
   handleAlbumChecks = (e) => {
     const tempAlbumsChecked = { ...this.state.checkedAlbums };
     tempAlbumsChecked[e.target.id] = e.target.checked;
     this.setState({ checkedAlbums: tempAlbumsChecked });
   };
 
+  // creates an object containing all the checked albums and the collection id
+  // passes that object up to Home.js
   deleteSelectedAlbums = () => {
     const { collection, deleteAlbums } = this.props;
     const { checkedAlbums } = this.state;
@@ -39,7 +43,6 @@ class Collection extends React.Component{
     objectForDeletion.collectionId = collection.id;
     objectForDeletion.deleteTheseAlbums = albumsToDelete;
     deleteAlbums(objectForDeletion);
-    this.setState({ checkedAlbums: defaultCheckedAlbums });
   };
 
   addToSubcollection = (subcollectionChoice) => {
@@ -70,9 +73,9 @@ class Collection extends React.Component{
       objForAddingAlbum.collectionId = subcollectionChoice;
       addAlbumToSubCollection(objForAddingAlbum);
     }
-    this.setState({ checkedAlbums: defaultCheckedAlbums });
   }
 
+  // sets the state of whichever subcollection is chosen
 changeSubCollection = (e) => {
   const tempChosenCollectionId = e.target.value;
   this.setState({ chosenSubcollectionId: tempChosenCollectionId })
