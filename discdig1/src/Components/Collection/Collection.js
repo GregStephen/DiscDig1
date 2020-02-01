@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from 'reactstrap';
+import {Link} from 'react-router-dom';
 
 import CollectionAlbum from '../CollectionAlbum/CollectionAlbum';
 
@@ -98,22 +99,29 @@ changeSubCollection = (e) => {
 
     return (
       <div className="Collection container">
-  
-        <AddToSubcollection 
-        collection={ collection }
-        addToSubcollection={ this.addToSubcollection }
-        userObj= {this.props.userObj}
-        changeSubCollection={ this.changeSubCollection }
-        />
-        { collection.id !== undefined ? 
-          <Button className="btn-danger" onClick={ this.deleteSelectedAlbums }>Delete Selected Albums</Button> 
-        : ''}
-        <p>{ collection.name }</p>
-        {searchedTerm !== '' ? <p>{collection.numberInCollection} results for { searchedTerm }</p>
-        : "" }
-        <div className="row justify-content-around">
-        { showCollection }
+        <div className="row">
+        <div className="subcollection col-3">
+          <AddToSubcollection 
+          collection={ collection }
+          addToSubcollection={ this.addToSubcollection }
+          userObj= {this.props.userObj}
+          changeSubCollection={ this.changeSubCollection }
+          />
+          <Link className="btn btn-info subcollection-btn" to='/subcollections'> Manage Subcollections</Link>
+          { collection.id !== undefined ? 
+            <Button className="btn-danger subcollection-btn" onClick={ this.deleteSelectedAlbums }>Delete Selected Albums</Button> 
+          : ''}
         </div>
+        <div className="col-9">
+          <p className="collection-name">{ collection.name }</p>
+          {searchedTerm !== '' ? <p>{collection.numberInCollection} results for { searchedTerm }</p>
+          : "" }
+          <div className="row justify-content-around">
+          { showCollection }
+          </div>
+          </div>
+        </div>
+
       </div>
     )
   }

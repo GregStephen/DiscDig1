@@ -4,8 +4,13 @@ body {
  // font-family: 'Playfair Display', serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: url('https://mmmmaven.com/wp-content/uploads/1280-jp-record-shelf-1.jpg');
+  background-repeat: repeat;
 }
 
+#root {
+  height: 100%;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

@@ -69,20 +69,20 @@ class Home extends React.Component {
         <h2>Hey {userObj.firstName}</h2>
         <div className="row  justify-content-center">
         <FormGroup className="col-lg-7 col-12 ">
-        <Label for="collectionChoice"></Label>
-        <Input 
-        type="select"
-        name="collectionChoice"
-        id="collectionChoice"
-        value={collectionChoice}
-        onChange={this.changeCollectionState}
-        >
-          <option value=''>Choose a collection to display</option>
-        { collections.map(subCollection => (
-          <option key={subCollection.id} value={subCollection.id}>{subCollection.name} ({subCollection.numberInCollection})</option>
-        )) }
-        </Input>
-      </FormGroup>
+          <Label for="collectionChoice"></Label>
+          <Input 
+          type="select"
+          name="collectionChoice"
+          id="collectionChoice"
+          value={collectionChoice}
+          onChange={this.changeCollectionState}
+          >
+            <option value=''>Choose a collection to display</option>
+          { collections.map(subCollection => (
+            <option key={subCollection.id} value={subCollection.id}>{subCollection.name} ({subCollection.numberInCollection})</option>
+          )) }
+          </Input>
+         </FormGroup>
    
       <CollectionSearchBar
       displaySearchedCollection= { this.displaySearchedCollection }
@@ -90,6 +90,7 @@ class Home extends React.Component {
       />
       </div>
         <Collection
+        className="row"
         userObj={ userObj }
         collection={ collection }
         searchedTerm={ searchedTerm }

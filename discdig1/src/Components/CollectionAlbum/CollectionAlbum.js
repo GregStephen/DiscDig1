@@ -39,25 +39,28 @@ getAlreadyAddedStatus = () => {
     return (
       <div className="CollectionAlbum col-5 container">
         <Media className="row">
-          <Media left className="col-7">
-            <Media className="album-img" object src={album.imgUrl} alt={album.title}/>
+          <Media left className="col-8 row">
+            <Media className="album-img col-12" object src={album.imgUrl} alt={album.title}/>
+             <div className="col-12">
+              <Label check>
+                <Input
+                type="checkbox"
+                id= { album.id }
+                name= { album.title }
+                onChange= { onCheck }
+                checked= { !!isChecked }
+                />
+              </Label>
+              </div>
           </Media>
-          <Media body className="col-5">
+          <Media body className="col-4">
             <Media heading>
             {album.title}
             </Media>
             <p>{album.artist}</p>
             <p>Label: {album.label}</p>
             <p>Released: {album.releaseYear}</p>
-            <Label check>
-              <Input
-              type="checkbox"
-              id= { album.id }
-              name= { album.title }
-              onChange= { onCheck }
-              checked= { !!isChecked }
-              />
-            </Label>
+        
           </Media>
         </Media>
       </div>

@@ -1,12 +1,13 @@
+@import '../../styles/variables';
+
 .Auth {
-  height:100vh;
-  background-image: url('https://mmmmaven.com/wp-content/uploads/1280-jp-record-shelf-1.jpg');
+  height: 100%;
   .page {
     padding-top: 2em;
     .welcome {
       margin: auto;
       padding: 2em;
-      background-color: rgba(204, 229, 252, 0.9);
+      background-color: $background-color-transparent;
       border: 3px solid black;
       border-radius: 1em;
       .welcome-header {
@@ -19,7 +20,7 @@
     .sign-in-form {
       margin: auto;
       padding: 1em;
-      background-color: rgba(204, 229, 252, 0.9);
+      background-color: $background-color-transparent;
       border: 3px solid black;
       border-radius: 1em;
     }

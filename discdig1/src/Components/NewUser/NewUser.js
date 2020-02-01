@@ -39,11 +39,11 @@ class NewUser extends React.Component {
   // puts border on selected avatar and sets it to state
   selectAvatar = (e) => {
     e.preventDefault();
-    const avatarSelection = $('.avatar-image');
+    const avatarSelection = $('.avatar-btn');
     for (let i = 0; i < avatarSelection.length; i += 1) {
       avatarSelection[i].classList.remove('selected');
     }
-    e.target.classList.add('selected');
+    e.currentTarget.classList.add('selected');
     const tempUser = { ...this.state.newUser };
     tempUser[e.target.id] = e.target.name;
     this.setState({ newUser: tempUser });
@@ -90,13 +90,14 @@ class NewUser extends React.Component {
       avatar={ avatar }
       index={ index }
       selectAvatar={ this.selectAvatar }
+      key={ avatar.id }
       />
     ))
 
     return (
       <div className="NewUser container">
-        <h1 className="join-header">Create an account!</h1>
         <div className="new-user-form">
+        <h1 className="join-header">Create an account!</h1>
           <Form className="row justify-content-center" onSubmit={this.formSubmit}>
             <div className="form-group col-11 col-md-6 col-lg-4">
               <Label for="firstName">First Name</Label>
