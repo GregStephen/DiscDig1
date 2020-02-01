@@ -96,63 +96,65 @@ class NewUser extends React.Component {
     return (
       <div className="NewUser container">
         <h1 className="join-header">Create an account!</h1>
-        <Form className="row justify-content-center new-user-form" onSubmit={this.formSubmit}>
-          <div className="form-group col-11 col-md-6 col-lg-4">
-            <Label for="firstName">First Name</Label>
-            <Input
-            type="text"
-            className="form-control"
-            id="firstName"
-            value={newUser.firstName}
-            onChange={this.formFieldStringState}
-            placeholder="John"
-            required
-            />
-          </div>
-          <div className="form-group col-11 col-md-6 col-lg-4">
-            <Label for="lastName">Last Name</Label>
-            <Input
-            type="text"
-            className="form-control"
-            id="lastName"
-            value={newUser.lastName}
-            onChange={this.formFieldStringState}
-            placeholder="Smith"
-            required
-            />
-          </div>
-          <div className="form-group col-11 col-md-9 col-lg-8">
-            <Label for="email">Email</Label>
-            <Input
-            type="email"
-            className="form-control"
-            id="email"
-            value={email}
-            onChange={this.handleChange}
-            placeholder="John@DiscDig.com"
-            required
-            />
-          </div>
-          <div className="form-group col-11 col-md-9 col-lg-8">
-            <Label for="password">Password</Label>
-            <Input
-            type="password"
-            className="form-control"
-            id="password"
-            value={password}
-            onChange={this.handleChange}
-            required
-            />
-          </div>
-          <div className="form-group col-12 row justify-content-center">
-            <p className="avatar-select-header col-12">Select Your Avatar</p>
-            <div className="row col-10 justify-content-around">
-              { showAvatars }
+        <div className="new-user-form">
+          <Form className="row justify-content-center" onSubmit={this.formSubmit}>
+            <div className="form-group col-11 col-md-6 col-lg-4">
+              <Label for="firstName">First Name</Label>
+              <Input
+              type="text"
+              className="form-control"
+              id="firstName"
+              value={newUser.firstName}
+              onChange={this.formFieldStringState}
+              placeholder="John"
+              required
+              />
             </div>
-          </div>
-          <h2 className="error col-12">{error}</h2>
-          <Button type="submit" className="new-user-btn btn btn-success btn-lg">Get Diggin'</Button>
-        </Form>
+            <div className="form-group col-11 col-md-6 col-lg-4">
+              <Label for="lastName">Last Name</Label>
+              <Input
+              type="text"
+              className="form-control"
+              id="lastName"
+              value={newUser.lastName}
+              onChange={this.formFieldStringState}
+              placeholder="Smith"
+              required
+              />
+            </div>
+            <div className="form-group col-11 col-md-9 col-lg-8">
+              <Label for="email">Email</Label>
+              <Input
+              type="email"
+              className="form-control"
+              id="email"
+              value={email}
+              onChange={this.handleChange}
+              placeholder="John@DiscDig.com"
+              required
+              />
+            </div>
+            <div className="form-group col-11 col-md-9 col-lg-8">
+              <Label for="password">Password</Label>
+              <Input
+              type="password"
+              className="form-control"
+              id="password"
+              value={password}
+              onChange={this.handleChange}
+              required
+              />
+            </div>
+            <div className="form-group col-12 row justify-content-center">
+              <p className="avatar-select-header col-12">Select Your Avatar</p>
+              <div className="row col-10 justify-content-around">
+                { showAvatars }
+              </div>
+            </div>
+            <h2 className="error col-12">{error}</h2>
+            <Button type="submit" className="new-user-btn btn btn-success btn-lg">Get Diggin'</Button>
+          </Form>
+        </div>
       </div>
     )
   }

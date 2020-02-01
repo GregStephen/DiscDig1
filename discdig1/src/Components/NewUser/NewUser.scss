@@ -1,20 +1,21 @@
 .NewUser {
-  .selected {
-    border: 5px solid black;
-    border-radius: 5%;
-    box-shadow: 0px 0px 15px green;
-  }
-  .button {
-    background-color: none;
-    border: none;
-  }
-  .avatar-btn:focus {
-    outline: none;
-  }
-  .avatar-image {
-    outline: none;
-    padding: .75em;
-    cursor: pointer;
-    width: 100%;
+  .new-user-form {
+    padding-top: 2em;
+    background-color: rgba(204, 229, 252, 0.9);
+    border: 3px solid black;
+    border-radius: 1em;
+    .selected {
+      border: 5px solid black;
+      border-radius: 5%;
+      box-shadow: 0px 0px 15px green;
+    }
+    .btn:active {
+      border: none;
+    }
+    .avatar-image {
+      outline: none;
+      cursor: pointer;
+      width: 100%;
+    }
   }
 }
