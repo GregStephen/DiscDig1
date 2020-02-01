@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Media, Input, Label
+  Media, CustomInput, Label
   } from 'reactstrap';
 
 import './CollectionAlbum.scss';
@@ -42,7 +42,7 @@ getAlreadyAddedStatus = () => {
             <Media className="album-img col-12" object src={album.imgUrl} alt={album.title}/>
              <div className="col-12">
               <Label check>
-                <Input
+                <CustomInput
                 type="checkbox"
                 id= { album.id }
                 name= { album.title }

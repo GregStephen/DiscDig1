@@ -1,13 +1,22 @@
 .UserWidget {
   display: block;
-  .profile-avatar {
-    width: 75%;
-    margin: auto;
-  }
-  .profile-modal {
-    cursor: pointer;
-  }
-  a:not([href]):not([tabindex]):hover {
-    text-decoration: underline;
+  .user-card {
+  border: 5px solid black;
+  background-color: aliceblue;
+    .user-name {
+      font-size: 3em;
+    }
+    .profile-avatar {
+      width: 75%;
+      margin: auto;
+      margin-top: 1em;
+      margin-bottom: 1em;
+    }
+    .profile-modal {
+      cursor: pointer;
+    }
+    a:not([href]):not([tabindex]):hover {
+      text-decoration: underline;
+    }
   }
 }

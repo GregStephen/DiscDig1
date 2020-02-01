@@ -51,9 +51,9 @@ class UserWidget extends React.Component {
     const displayDate = moment(userObj.dateCreated).format('LL');
     return (
       <div className="UserWidget col-12">
-        <Card>
+        <Card className="user-card">
           <CardBody>
-            <CardTitle>{userObj.firstName} {userObj.lastName}</CardTitle>
+            <CardTitle className="user-name">{userObj.firstName} {userObj.lastName}</CardTitle>
             <CardSubtitle>Proud Digger since: {displayDate}</CardSubtitle>
             <CardImg className="profile-avatar" src={avatar.imgUrl} alt={avatar.name} />
             <ListGroup flush>
