@@ -1,11 +1,13 @@
 .Collection {
   display: block;
+  margin-bottom: 3em;
   .collection-name {
     font-size: 2em;
   }
   .subcollection {
     border: 3px solid black;
     box-shadow: 1px 3px 2px black;
+    max-height: 20em;
   }
   .subcollection-btn {
     margin: .5em;

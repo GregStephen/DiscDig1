@@ -23,7 +23,6 @@ class AddAlbumPage extends React.Component {
     discogRequests.searchAlbums(artistSearch, albumSearch)
       .then((results) => {
         this.setState({ albums: results.results });
-        console.error(results);
       })
       .catch(err => console.error(err))
   }

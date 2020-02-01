@@ -19,7 +19,6 @@ getAlreadyAddedStatus = () => {
     if (albumsList.some(singleAlbum => singleAlbum.discogId === album.id)) {
       this.setState({ alreadyAddedToSub: true })
     }
-    console.error(selectedCol)
   }
 };
 

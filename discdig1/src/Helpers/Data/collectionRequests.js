@@ -84,7 +84,6 @@ const searchCollection = (term, collectionId, searchGenres) => new Promise((reso
       }
       stringedGenres += toAdd;
     })
-    console.error(term, 'term');
       axios.get(`${baseUrl}/search/q=${term}&collection=${collectionId}&genres${stringedGenres}`)
         .then(result => resolve(result.data))
         .catch(err => reject(err));
