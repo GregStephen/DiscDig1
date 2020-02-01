@@ -17,7 +17,6 @@ const defaultCollection = {
 class Home extends React.Component {
   state = {
     collection: defaultCollection,
-    subCollections: [],
     collectionChoice: '',
     searchedTerm: ''
   };

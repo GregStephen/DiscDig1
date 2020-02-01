@@ -1,0 +1,16 @@
+@import '../../styles/variables';
+
+.Subcollections {
+  padding-top: 2em;
+  display: block;
+  height: 100vh;
+  background-color: $background-color-transparent;
+  padding-bottom: 5em;
+  .new-sub-input {
+    margin-top: 2em;
+  }
+  .subcollections-list {
+    margin-top: 5em;
+
+  }
+}
