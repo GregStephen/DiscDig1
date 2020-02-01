@@ -45,7 +45,7 @@ class NewUser extends React.Component {
     }
     e.currentTarget.classList.add('selected');
     const tempUser = { ...this.state.newUser };
-    tempUser[e.target.id] = e.target.name;
+    tempUser[e.currentTarget.id] = e.currentTarget.name;
     this.setState({ newUser: tempUser });
   }
 

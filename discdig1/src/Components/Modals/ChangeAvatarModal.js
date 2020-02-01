@@ -26,12 +26,12 @@ class ChangeAvatarModal extends React.Component {
     // puts border on selected avatar and sets it to state
     selectAvatar = (e) => {
       e.preventDefault();
-      const avatarSelection = $('.avatar-image');
+      const avatarSelection = $('.avatar-btn');
       for (let i = 0; i < avatarSelection.length; i += 1) {
         avatarSelection[i].classList.remove('selected');
       }
-      e.target.classList.add('selected');
-      const tempAvatar = e.target.name;
+      e.currentTarget.classList.add('selected');
+      const tempAvatar = e.currentTarget.name;
       this.setState({ newAvatarId: tempAvatar });
     }
 
