@@ -36,7 +36,7 @@ getAlreadyAddedStatus = () => {
   render() {
    const {album, isChecked, onCheck} = this.props;
     return (
-      <div className="CollectionAlbum col-5 container">
+      <div className="CollectionAlbum col-sm-12 col-lg-5 container">
         <Media className="row">
           <Media left className="col-8 row">
             <Media className="album-img col-12" object src={album.imgUrl} alt={album.title}/>

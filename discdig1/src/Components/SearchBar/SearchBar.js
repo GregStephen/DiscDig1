@@ -56,7 +56,7 @@ class SearchBar extends React.Component {
       <div className="SearchBar container">
         <Form onSubmit={this.searchOnSubmit} className="row">
             <Input 
-            className="col-4 offset-1"
+            className="col-sm-12 col-lg-4 offset-lg-1"
             maxLength="40"
             type="search"
             name="artistSearch"
@@ -65,7 +65,7 @@ class SearchBar extends React.Component {
             value={this.state.artistSearch}
             onChange={this.formFieldStringState}/>
             <Input 
-            className="col-4 offset-1"
+            className="col-sm-12 col-lg-4 offset-lg-1"
             maxLength="40"
             type="search"
             name="albumSearch"

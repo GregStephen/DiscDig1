@@ -167,7 +167,7 @@ class CollectionSearchBar extends React.Component {
       />
     ))
     return (
-      <div className="CollectionSearchBar col-6">
+      <div className="CollectionSearchBar col-sm-12 col-lg-6">
         <Form onSubmit={this.searchOnSubmit}>
           {collection.id === undefined ?
             <InputGroup>

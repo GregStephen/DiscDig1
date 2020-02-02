@@ -6,7 +6,7 @@ class GenreCheckBox extends React.Component{
   render() {
     const { genre, isChecked, onChange } = this.props;
     return(
-      <div className="col-4">
+      <div className="col-sm-10 col-lg-6">
         <Label check> 
           <Input
           type= "checkbox"

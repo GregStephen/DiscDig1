@@ -24,7 +24,7 @@ class UserProfile extends React.Component {
     return (
       <div className="UserProfile container">
         <div className="row">
-          <div className="row col-sm-12 col-lg-6">
+          <div className="col-sm-12 col-md-7 col-lg-6">
             <UserWidget 
             userObj={ userObj }
             avatar={ userObj.avatar }
@@ -33,7 +33,7 @@ class UserProfile extends React.Component {
             changeAvatar={ this.changeAvatar }
             />
           </div>
-          <div className="row col-sm-12 col-lg-6">
+          <div className="col-sm-12 col-md-5 col-lg-6">
             <UserDashboard
             userObj={ userObj }
             collections={ this.props.collections }

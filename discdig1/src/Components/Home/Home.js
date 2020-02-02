@@ -69,9 +69,9 @@ class Home extends React.Component {
     const { collection, collectionChoice, searchedTerm }= this.state;
 
     const returnOptions = () => {
+      if( collections.length !== 0 ) {
       const main = collections.find(collection => collection.name === 'Main');
       const subs = collections.filter(collection => collection.name !== 'Main');
-      if( main !== undefined ) {
         const options =  subs.map(subCollection => (
           <option key={subCollection.id} value={subCollection.id}>{subCollection.name} ({subCollection.numberInCollection})</option>
         ))
@@ -83,7 +83,7 @@ class Home extends React.Component {
     return (
       <div className="Home container">
         <h2>Hey {userObj.firstName}</h2>
-        <div className="row  justify-content-center">
+        <div className="row justify-content-center">
         <FormGroup className="col-lg-7 col-12 ">
           <Label for="collectionChoice"></Label>
           <Input 
