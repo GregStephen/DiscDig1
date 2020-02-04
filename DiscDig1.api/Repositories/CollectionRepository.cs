@@ -198,7 +198,7 @@ namespace DiscDig1.Repositories
             {
                 var sql = @"SELECT Id
                             FROM [Collection]
-                            WHERE [Name] = 'Main'";
+                            WHERE [Name] = 'Main' AND [UserId] = @userId";
                 var parameters = new { userId };
                 return db.QueryFirst<Guid>(sql, parameters);
             }

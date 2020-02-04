@@ -43,12 +43,11 @@ class MyNavbar extends React.Component {
     const { authorized, userObj } = this.props;
     const avatar = userObj.avatar;
     const buildNavbar = () => {
-      if (authorized && userObj !== undefined) {
         return (
           <Nav className="ml-auto" navbar>
-            <NavLink tag={RRNavLink} to={'/home'}>Home</NavLink>
-            <NavLink tag={RRNavLink} to={'/add-album'}>Add Album</NavLink>
-            <NavLink tag={RRNavLink} to={'/subcollections'}>Manage Subcollections</NavLink>
+            <NavLink className="nav-link" tag={RRNavLink} to={'/home'}>Home</NavLink>
+            <NavLink className="nav-link" tag={RRNavLink} to={'/add-album'}>Add Album</NavLink>
+            <NavLink className="nav-link" tag={RRNavLink} to={'/subcollections'}>Manage Subcollections</NavLink>
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret className="navbar-user-button">
               <img className="navbar-user-image" src={avatar.imgUrl} alt={avatar.name}></img>
@@ -64,18 +63,24 @@ class MyNavbar extends React.Component {
             </UncontrolledDropdown>
           </Nav>
         );
-      } return ('');
     };
+
 
     return (
       <div className="MyNavbar">
-        <Navbar dark color="dark" expand="md">
-          <NavbarBrand className="navbar-brand" tag={RRNavLink} to='/home'>DiscDig</NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
-            {buildNavbar()}
-          </Collapse>
-        </Navbar>
+        {authorized && userObj !== undefined ? 
+          <Navbar dark color="dark" expand="md">
+            <NavbarBrand className="navbar-brand" tag={RRNavLink} to='/home'>DiscDig</NavbarBrand>
+            <NavbarToggler onClick={this.toggle} />
+            <Collapse isOpen={this.state.isOpen} navbar>
+              {buildNavbar()}
+            </Collapse>
+          </Navbar>
+       :
+          <Navbar dark color="dark" expand="md">
+            <NavbarBrand className="navbar-brand" tag={RRNavLink} to='/home'>DiscDig</NavbarBrand>
+          </Navbar>
+        }
       </div>
     );
   }

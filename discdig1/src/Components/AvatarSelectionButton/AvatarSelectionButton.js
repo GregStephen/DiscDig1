@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'reactstrap';
 
 class AvatarSelectionButton extends React.Component {
   selectThisAvatar = (e) => {
@@ -8,16 +9,21 @@ class AvatarSelectionButton extends React.Component {
     const {avatar, index} = this.props;
     return (
       <div key={avatar.id} className="avatar col-6 col-md-4 col-lg-3 mb-4">
-        <button className="avatar-btn">
+        <Button 
+          color='link'
+          type="button" 
+          id='avatarId'
+          name={avatar.id}
+          onClick={this.selectThisAvatar}
+          className={ index === 0 ? 'avatar-btn selected' : 'avatar-btn'}
+          >
           <img 
-            id='avatarId'
-            name={avatar.id}
-            className={ index === 0 ? 'avatar-image selected' : 'avatar-image'}
             src={avatar.imgUrl}
             alt={avatar.name}
-            onClick={this.selectThisAvatar}>
+            className="avatar-image"
+            >
           </img>
-        </button>
+        </Button>
       </div>
     )
   }

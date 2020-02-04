@@ -50,6 +50,7 @@ const deleteUser = (id) => new Promise((resolve, reject) => {
 });
 
 const changeAvatar = (avatarObj) => new Promise((resolve, reject) => {
+  console.error(avatarObj);
   axios.put(`${baseUrl}/changeAvatar`, avatarObj)
     .then(results => resolve(results.data))
     .catch(err => reject(err));

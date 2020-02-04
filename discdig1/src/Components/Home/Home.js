@@ -17,7 +17,6 @@ const defaultCollection = {
 class Home extends React.Component {
   state = {
     collection: defaultCollection,
-    subCollections: [],
     collectionChoice: '',
     searchedTerm: ''
   };
@@ -31,9 +30,14 @@ class Home extends React.Component {
 
   // Takes in an id of chosen collection and sets the state of the collection to that particular one
   showChosenCollection = (idOfChosenCollection) => {
-    collectionRequests.getCollectionById(idOfChosenCollection)
-    .then(result => this.setState({collection: result}))
-    .catch(err => console.error(err));
+    if( idOfChosenCollection === '') {
+      this.setState({collection: defaultCollection })
+    }
+    else {
+      collectionRequests.getCollectionById(idOfChosenCollection)
+      .then(result => this.setState({collection: result}))
+      .catch(err => console.error(err));
+    }
   };
 
   // Takes in an object and then passes it up to App.js to delete it and then rerenders with componentDidUpdate
@@ -64,32 +68,45 @@ class Home extends React.Component {
     const { userObj, collections }= this.props;
     const { collection, collectionChoice, searchedTerm }= this.state;
 
+    const returnOptions = () => {
+      if( collections.length !== 0 ) {
+      const main = collections.find(collection => collection.name === 'Main');
+      const subs = collections.filter(collection => collection.name !== 'Main');
+        const options =  subs.map(subCollection => (
+          <option key={subCollection.id} value={subCollection.id}>{subCollection.name} ({subCollection.numberInCollection})</option>
+        ))
+        options.unshift(<option key={main.id} value={main.id}>{main.name} ({main.numberInCollection})</option>);
+        return options;
+      }
+    }
+
     return (
       <div className="Home container">
         <h2>Hey {userObj.firstName}</h2>
-        <div className="row  justify-content-center">
+        <div className="row justify-content-center">
         <FormGroup className="col-lg-7 col-12 ">
-        <Label for="collectionChoice"></Label>
-        <Input 
-        type="select"
-        name="collectionChoice"
-        id="collectionChoice"
-        value={collectionChoice}
-        onChange={this.changeCollectionState}
-        >
-          <option value=''>Choose a collection to display</option>
-        { collections.map(subCollection => (
-          <option key={subCollection.id} value={subCollection.id}>{subCollection.name} ({subCollection.numberInCollection})</option>
-        )) }
-        </Input>
-      </FormGroup>
+          <Label for="collectionChoice"></Label>
+          <Input 
+          type="select"
+          name="collectionChoice"
+          id="collectionChoice"
+          value={collectionChoice}
+          onChange={this.changeCollectionState}
+          >
+            <option value=''>Choose a collection to display</option>
+            {returnOptions()}
+
+          </Input>
+         </FormGroup>
    
       <CollectionSearchBar
       displaySearchedCollection= { this.displaySearchedCollection }
+      collectionChoice= { collectionChoice }
       collection= { collection }
       />
       </div>
         <Collection
+        className="row"
         userObj={ userObj }
         collection={ collection }
         searchedTerm={ searchedTerm }

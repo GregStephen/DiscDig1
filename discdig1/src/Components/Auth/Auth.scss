@@ -1,0 +1,29 @@
+@import '../../styles/variables';
+
+.Auth {
+  height: 100%;
+  .page {
+    padding-top: 2em;
+    .welcome {
+      margin: auto;
+      padding: 2em;
+      background-color: $background-color-transparent;
+      border: 3px solid black;
+      border-radius: 1em;
+      margin-bottom: 2em;
+      .welcome-header {
+        font-size: 3em;
+      }
+      .welcome-text {
+        font-size: 1.4em;
+      }
+    }
+    .sign-in-form {
+      margin: auto;
+      padding: 1em;
+      background-color: $background-color-transparent;
+      border: 3px solid black;
+      border-radius: 1em;
+    }
+  }
+}

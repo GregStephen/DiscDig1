@@ -47,7 +47,7 @@ class UserDashboard extends React.Component {
     const { topGenre, topArtist, genrePercentage, artistPercentage, mainCollection } = this.state;
 
     return (
-      <div className="UserDashboard col-12">
+      <div className="UserDashboard">
         <h3>Here's some info on your collection</h3>
         {mainCollection.numberInCollection > 0 ? 
           <div>

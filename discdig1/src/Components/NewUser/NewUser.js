@@ -39,13 +39,13 @@ class NewUser extends React.Component {
   // puts border on selected avatar and sets it to state
   selectAvatar = (e) => {
     e.preventDefault();
-    const avatarSelection = $('.avatar-image');
+    const avatarSelection = $('.avatar-btn');
     for (let i = 0; i < avatarSelection.length; i += 1) {
       avatarSelection[i].classList.remove('selected');
     }
-    e.target.classList.add('selected');
+    e.currentTarget.classList.add('selected');
     const tempUser = { ...this.state.newUser };
-    tempUser[e.target.id] = e.target.name;
+    tempUser[e.currentTarget.id] = e.currentTarget.name;
     this.setState({ newUser: tempUser });
   }
 
@@ -90,69 +90,72 @@ class NewUser extends React.Component {
       avatar={ avatar }
       index={ index }
       selectAvatar={ this.selectAvatar }
+      key={ avatar.id }
       />
     ))
 
     return (
       <div className="NewUser container">
+        <div className="new-user-form">
         <h1 className="join-header">Create an account!</h1>
-        <Form className="row justify-content-center new-user-form" onSubmit={this.formSubmit}>
-          <div className="form-group col-11 col-md-6 col-lg-4">
-            <Label for="firstName">First Name</Label>
-            <Input
-            type="text"
-            className="form-control"
-            id="firstName"
-            value={newUser.firstName}
-            onChange={this.formFieldStringState}
-            placeholder="John"
-            required
-            />
-          </div>
-          <div className="form-group col-11 col-md-6 col-lg-4">
-            <Label for="lastName">Last Name</Label>
-            <Input
-            type="text"
-            className="form-control"
-            id="lastName"
-            value={newUser.lastName}
-            onChange={this.formFieldStringState}
-            placeholder="Smith"
-            required
-            />
-          </div>
-          <div className="form-group col-11 col-md-9 col-lg-8">
-            <Label for="email">Email</Label>
-            <Input
-            type="email"
-            className="form-control"
-            id="email"
-            value={email}
-            onChange={this.handleChange}
-            placeholder="John@DiscDig.com"
-            required
-            />
-          </div>
-          <div className="form-group col-11 col-md-9 col-lg-8">
-            <Label for="password">Password</Label>
-            <Input
-            type="password"
-            className="form-control"
-            id="password"
-            value={password}
-            onChange={this.handleChange}
-            required
-            />
-          </div>
-          <div className="form-group col-12 row justify-content-center">
-            <p className="avatar-select-header col-12">Select Your Avatar</p>
-            <div className="row col-10 justify-content-around">
-              { showAvatars }
+          <Form className="row justify-content-center" onSubmit={this.formSubmit}>
+            <div className="form-group col-11 col-md-6 col-lg-4">
+              <Label for="firstName">First Name</Label>
+              <Input
+              type="text"
+              className="form-control"
+              id="firstName"
+              value={newUser.firstName}
+              onChange={this.formFieldStringState}
+              placeholder="John"
+              required
+              />
             </div>
-          </div>
-          <h2 className="error col-12">{error}</h2>
-          <Button type="submit" className="new-user-btn btn btn-success btn-lg">Get Diggin'</Button>
-        </Form>
+            <div className="form-group col-11 col-md-6 col-lg-4">
+              <Label for="lastName">Last Name</Label>
+              <Input
+              type="text"
+              className="form-control"
+              id="lastName"
+              value={newUser.lastName}
+              onChange={this.formFieldStringState}
+              placeholder="Smith"
+              required
+              />
+            </div>
+            <div className="form-group col-11 col-md-9 col-lg-8">
+              <Label for="email">Email</Label>
+              <Input
+              type="email"
+              className="form-control"
+              id="email"
+              value={email}
+              onChange={this.handleChange}
+              placeholder="John@DiscDig.com"
+              required
+              />
+            </div>
+            <div className="form-group col-11 col-md-9 col-lg-8">
+              <Label for="password">Password</Label>
+              <Input
+              type="password"
+              className="form-control"
+              id="password"
+              value={password}
+              onChange={this.handleChange}
+              required
+              />
+            </div>
+            <div className="form-group col-12 row justify-content-center">
+              <p className="avatar-select-header col-12">Select Your Avatar</p>
+              <div className="row col-10 justify-content-around">
+                { showAvatars }
+              </div>
+            </div>
+            <h2 className="error col-12">{error}</h2>
+            <Button type="submit" className="new-user-btn btn btn-success btn-lg">Get Diggin'</Button>
+          </Form>
+        </div>
       </div>
     )
   }

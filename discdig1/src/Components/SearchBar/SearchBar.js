@@ -54,9 +54,9 @@ class SearchBar extends React.Component {
   render() {
     return (
       <div className="SearchBar container">
-        <Form onSubmit={this.searchOnSubmit} className="row">
+        <Form onSubmit={this.searchOnSubmit} className="row justify-content-center">
             <Input 
-            className="col-4 offset-1"
+            className="col-sm-10 col-lg-4 offset-lg-1"
             maxLength="40"
             type="search"
             name="artistSearch"
@@ -65,7 +65,7 @@ class SearchBar extends React.Component {
             value={this.state.artistSearch}
             onChange={this.formFieldStringState}/>
             <Input 
-            className="col-4 offset-1"
+            className="col-sm-10 col-lg-4 offset-lg-1"
             maxLength="40"
             type="search"
             name="albumSearch"
@@ -73,7 +73,7 @@ class SearchBar extends React.Component {
             placeholder="album"
             value={this.state.albumSearch}
             onChange={this.formFieldStringState}/>
-            <Button type="submit" className="searchBtn btn btn-success col-1 offset-1">Search</Button>
+            <Button type="submit" className="searchBtn btn btn-success col-sm-3 col-lg-1 offset-lg-1">Search</Button>
         </Form>
       </div>
     )

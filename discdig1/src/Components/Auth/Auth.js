@@ -34,36 +34,44 @@ class Auth extends React.Component {
     const { email, password, errorMsg } = this.state;
     return (
       <div className="Auth">
-        <h1>Auth Page</h1> 
-        <Link className="btn btn-info col-8" to={'/new-user'}>Create an Account!</Link>
-        <form className="col-10 col-lg-4 container sign-in-form" onSubmit={this.logIntoDiscDig}>
-            <h3 className="sign-in-header">All Ready Have An Account?</h3>
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input
-              type="email"
-              className="form-control"
-              id="email"
-              value={email}
-              onChange={this.handleChange}
-              placeholder="John@DiscDig.com"
-              required
-              />
+        <div className="container">
+          <div className="page row">
+            <div className="welcome col-12 col-md-8 col-lg-6 row justify-content-center">
+              <h2 className="welcome-header">Welcome to DiscDig!</h2>
+              <p className="welcome-text">Start searching thru records and add to your own collection</p>
+              <p className="welcome-text">Create subcollections for personal favorites or albums for a certain mood</p>
+              <Link className="btn btn-info col-8" to={'/new-user'}>Create an Account!</Link>
             </div>
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input
-              type="password"
-              className="form-control"
-              id="password"
-              value={password}
-              onChange={this.handleChange}
-              required
-              />
-            </div>
-            <button type="submit" className="btn btn-success">Log In</button>
-            <p className="error">{errorMsg}</p>
-          </form>
+            <form className="col-12 col-md-8 col-lg-4 sign-in-form" onSubmit={this.logIntoDiscDig}>
+              <h3 className="sign-in-header">Already Have An Account?</h3>
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
+                <input
+                type="email"
+                className="form-control"
+                id="email"
+                value={email}
+                onChange={this.handleChange}
+                placeholder="John@DiscDig.com"
+                required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="password">Password</label>
+                <input
+                type="password"
+                className="form-control"
+                id="password"
+                value={password}
+                onChange={this.handleChange}
+                required
+                />
+              </div>
+              <button type="submit" className="btn btn-success">Log In</button>
+              <p className="error">{errorMsg}</p>
+            </form>
+          </div>
+        </div>
       </div>
     )
   }

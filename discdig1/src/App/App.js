@@ -152,12 +152,14 @@ class App extends React.Component {
       .catch(err => console.error(err));
   }
 
-  addThisAlbumToMain = (albumToAdd) => {
+  addThisAlbumToMain = (albumToAdd) => new Promise((resolve, reject) => {
     const {userObj} = this.state;
     collectionRequests.addAlbumToMainCollection(albumToAdd)
-    .then(() => this.getAllUsersCollections(userObj))
-    .catch(err => console.error(err))
-  }
+    .then(() => {
+      resolve('added');
+      this.getAllUsersCollections(userObj)})
+    .catch(err => reject(err))
+  });
 
   deleteAllTheseAlbums = (obj) => new Promise((resolve, reject) => {
     const {userObj} = this.state;

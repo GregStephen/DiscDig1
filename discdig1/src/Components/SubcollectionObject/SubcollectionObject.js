@@ -35,7 +35,7 @@ class SubcollectionObject extends React.Component {
   };
 
 
-  deleteSubcolleciton = () => {
+  deleteSubcollection = () => {
     const { deleteThisSub, subCollection } = this.props;
     deleteThisSub(subCollection.id);
   };
@@ -60,9 +60,9 @@ class SubcollectionObject extends React.Component {
     const {subCollection} = this.props;
     const {subCollectionName, status} = this.state;
     return (
-      <div className="SubcollectionObject row">
-        <Card body className="col-4">
-        {status === 'Closed' ? <CardTitle>{subCollectionName}</CardTitle> : '' }
+      <div className="SubcollectionObject col-sm-12 col-md-6 col-lg-4">
+        <Card body className="sub-object-card">
+        {status === 'Closed' ? <CardTitle className="subcollection-title">{subCollectionName}</CardTitle> : '' }
           <Collapse
           className="no-transition"
           isOpen={this.state.collapse}
@@ -89,7 +89,7 @@ class SubcollectionObject extends React.Component {
           <CardText>Number of Albums: {subCollection.numberInCollection} </CardText>
           {status === 'Closed' ? <Button className="btn-info" onClick={this.toggle}>Change Name</Button>
           : ''}
-          <Button className="btn-danger" onClick={this.deleteSubcolleciton}>Delete</Button>
+          <Button className="btn-danger" onClick={this.deleteSubcollection}>Delete</Button>
         </Card>
       </div>
     )

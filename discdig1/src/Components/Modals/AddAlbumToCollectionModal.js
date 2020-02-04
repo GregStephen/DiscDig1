@@ -26,6 +26,7 @@ const defaultAlbum = {
 class AddAlbumToCollectionModal extends React.Component {
   state = {
     newAlbum: defaultAlbum,
+    catno: '',
   };
 
   componentDidMount() {
@@ -48,7 +49,7 @@ class AddAlbumToCollectionModal extends React.Component {
        tempAlbum.discogId = result.id;
        tempAlbum.releaseYear = result.year;
        tempAlbum.label = label.name;
-       this.setState({ newAlbum : tempAlbum });
+       this.setState({ newAlbum : tempAlbum, catno: album.catno });
       });
   }
 
@@ -68,7 +69,7 @@ class AddAlbumToCollectionModal extends React.Component {
   };
 
   render() {
-    const { newAlbum } = this.state;
+    const { newAlbum, catno } = this.state;
     const genres = newAlbum.genre;
     const styles = newAlbum.style;
     const showGenres = genres.map(genre => (
@@ -83,6 +84,7 @@ class AddAlbumToCollectionModal extends React.Component {
           <Card className="col-12">
           <CardImg src={newAlbum.imgUrl} alt={newAlbum.title}/>
           <CardTitle>Are you sure you want to add this version of {newAlbum.title} to your collection?</CardTitle>
+          <CardText>Make sure that the Cat#: {catno} matches the one in your collection!</CardText>
           <CardText>Released: {newAlbum.releaseYear === 0 ? 'Unknown' : newAlbum.releaseYear}</CardText>
           <CardText>By: {newAlbum.artist}</CardText>
           { genres.length > 0 ? 

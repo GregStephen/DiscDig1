@@ -34,19 +34,27 @@ namespace DiscDig1.Repositories
         }
         public DiscogResponse GetAlbumsFromDiscog(string artistQuery, string albumQuery)
         {
-            var request = new RestRequest();
+           var request = new RestRequest();
   
-            if (artistQuery != "null")
+            if (artistQuery != "null" && albumQuery == "null")
             {
-                request.AddParameter("artist", artistQuery, ParameterType.QueryString);
+                request.AddParameter("query", artistQuery, ParameterType.QueryString);
+                request.AddParameter("type", "artist", ParameterType.QueryString);
             }
-            if (albumQuery != "null")
+            else
             {
-                request.AddParameter("release_title", albumQuery, ParameterType.QueryString);
+                request.AddParameter("type", "release", ParameterType.QueryString);
+                request.AddParameter("format", "Vinyl", ParameterType.QueryString);
+                if (artistQuery != "null")
+                {
+                    request.AddParameter("artist", artistQuery, ParameterType.QueryString);
+                }
+                if (albumQuery != "null" && albumQuery != "searchAll")
+                {
+                    request.AddParameter("release_title", albumQuery, ParameterType.QueryString);
+                }
             }
-
-            request.AddParameter("format", "Vinyl", ParameterType.QueryString);
-            request.AddParameter("type", "release", ParameterType.QueryString);
+   
             request.AddParameter("per_page", 24, ParameterType.QueryString);
             var response = _client.Get<DiscogResponse>(request);
 

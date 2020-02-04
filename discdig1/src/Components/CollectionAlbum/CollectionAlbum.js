@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Media, Input, Label
+  Media, CustomInput, Label
   } from 'reactstrap';
 
 import './CollectionAlbum.scss';
@@ -19,7 +19,6 @@ getAlreadyAddedStatus = () => {
     if (albumsList.some(singleAlbum => singleAlbum.discogId === album.id)) {
       this.setState({ alreadyAddedToSub: true })
     }
-    console.error(selectedCol)
   }
 };
 
@@ -37,27 +36,30 @@ getAlreadyAddedStatus = () => {
   render() {
    const {album, isChecked, onCheck} = this.props;
     return (
-      <div className="CollectionAlbum col-5 container">
+      <div className="CollectionAlbum col-sm-12 col-lg-5 container">
         <Media className="row">
-          <Media left className="col-7">
-            <Media className="album-img" object src={album.imgUrl} alt={album.title}/>
+          <Media left className="col-8 row">
+            <Media className="album-img col-12" object src={album.imgUrl} alt={album.title}/>
+             <div className="col-12">
+              <Label check>
+                <CustomInput
+                type="checkbox"
+                id= { album.id }
+                name= { album.title }
+                onChange= { onCheck }
+                checked= { !!isChecked }
+                />
+              </Label>
+              </div>
           </Media>
-          <Media body className="col-5">
+          <Media body className="col-4">
             <Media heading>
             {album.title}
             </Media>
             <p>{album.artist}</p>
             <p>Label: {album.label}</p>
             <p>Released: {album.releaseYear}</p>
-            <Label check>
-              <Input
-              type="checkbox"
-              id= { album.id }
-              name= { album.title }
-              onChange= { onCheck }
-              checked= { !!isChecked }
-              />
-            </Label>
+        
           </Media>
         </Media>
       </div>
