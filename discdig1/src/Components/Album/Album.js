@@ -16,6 +16,16 @@ class Album extends React.Component {
   };
 
   componentDidMount() {
+    this.checkToSeeIfAlreadyInCollection();
+  };
+
+  componentDidUpdate({ mainCollectionAlbums }) {
+    if (this.props.mainCollectionAlbums !== mainCollectionAlbums) {
+      this.checkToSeeIfAlreadyInCollection();
+    }
+  };
+
+  checkToSeeIfAlreadyInCollection = () => {
     const {mainCollectionAlbums, album } = this.props;
     if (mainCollectionAlbums.some(e => e.discogId === album.id)) {
       this.setState({ alreadyInCollection: true })
@@ -31,7 +41,7 @@ class Album extends React.Component {
   addAlbumToMain = (albumToAdd) => {
     const { addAlbToMain } = this.props;
     addAlbToMain(albumToAdd);
-  }
+  };
   
   render() {
    const {album} = this.props;
@@ -46,6 +56,7 @@ class Album extends React.Component {
             {album.title}
             </Media>
             <p>Released: {album.year === 0 ? 'Unknown' : album.year}</p>
+            <p>Cat#: {album.catno}</p>
              { this.state.alreadyInCollection ? <Button disabled >Already Added To Collection</Button>
              : <Button onClick={this.toggleModalOpen}>Add To Collection</Button>
              }

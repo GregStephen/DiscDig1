@@ -101,6 +101,7 @@ class Home extends React.Component {
    
       <CollectionSearchBar
       displaySearchedCollection= { this.displaySearchedCollection }
+      collectionChoice= { collectionChoice }
       collection= { collection }
       />
       </div>

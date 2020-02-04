@@ -43,6 +43,9 @@ namespace DiscDig1.DataModels
         public string type { get; set; }
         public int id { get; set; }
         public List<string> barcode { get; set; }
+        public object master_url { get; set; }
+        public string cover_image { get; set; }
+        public object master_id { get; set; }
     }
 
     public class DiscogResponse

@@ -1,8 +1,9 @@
 import React from 'react';
 import {Form, FormGroup, Label, Input, Button} from 'reactstrap';
 
-
 import collectionRequests from '../../Helpers/Data/collectionRequests';
+
+import './AddToSubcollection.scss';
 
 class AddToSubcollection extends React.Component {
   state = {

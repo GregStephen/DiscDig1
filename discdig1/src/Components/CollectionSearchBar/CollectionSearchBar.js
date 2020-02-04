@@ -31,8 +31,8 @@ class CollectionSearchBar extends React.Component {
     checkedGenres: defaultCheckedGenres
   }
 
-  componentDidUpdate({ collection }) {
-    if (this.props.collection !== collection) {
+  componentDidUpdate({ collectionChoice }) {
+    if (this.props.collectionChoice !== collectionChoice) {
       this.setState( { collapse: false, status: 'Closed' });
       this.resetCheckboxes();
     }

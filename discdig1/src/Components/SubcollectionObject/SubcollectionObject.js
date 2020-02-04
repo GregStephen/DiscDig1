@@ -60,7 +60,7 @@ class SubcollectionObject extends React.Component {
     const {subCollection} = this.props;
     const {subCollectionName, status} = this.state;
     return (
-      <div className="SubcollectionObject col-4">
+      <div className="SubcollectionObject col-sm-12 col-md-6 col-lg-4">
         <Card body className="sub-object-card">
         {status === 'Closed' ? <CardTitle className="subcollection-title">{subCollectionName}</CardTitle> : '' }
           <Collapse
