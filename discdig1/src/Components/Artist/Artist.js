@@ -20,7 +20,7 @@ class Artist extends React.Component {
           <Media heading>
           {artist.title}
           </Media>
-          <Button onClick={this.searchThisArtist}>View Albums by this Artist</Button>
+          <Button onClick={this.searchThisArtist} className="albums-by-btn">View Albums by this Artist</Button>
         </Media>
       </Media>
     </div>

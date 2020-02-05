@@ -34,7 +34,7 @@ class SearchBar extends React.Component {
       albumSearch = 'null'
     }
 
-    displaySearchedAlbums(artistSearch, albumSearch); 
+    displaySearchedAlbums(artistSearch, albumSearch, 1); 
   }
 
   // When the user types on the search bar it changes state and searches

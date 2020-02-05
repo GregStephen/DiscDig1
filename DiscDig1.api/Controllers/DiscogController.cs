@@ -22,10 +22,10 @@ namespace DiscDig1.Controllers
             _repo = repo;
         }
 
-        [HttpGet("artist/{artistTerm}/album/{albumTerm}")]
-        public IActionResult GetAlbumsFromDiscog(string artistTerm, string albumTerm)
+        [HttpGet("artist/{artistTerm}/album/{albumTerm}/page/{page}")]
+        public IActionResult GetAlbumsFromDiscog(string artistTerm, string albumTerm, int page)
         {
-            var response = _repo.GetAlbumsFromDiscog(artistTerm, albumTerm);
+            var response = _repo.GetAlbumsFromDiscog(artistTerm, albumTerm, page);
             if (response == null)
             {
                 return NotFound();
