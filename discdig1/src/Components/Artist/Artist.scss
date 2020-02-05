@@ -1,0 +1,15 @@
+.Artist {
+  display: block;
+  padding: .5em;
+  margin-top: 2em;
+  box-shadow: 3px 3px 3px grey;
+  border-top: .3px solid grey;
+  border-left: .3px solid grey;
+  background-color: aliceblue;
+  .artist-img {
+    margin: .5em;
+  }
+  .albums-by-btn {
+    margin-top: 2em;
+  }
+}
