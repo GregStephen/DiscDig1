@@ -126,11 +126,13 @@ class Home extends React.Component {
             collection={collection}
           />
 
-          <AddAlbumPagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            changePage={this.changePage}
-          />
+            {totalPages > 1 ? 
+                <AddAlbumPagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                changePage={this.changePage}
+              />
+              : ''}
         </div>
         <Collection
           className="row"
