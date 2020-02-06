@@ -64,7 +64,7 @@ const changeSubName = subObj => new Promise((resolve, reject) => {
     .catch(err => reject(err));
 });
 
-const searchCollection = (term, collectionId, searchGenres) => new Promise((resolve, reject) => {
+const searchCollection = (term, collectionId, searchGenres, currentPage) => new Promise((resolve, reject) => {
   if (collectionId !== undefined) {
     if (term === '') {
       term = " ";
@@ -84,7 +84,11 @@ const searchCollection = (term, collectionId, searchGenres) => new Promise((reso
       }
       stringedGenres += toAdd;
     })
-      axios.get(`${baseUrl}/search/q=${term}&collection=${collectionId}&genres${stringedGenres}`)
+    const perPage = 10;
+    if (currentPage === undefined) {
+      currentPage = 1;
+    }
+      axios.get(`${baseUrl}/search/per_page=${perPage}&current_page=${currentPage}&q=${term}&collection=${collectionId}&genres${stringedGenres}`)
         .then(result => resolve(result.data))
         .catch(err => reject(err));
   }

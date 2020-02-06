@@ -1,8 +1,8 @@
 import React from 'react';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
-import './AddAlbumPagination.scss';
+import './CollectionPagination.scss';
 
-class AddAlbumPagination extends React.Component {
+class CollectionPagination extends React.Component {
 
   handleClick(e, page) {
     e.preventDefault();
@@ -45,4 +45,4 @@ class AddAlbumPagination extends React.Component {
   }
 };
 
-export default AddAlbumPagination;
+export default CollectionPagination;

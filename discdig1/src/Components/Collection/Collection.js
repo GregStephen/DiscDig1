@@ -81,7 +81,7 @@ class Collection extends React.Component {
     const tempChosenCollectionId = e.target.value;
     this.setState({ chosenSubcollectionId: tempChosenCollectionId })
   }
-
+ 
   render() {
     const { collection, searchedTerm } = this.props;
     const albums = collection.albums;
@@ -115,7 +115,7 @@ class Collection extends React.Component {
           <div className="col-sm-12 col-lg-9">
             <p className="collection-name">{collection.name}</p>
             {searchedTerm !== '' ? <p>{collection.numberInCollection} results for {searchedTerm}</p>
-              : ""}
+            : ""}
             <div className="row justify-content-around">
               {showCollection}
             </div>

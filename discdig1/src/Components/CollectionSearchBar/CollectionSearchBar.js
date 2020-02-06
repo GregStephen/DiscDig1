@@ -83,11 +83,10 @@ class CollectionSearchBar extends React.Component {
 
   // this is the actual search function
   search = (term) => {
-    const { displaySearchedCollection, collection } = this.props;
+    const { displaySearchedCollection } = this.props;
     const { checkedGenres } = this.state;
-    collectionRequests.searchCollection(term, collection.id, checkedGenres)
-      .then((result) => {
-        displaySearchedCollection(result, term)
+    displaySearchedCollection(term, checkedGenres, 1)
+    .then((result) => {
         this.setState({ genres: result.totalForEachGenre })
       }).catch(err => console.error(err));
   }
