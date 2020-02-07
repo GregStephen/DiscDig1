@@ -33,7 +33,7 @@ class CollectionSearchBar extends React.Component {
 
   componentDidUpdate({ collectionChoice }) {
     if (this.props.collectionChoice !== collectionChoice) {
-      this.setState( { collapse: false, status: 'Closed' });
+      this.setState( { collapse: false, status: 'Closed', searchTerm: '' });
       this.resetCheckboxes();
     }
   };

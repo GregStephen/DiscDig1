@@ -42,7 +42,7 @@ class Home extends React.Component {
     }
     else {
       collectionRequests.getCollectionById(idOfChosenCollection)
-        .then(result => this.setState({ collection: result }))
+        .then(result => this.setState({ collection: result, searchedTerm: '' }))
         .catch(err => console.error(err));
     }
   };
@@ -126,6 +126,7 @@ class Home extends React.Component {
             collection={collection}
           />
 
+          <div className="col-12">
             {totalPages > 1 ? 
                 <AddAlbumPagination
                 currentPage={currentPage}
@@ -133,6 +134,7 @@ class Home extends React.Component {
                 changePage={this.changePage}
               />
               : ''}
+              </div>
         </div>
         <Collection
           className="row"

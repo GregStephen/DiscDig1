@@ -175,7 +175,7 @@ namespace DiscDig1.Repositories
                 var parameters = new { regex, id, searchGenres, currentStartNumber, perPage };
                 var totalAlbumsForSearch = db.Query<Album>(sql, parameters).ToList();
 
-                var orderByStatement = @"ORDER BY a.Artist ASC 
+                var orderByStatement = @" ORDER BY a.Artist ASC 
                                        OFFSET @currentStartNumber ROWS
                                        FETCH NEXT @perPage ROWS ONLY";
                 sql += orderByStatement;

@@ -116,37 +116,45 @@ class AddAlbumPage extends React.Component {
 
 
     const showResults = () => {
-      const {albums, artists} = this.state;
+      const { albums, artists } = this.state;
       let result = ""
       if (albums.length !== 0) {
         result = 'album'
       }
-      if (artists.length !== 0) {
+      else if (artists.length !== 0) {
         result = 'artist'
       }
-      const returnCode =
-      <div className="album-display row justify-content-around">
-        <div className="row col-12 justify-content-center">
-          <p className="col-12">{bottomNumber} - {topNumber} of {totalResults} results</p>
-          {totalPages > 1 ? 
-            <AddAlbumPagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            changePage={this.changePage}
-          />
-          : ''}
+      else {
+        result = 'no result'
+      }
+      let returnCode = '';
+      if (result === 'no result'){
+      returnCode = <h2>No results! Please refine search</h2> }
+      else {
+        returnCode =
+        <div className="album-display row justify-content-around">
+          <div className="row col-12 justify-content-center">
+            <p className="col-12">{bottomNumber} - {topNumber} of {totalResults} results</p>
+            {totalPages > 1 ?
+              <AddAlbumPagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                changePage={this.changePage}
+              />
+              : ''}
+          </div>
+            {result === 'album' ? showAlbums : result === 'artist' ? showArtists : ''}
+            <div className="row col-12 justify-content-center">
+            {totalPages > 1 ?
+              <AddAlbumPagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                changePage={this.changePage}
+              />
+              : ''}
+          </div>
         </div>
-        <div className="row col-12 justify-content-center">
-        {result === 'album' ? showAlbums : result === 'artist' ? showArtists : ''}
-        {totalPages > 1 ? 
-            <AddAlbumPagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            changePage={this.changePage}
-          />
-          : ''}
-        </div>
-      </div>
+      }
 
       return returnCode;
     };
@@ -157,9 +165,7 @@ class AddAlbumPage extends React.Component {
         <p className="add-album-title">Search by artist name, album name, or both</p>
         <SearchBar
           displaySearchedAlbums={this.displaySearchedAlbums} />
-        {albums.length !== 0 || artists.length !== 0 ?
-        showResults :
-        <h2>No results! Please refine search</h2> }
+        {showResults()}
       </div>
     )
   }
