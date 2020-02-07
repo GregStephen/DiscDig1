@@ -16,6 +16,13 @@ class AddAlbumPagination extends React.Component {
     return (
       <div className="AddAlbumPagination col">
         <Pagination aria-label="Page navigation">
+        <PaginationItem disabled={currentPage <= 1}>
+            <PaginationLink
+              onClick={e => this.handleClick(e, 1) }
+              first
+              href="#"
+            />
+          </PaginationItem>
           <PaginationItem disabled={currentPage <= 1}>
             <PaginationLink
               onClick={e => this.handleClick(e, currentPage - 1)}
@@ -36,6 +43,13 @@ class AddAlbumPagination extends React.Component {
             <PaginationLink
               onClick={e => this.handleClick(e, currentPage + 1)}
               next
+              href="#"
+            />
+          </PaginationItem>
+          <PaginationItem disabled={currentPage >= totalPages}>
+            <PaginationLink
+              onClick={e => this.handleClick(e, totalPages) }
+              last
               href="#"
             />
           </PaginationItem>
