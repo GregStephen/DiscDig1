@@ -13,7 +13,7 @@ namespace DiscDig1.Repositories
         bool AddNewAlbumToMainCollection(AlbumToCollectionDTO albumToCollectionDTO);
         AlbumCollection GetUsersMainCollection(Guid userId);
         AlbumCollection GetUsersCollectionById(Guid id);
-        AlbumCollection SearchThruCollection(string term, Guid id, string[] searchGenres);
+        AlbumCollection SearchThruCollection(string term, Guid id, string[] searchGenres, int perPage, int currentPage);
         List<AlbumCollection> GetAllCollectionsByUserId(Guid userId);
         bool DeleteTheseAlbumsFromTheCollection(AlbumsToDelete albumsToDelete);
         bool AddNewSubcollection(NewSubDTO newSubDTO);

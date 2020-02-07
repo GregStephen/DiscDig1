@@ -12,5 +12,6 @@ namespace DiscDig1.DataModels
         public int NumberInCollection { get; set; }
         public List<Album> Albums { get; set; }
         public IEnumerable<GenreForSearch> TotalForEachGenre { get; set; }
+        public DiscDigPagination Pagination { get; set; }
     }
 }

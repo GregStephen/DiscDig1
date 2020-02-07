@@ -117,10 +117,23 @@ namespace DiscDig1.Repositories
             }
         }
 
-        public AlbumCollection SearchThruCollection(string term, Guid id, string[] searchGenres)
+        public DiscDigPagination CreatePagination(int currentPage, int totalAlbums, int perPage)
+        {
+            var pagination = new DiscDigPagination();
+            pagination.CurrentPage = currentPage;
+            pagination.PerPage = perPage;
+            pagination.TotalAlbums = totalAlbums;
+            var ta = Convert.ToDecimal(totalAlbums);
+            decimal totalPages = (ta / perPage);
+            pagination.TotalPages = Decimal.ToInt32(Math.Ceiling( totalPages ));
+            return pagination;
+        }
+
+        public AlbumCollection SearchThruCollection(string term, Guid id, string[] searchGenres, int perPage, int currentPage)
         {
             using (var db = new SqlConnection(_connectionString))
             {
+                var currentStartNumber = ((perPage * currentPage) - perPage);
                 var collection = new AlbumCollection();
                 var sql = @"SELECT a.*
                             FROM [CollectionAlbum] ca
@@ -156,10 +169,16 @@ namespace DiscDig1.Repositories
                     }
                 }
                 sql += whereStatement;
+
                 collection.Id = id;
                 collection.Name = GetCollectionNameById(id);
+                var parameters = new { regex, id, searchGenres, currentStartNumber, perPage };
+                var totalAlbumsForSearch = db.Query<Album>(sql, parameters).ToList();
 
-                var parameters = new { regex, id, searchGenres };
+                var orderByStatement = @" ORDER BY a.Artist ASC 
+                                       OFFSET @currentStartNumber ROWS
+                                       FETCH NEXT @perPage ROWS ONLY";
+                sql += orderByStatement;
                 var albums = db.Query<Album>(sql, parameters).ToList();
                 foreach (Album album in albums)
                 {
@@ -168,8 +187,10 @@ namespace DiscDig1.Repositories
                 }
                 var genreTotalResults = _genreRepo.GetAlbumsInCategories(regex, id);
                 collection.Albums = albums;
-                collection.NumberInCollection = albums.Count;
+                collection.NumberInCollection = totalAlbumsForSearch.Count;
                 collection.TotalForEachGenre = genreTotalResults;
+                collection.Pagination = CreatePagination(currentPage, totalAlbumsForSearch.Count, perPage);
+
                 return collection;
             }
         }

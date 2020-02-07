@@ -114,51 +114,58 @@ class AddAlbumPage extends React.Component {
       />
     ))
 
+
+    const showResults = () => {
+      const { albums, artists } = this.state;
+      let result = ""
+      if (albums.length !== 0) {
+        result = 'album'
+      }
+      else if (artists.length !== 0) {
+        result = 'artist'
+      }
+      else {
+        result = 'no result'
+      }
+      let returnCode = '';
+      if (result === 'no result'){
+      returnCode = <h2>No results! Please refine search</h2> }
+      else {
+        returnCode =
+        <div className="album-display row justify-content-around">
+          <div className="row col-12 justify-content-center">
+            <p className="col-12">{bottomNumber} - {topNumber} of {totalResults} results</p>
+            {totalPages > 1 ?
+              <AddAlbumPagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                changePage={this.changePage}
+              />
+              : ''}
+          </div>
+            {result === 'album' ? showAlbums : result === 'artist' ? showArtists : ''}
+            <div className="row col-12 justify-content-center">
+            {totalPages > 1 ?
+              <AddAlbumPagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                changePage={this.changePage}
+              />
+              : ''}
+          </div>
+        </div>
+      }
+
+      return returnCode;
+    };
+
+
     return (
       <div className="AddAlbumPage container">
         <p className="add-album-title">Search by artist name, album name, or both</p>
         <SearchBar
           displaySearchedAlbums={this.displaySearchedAlbums} />
-        {albums.length !== 0 ?
-          <div className="album-display row justify-content-around">
-            <div className="row col-12 justify-content-center">
-              <p className="col-12">{bottomNumber} - {topNumber} of {totalResults} results</p>
-              <AddAlbumPagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                changePage={this.changePage}
-              />
-            </div>
-            {showAlbums}
-            <div className="row col-12 justify-content-center">
-              <AddAlbumPagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                changePage={this.changePage}
-              />
-            </div>
-          </div>
-          : artists.length !== 0 ?
-            <div className="album-display row justify-content-around">
-              <div className="col-12 row justify-content-center">
-                <p className="col-12">{bottomNumber} - {topNumber} of {totalResults} results</p>
-                <AddAlbumPagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  changePage={this.changePage}
-                />
-              </div>
-              {showArtists}
-              <div className="row col-12 justify-content-center">
-                <AddAlbumPagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  changePage={this.changePage}
-                />
-              </div>
-            </div>
-            : <h2>No results! Please refine search</h2>}
-
+        {showResults()}
       </div>
     )
   }
