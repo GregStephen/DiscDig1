@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, ListGroup, ListGroupItem} from 'reactstrap';
+import { Card, ListGroup, ListGroupItem } from 'reactstrap';
 
 class AlbumWidget extends React.Component {
   render() {
@@ -44,19 +44,19 @@ class AlbumWidget extends React.Component {
     return (
       <div className="AlbumWidget row">
         <Card>
-        <div className="image-holder col-12">
-          <img className="album-image" src={image.resource_url} alt={album.title}></img>
-        </div>
-        <div className="col-12">
-          <ListGroup>
-            <ListGroupItem>Artist(s): {displayArtists}</ListGroupItem>
-            <ListGroupItem>Genre: {showGenres}</ListGroupItem>
-            <ListGroupItem>Style: {showStyles}</ListGroupItem>
-            <ListGroupItem>Label: {showLabel}</ListGroupItem>
-            <ListGroupItem>Country: {album.country}</ListGroupItem>
-            <ListGroupItem>Released: {album.released}</ListGroupItem>
-          </ListGroup>
-        </div>
+          <div className="image-holder col-12">
+            <img className="album-image" src={image.resource_url} alt={album.title}></img>
+          </div>
+          <div className="col-12">
+            <ListGroup>
+              <ListGroupItem>Artist(s): {displayArtists}</ListGroupItem>
+              <ListGroupItem>Genre: {showGenres}</ListGroupItem>
+              <ListGroupItem>Style: {showStyles}</ListGroupItem>
+              <ListGroupItem>Label: {showLabel}</ListGroupItem>
+              <ListGroupItem>Country: {album.country}</ListGroupItem>
+              <ListGroupItem>Released: {album.released}</ListGroupItem>
+            </ListGroup>
+          </div>
         </Card>
       </div>
     )

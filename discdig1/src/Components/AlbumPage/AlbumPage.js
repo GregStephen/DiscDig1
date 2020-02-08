@@ -1,6 +1,8 @@
 import React from 'react';
 import { CardColumns } from 'reactstrap';
+
 import AlbumCompanies from './AlbumCompanies';
+import AlbumCredits from './AlbumCredits';
 import AlbumWidget from './AlbumWidget';
 import TrackList from './TrackList';
 
@@ -23,6 +25,12 @@ const defaultAlbum = {
     }
   ],
   country: '',
+  extraartists: [
+    {
+      name: '',
+      role: ''
+    }
+  ],
   genres: [],
   images: [
     {
@@ -67,17 +75,21 @@ class AlbumPage extends React.Component {
     return (
       <div className="AlbumPage container">
         <p className="album-title">{album.title}</p>
-          <CardColumns>
-            <AlbumWidget
-              album={album}
-            />
-            <TrackList
-              tracklist={album.tracklist}
-            />
-            <AlbumCompanies
-              companies={album.companies}
-            />
-          </CardColumns>
+        <CardColumns>
+          <AlbumWidget
+            album={album}
+          />
+          <AlbumCredits
+            albumCredits={album.extraartists}
+          />
+          <TrackList
+            tracklist={album.tracklist}
+          />
+          <AlbumCompanies
+            companies={album.companies}
+          />
+
+        </CardColumns>
       </div>
     )
   }

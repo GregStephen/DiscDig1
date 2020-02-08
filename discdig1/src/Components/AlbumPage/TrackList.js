@@ -14,17 +14,17 @@ class TrackList extends React.Component {
     return (
       <div className="TrackList">
         <Card>
-        <Table size="sm">
-          <thead>
-            <tr>
-              <th>Track # </th>
-              <th>Track Name</th>
-            </tr>
-          </thead>
-          <tbody>
-            {createTableBody}
-          </tbody>
-        </Table>
+          <Table size="sm">
+            <thead>
+              <tr>
+                <th>Track # </th>
+                <th>Track Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              {createTableBody}
+            </tbody>
+          </Table>
         </Card>
       </div>
     )
