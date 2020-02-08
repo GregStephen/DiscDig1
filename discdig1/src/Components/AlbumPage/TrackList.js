@@ -1,11 +1,11 @@
 import React from 'react';
-import { Table } from 'reactstrap';
+import { Card, Table } from 'reactstrap';
 
 class TrackList extends React.Component {
   render() {
     const { tracklist } = this.props;
-    const createTableBody = tracklist.map((track) => (
-      <tr>
+    const createTableBody = tracklist.map((track, i) => (
+      <tr key={i}>
         <th scope="row">{track.position}</th>
         <td>{track.title}</td>
       </tr>
@@ -13,6 +13,7 @@ class TrackList extends React.Component {
 
     return (
       <div className="TrackList">
+        <Card>
         <Table size="sm">
           <thead>
             <tr>
@@ -24,6 +25,7 @@ class TrackList extends React.Component {
             {createTableBody}
           </tbody>
         </Table>
+        </Card>
       </div>
     )
   }

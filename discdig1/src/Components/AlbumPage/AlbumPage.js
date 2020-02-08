@@ -1,5 +1,7 @@
 import React from 'react';
-
+import { CardColumns } from 'reactstrap';
+import AlbumCompanies from './AlbumCompanies';
+import AlbumWidget from './AlbumWidget';
 import TrackList from './TrackList';
 
 import discogRequests from '../../Helpers/Data/discogRequests';
@@ -14,13 +16,18 @@ const defaultAlbum = {
       id: 0
     }
   ],
-  companies: [],
+  companies: [
+    {
+      entity_type_name: '',
+      name: ''
+    }
+  ],
   country: '',
   genres: [],
   images: [
     {
       resource_url: '',
-      type: '',
+      type: 'primary',
     }
   ],
   labels: [
@@ -57,43 +64,20 @@ class AlbumPage extends React.Component {
 
   render() {
     const { album } = this.state;
-    const displayArtists = album.artists.map((artist) => (
-      <li key={artist.id}>{artist.name}</li>
-    ));
-    const showGenres = album.genres.map((genre, i) => {
-      if (i === 0) {
-       return `${genre}`
-      }
-      else {
-       return `, ${genre}`
-      }
-    });
-
-    const showStyles = album.styles.map((style, i) => {
-      if (i === 0) {
-        return `${style}`
-      }
-      else {
-        return `, ${style}`
-      }
-    });
-
-    console.error(album);
     return (
-      <div className="AlbumPage">
-        <p>Album Page</p>
-        <p>{album.title}</p>
-        <ul>
-          {displayArtists}
-        </ul>
-        <p>Released in {album.country}, {album.released}</p>
-        <p>Genres: {showGenres}</p>
-        <p>Styles: {showStyles}</p>
-        <div className="tracks">
-            <TrackList 
-            tracklist = {album.tracklist}
+      <div className="AlbumPage container">
+        <p className="album-title">{album.title}</p>
+          <CardColumns>
+            <AlbumWidget
+              album={album}
             />
-        </div>
+            <TrackList
+              tracklist={album.tracklist}
+            />
+            <AlbumCompanies
+              companies={album.companies}
+            />
+          </CardColumns>
       </div>
     )
   }
