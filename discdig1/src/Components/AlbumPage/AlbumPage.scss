@@ -1,0 +1,57 @@
+@import '../../styles/variables';
+
+.AlbumPage {
+  display: block;
+  height: 100%;
+  background-color: $background-color;
+  .card {
+    background-color: transparent;
+    border: none;
+    width:100%;
+  }
+  .album-title {
+    font-size: 2em;
+  }
+  .card-columns {
+    column-count: 1;
+    @media (min-width: 768px) {
+      column-count:2;
+      }
+
+  }
+  Table {
+    background-color: $secondary-background-color;
+    thead {
+      background-color: grey;
+    }
+  }
+  .album-image {
+    width: 100%;
+  }
+  .list-group-item {
+    background-color: $secondary-background-color;
+  }
+  .card-title {
+    background-color: grey;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 0;
+  }
+}
+
+.AlbumWidget {
+  display: inline-block;
+  width:100%;
+}
+.TrackList {
+  display: inline-block;
+  width:100%;
+}
+.AlbumCompanies {
+  display: inline-block;
+  width:100%;
+}
+.AlbumCredits {
+  display: inline-block;
+  width:100%;
+}

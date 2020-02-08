@@ -12,6 +12,8 @@ import {
 
 import discogRequests from '../../Helpers/Data/discogRequests'; 
 
+import './Modal.scss';
+
 const defaultAlbum = {
   title: '',
   imgUrl: '',

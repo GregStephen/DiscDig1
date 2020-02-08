@@ -1,3 +1,5 @@
+@import '../../styles/variables';
+
 .Album {
   display: block;
   padding: .5em;
@@ -5,7 +7,7 @@
   box-shadow: 3px 3px 3px grey;
   border-top: .3px solid grey;
   border-left: .3px solid grey;
-  background-color: aliceblue;
+  background-color: $secondary-background-color;
   .album-img {
     margin: .5em;
   }

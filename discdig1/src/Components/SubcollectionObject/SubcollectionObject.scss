@@ -1,3 +1,5 @@
+@import '../../styles/variables';
+
 .SubcollectionObject {
   display: block;
   margin-bottom: 1em;
@@ -5,7 +7,7 @@
     margin-bottom: .25em;
   }
   .sub-object-card {
-    background-color: aliceblue;
+    background-color: $secondary-background-color;
     box-shadow: 3px 3px 3px grey;
     .subcollection-title {
       font-size: 2em;

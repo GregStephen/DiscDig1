@@ -1,0 +1,10 @@
+@import '../../styles/variables';
+
+.modal-body {
+  background-color: $secondary-background-color;
+  .carousel-item {
+    img {
+      width: 100%;
+    }
+  }
+}
