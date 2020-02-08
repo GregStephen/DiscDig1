@@ -31,13 +31,22 @@ class AddAlbumPagination extends React.Component {
             />
           </PaginationItem>
 
-        {arrayOfPages.map((page, i) =>
+        { arrayOfPages.length > 10 ?
+        // this is when it needs to have the ... on the end that has it
+        arrayOfPages.map((page, i) =>
             <PaginationItem active={i + 1 === currentPage} key={i + 1}>
               <PaginationLink onClick={e => this.handleClick(e, i + 1)} href="#">
                 {i + 1}
               </PaginationLink>
             </PaginationItem>
-          )}
+          ) :
+          arrayOfPages.map((page, i) =>
+          <PaginationItem active={i + 1 === currentPage} key={i + 1}>
+            <PaginationLink onClick={e => this.handleClick(e, i + 1)} href="#">
+              {i + 1}
+            </PaginationLink>
+          </PaginationItem>
+        )}
 
           <PaginationItem disabled={currentPage >= totalPages}>
             <PaginationLink
