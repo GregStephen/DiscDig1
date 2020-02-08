@@ -1,5 +1,7 @@
+@import '../../styles/variables';
+
 .CollectionAlbum {
-  background-color: aliceblue;
+  background-color: $secondary-background-color;
   padding-top: 1em;
   padding-bottom: 1em;
   display: block;

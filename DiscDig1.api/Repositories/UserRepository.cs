@@ -106,7 +106,7 @@ namespace DiscDig1.Repositories
                             ON ca.CollectionId = c.Id
                             JOIN [Album] a
                             ON a.Id = ca.AlbumId
-                            WHERE c.UserId = '88250FB2-C9DB-42C4-8F09-782AB4EB2D26' AND c.[name] = 'Main'
+                            WHERE c.UserId = @userId AND c.[name] = 'Main'
                             GROUP BY a.Artist
                             ORDER BY TotalInCollection DESC";
                 var parameters = new { userId };

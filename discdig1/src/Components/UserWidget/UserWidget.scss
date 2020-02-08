@@ -1,9 +1,11 @@
+@import '../../styles/variables';
+
 .UserWidget {
   display: block;
   margin-bottom: 2em;
   .user-card {
   border: 5px solid black;
-  background-color: aliceblue;
+  background-color: $secondary-background-color;
     .user-name {
       font-size: 3em;
     }

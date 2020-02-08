@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Media, CustomInput, Label
   } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 import './CollectionAlbum.scss';
 
@@ -35,6 +36,7 @@ getAlreadyAddedStatus = () => {
   
   render() {
    const {album, isChecked, onCheck} = this.props;
+   const albumLink = `/album/${album.discogId}`;
     return (
       <div className="CollectionAlbum col-sm-12 col-lg-5 container">
         <Media className="row">
@@ -54,7 +56,7 @@ getAlreadyAddedStatus = () => {
           </Media>
           <Media body className="col-4">
             <Media heading>
-            {album.title}
+            <Link to={{ pathname: albumLink }}>{album.title}</Link>
             </Media>
             <p>{album.artist}</p>
             <p>Label: {album.label}</p>
