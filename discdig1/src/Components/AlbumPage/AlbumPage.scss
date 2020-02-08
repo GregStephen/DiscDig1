@@ -7,6 +7,7 @@
   .card {
     background-color: transparent;
     border: none;
+    width:100%;
   }
   .album-title {
     font-size: 2em;
@@ -36,4 +37,21 @@
     font-weight: bold;
     margin-bottom: 0;
   }
+}
+
+.AlbumWidget {
+  display: inline-block;
+  width:100%;
+}
+.TrackList {
+  display: inline-block;
+  width:100%;
+}
+.AlbumCompanies {
+  display: inline-block;
+  width:100%;
+}
+.AlbumCredits {
+  display: inline-block;
+  width:100%;
 }

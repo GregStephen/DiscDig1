@@ -79,16 +79,23 @@ class AlbumPage extends React.Component {
           <AlbumWidget
             album={album}
           />
-          <AlbumCredits
-            albumCredits={album.extraartists}
-          />
+          {
+            album.extraartists.length > 0 ?
+              <AlbumCredits
+                albumCredits={album.extraartists}
+              />
+              : ''
+          }
           <TrackList
             tracklist={album.tracklist}
           />
-          <AlbumCompanies
-            companies={album.companies}
-          />
-
+          {
+            album.companies.length > 0 ?
+              <AlbumCompanies
+                companies={album.companies}
+              />
+              : ''
+          }
         </CardColumns>
       </div>
     )
