@@ -4,24 +4,25 @@ import { Form, FormGroup, Input, Label } from 'reactstrap';
 class CollectionSortBtn extends React.Component {
 
   changeSortState = (e) => {
-    const {sortStateChange} = this.props;
+    const { sortStateChange } = this.props;
     sortStateChange(e.target.value);
   };
 
   render() {
     return (
-      <div>
+      <div className="col-6">
         <Form>
           <FormGroup>
-            <Label for="sortByChoice">Sort By</Label>
+            <Label for="sortByChoice"></Label>
             <Input
               type="select"
               name="select"
               id="sortByChoice"
+              bsSize="sm"
               onChange={this.changeSortState}>
               <option value='Artist'>Artist</option>
               <option value='Title'>Album Title</option>
-              <option value='Year'>Year Released</option>
+              <option value='Year'>Year</option>
             </Input>
           </FormGroup>
         </Form>

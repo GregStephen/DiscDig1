@@ -4,19 +4,20 @@ import { Form, FormGroup, Input, Label } from 'reactstrap';
 class CollectionSortDirectionSelect extends React.Component {
 
   changeSortDirectionState = (e) => {
-    const {sortDirectionStateChange} = this.props;
+    const { sortDirectionStateChange } = this.props;
     sortDirectionStateChange(e.target.value);
   };
 
   render() {
     return (
-      <div>
+      <div className="col-6">
         <Form>
           <FormGroup>
             <Label for="sortByDirectionChoice"></Label>
             <Input
               type="select"
               name="select"
+              bsSize="sm"
               id="sortByDirectionChoice"
               onChange={this.changeSortDirectionState}>
               <option value='ASC'>ASC</option>

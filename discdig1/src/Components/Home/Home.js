@@ -59,7 +59,7 @@ class Home extends React.Component {
   // Takes in an id of chosen collection and sets the state of the collection to that particular one and resets searchedTerm state
   showChosenCollection = (idOfChosenCollection) => {
     const { collections } = this.props;
-    const {sortByChoice, sortDirectionChoice} = this.state;
+    const { sortByChoice, sortDirectionChoice } = this.state;
     const main = collections.find(collection => collection.name === 'Main');
     if (idOfChosenCollection === '') {
       this.setState({ collectionChoice: main.id })
@@ -67,14 +67,14 @@ class Home extends React.Component {
     }
 
     collectionRequests.searchCollection('', idOfChosenCollection, this.state.checkedGenres, 1, sortByChoice, sortDirectionChoice)
-        .then((result) => {
-          this.setState({
-            collection: result,
-            currentPage: result.pagination.currentPage,
-            totalPages: result.pagination.totalPages,
-            genres: result.totalForEachGenre
-          })
-        }).catch(err => console.error(err));
+      .then((result) => {
+        this.setState({
+          collection: result,
+          currentPage: result.pagination.currentPage,
+          totalPages: result.pagination.totalPages,
+          genres: result.totalForEachGenre
+        })
+      }).catch(err => console.error(err));
 
   };
 
@@ -176,13 +176,15 @@ class Home extends React.Component {
   sortStateChange = (sortType) => {
     const { searchedTerm, checkedGenres } = this.state;
     this.setState({ sortByChoice: sortType }, () => {
-      this.displaySearchedCollection(searchedTerm, checkedGenres, 1)});
+      this.displaySearchedCollection(searchedTerm, checkedGenres, 1)
+    });
   }
 
   sortDirectionStateChange = (direction) => {
     const { searchedTerm, checkedGenres } = this.state;
     this.setState({ sortDirectionChoice: direction }, () => {
-      this.displaySearchedCollection(searchedTerm, checkedGenres, 1)});
+      this.displaySearchedCollection(searchedTerm, checkedGenres, 1)
+    });
   }
   render() {
     const { userObj, collections } = this.props;
@@ -202,38 +204,43 @@ class Home extends React.Component {
 
     return (
       <div className="Home container">
-        <h2>Hey {userObj.firstName}</h2>
         <div className="row justify-content-center">
-          <FormGroup className="col-lg-7 col-12 ">
-            <Label for="collectionChoice"></Label>
-            <Input
-              type="select"
-              name="collectionChoice"
-              id="collectionChoice"
-              value={collectionChoice}
-              onChange={this.changeCollectionState}
-            >
-              {returnOptions()}
+          <FormGroup className="col-12 row justify-content-center">
+            <div className="col-6">
+              <Label for="collectionChoice"></Label>
+              <Input
+                type="select"
+                name="collectionChoice"
+                id="collectionChoice"
+                bsSize="sm"
+                value={collectionChoice}
+                onChange={this.changeCollectionState}
+              >
+                {returnOptions()}
 
-            </Input>
+              </Input>
+            </div>
           </FormGroup>
-
-          <CollectionSearchBar
-            displaySearchedCollection={this.displaySearchedCollection}
-            collectionChoice={collectionChoice}
-            collection={collection}
-            searchThisTerm={this.searchThisTerm}
-            genres={genres}
-            checkedGenres={checkedGenres}
-            resetCheckboxes={this.resetCheckboxes}
-            handleCheckbox={this.handleCheckbox}
-          />
-          <CollectionSortBtn
-            sortStateChange={this.sortStateChange}
-          />
-          <CollectionSortDirectionSelect
-            sortDirectionStateChange={this.sortDirectionStateChange}
-          />
+          <div className="col-12 row">
+            <CollectionSearchBar
+              displaySearchedCollection={this.displaySearchedCollection}
+              collectionChoice={collectionChoice}
+              collection={collection}
+              searchThisTerm={this.searchThisTerm}
+              genres={genres}
+              checkedGenres={checkedGenres}
+              resetCheckboxes={this.resetCheckboxes}
+              handleCheckbox={this.handleCheckbox}
+            />
+            <div className="col-3 row">
+              <CollectionSortBtn
+                sortStateChange={this.sortStateChange}
+              />
+              <CollectionSortDirectionSelect
+                sortDirectionStateChange={this.sortDirectionStateChange}
+              />
+            </div>
+          </div>
           <div className="col-12">
             {totalPages > 1 ?
               <AddAlbumPagination
