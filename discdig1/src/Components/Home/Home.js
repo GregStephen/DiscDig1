@@ -41,31 +41,39 @@ class Home extends React.Component {
 
   componentDidMount() {
     this.setCheckboxes();
+    if (this.props.collections.length > 0) {
+      this.showChosenCollection(this.state.collectionChoice);
+    }
   }
   // when the collections get updated by deleting an album, it rerenders it with the updated collection
   componentDidUpdate({ collections }) {
     if (this.props.collections !== collections) {
+
       this.showChosenCollection(this.state.collectionChoice);
     }
   };
 
   // Takes in an id of chosen collection and sets the state of the collection to that particular one and resets searchedTerm state
   showChosenCollection = (idOfChosenCollection) => {
+    const { collections } = this.props;
+    const main = collections.find(collection => collection.name === 'Main');
     if (idOfChosenCollection === '') {
-      this.setState({ collection: defaultCollection })
+      this.setState({ collectionChoice: main.id })
+      idOfChosenCollection = main.id
     }
-    else {
-      collectionRequests.getCollectionById(idOfChosenCollection)
-        .then(collectionRequests.searchCollection('', idOfChosenCollection, this.state.checkedGenres, 1)
+
+    collectionRequests.getCollectionById(idOfChosenCollection)
+      .then(collectionRequests.searchCollection('', idOfChosenCollection, this.state.checkedGenres, 1)
         .then((result) => {
-          this.setState({ 
-            collection: result, 
+          this.setState({
+            collection: result,
             currentPage: result.pagination.currentPage,
             totalPages: result.pagination.totalPages,
-          genres: result.totalForEachGenre })
+            genres: result.totalForEachGenre
+          })
         }).catch(err => console.error(err)))
-        .catch(err => console.error(err));
-    }
+      .catch(err => console.error(err));
+
   };
 
   // Takes in an object and then passes it up to App.js to delete it and then rerenders with componentDidUpdate
@@ -99,7 +107,7 @@ class Home extends React.Component {
         results.forEach((genre) => {
           genreSearched[genre.id] = true;
         })
-          collectionRequests.searchCollection(this.state.searchTerm, collection.id, genreSearched, 1)
+        collectionRequests.searchCollection(this.state.searchTerm, collection.id, genreSearched, 1)
           .then((result) => {
             this.setState({ genres: result.totalForEachGenre });
           })
@@ -123,12 +131,12 @@ class Home extends React.Component {
           genreRequests.getTotalForEachGenreByCollection(genre.id, collection.id)
             .then((result) => genre.totalAlbums = result.totalAlbums)
         })
-          this.setState({ genres: results });
-          let checkboxes = {};
-          results.forEach((result => {
-            checkboxes[result.id] = false
-          }))
-          this.setState({ checkedGenres: checkboxes })
+        this.setState({ genres: results });
+        let checkboxes = {};
+        results.forEach((result => {
+          checkboxes[result.id] = false
+        }))
+        this.setState({ checkedGenres: checkboxes })
       })
       .catch(err => console.error(err));
   }
@@ -139,22 +147,22 @@ class Home extends React.Component {
     addSelectedAlbumsToSubCollection(objToAdd);
   }
 
-searchThisTerm = (term) => {
-  const {checkedGenres} = this.state;
-  this.displaySearchedCollection(term, checkedGenres, 1)
-}
+  searchThisTerm = (term) => {
+    const { checkedGenres } = this.state;
+    this.displaySearchedCollection(term, checkedGenres, 1)
+  }
   // sets state of the collection by what results come up from the search bar
   displaySearchedCollection = (term, genres, page) => {
     const { collection } = this.state;
     this.setState({ searchedTerm: term });
     collectionRequests.searchCollection(term, collection.id, genres, page)
       .then((result) => {
-        this.setState({ 
-          collection: result, 
+        this.setState({
+          collection: result,
           currentPage: result.pagination.currentPage,
           totalPages: result.pagination.totalPages,
           genres: result.totalForEachGenre
-         })
+        })
       }).catch(err => console.error(err));
   };
 
@@ -192,7 +200,6 @@ searchThisTerm = (term) => {
               value={collectionChoice}
               onChange={this.changeCollectionState}
             >
-              <option value=''>Choose a collection to display</option>
               {returnOptions()}
 
             </Input>
@@ -211,14 +218,14 @@ searchThisTerm = (term) => {
           />
 
           <div className="col-12">
-            {totalPages > 1 ? 
-                <AddAlbumPagination
+            {totalPages > 1 ?
+              <AddAlbumPagination
                 currentPage={currentPage}
                 totalPages={totalPages}
                 changePage={this.changePage}
               />
               : ''}
-              </div>
+          </div>
         </div>
         <Collection
           className="row"
