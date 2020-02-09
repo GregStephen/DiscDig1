@@ -129,7 +129,7 @@ namespace DiscDig1.Repositories
             return pagination;
         }
 
-        public AlbumCollection SearchThruCollection(string term, Guid id, string[] searchGenres, int perPage, int currentPage)
+        public AlbumCollection SearchThruCollection(string term, Guid id, string[] searchGenres, int perPage, int currentPage, string sortBy, string direction)
         {
             using (var db = new SqlConnection(_connectionString))
             {
@@ -172,11 +172,32 @@ namespace DiscDig1.Repositories
 
                 collection.Id = id;
                 collection.Name = GetCollectionNameById(id);
-                var parameters = new { regex, id, searchGenres, currentStartNumber, perPage };
+                var parameters = new { regex, id, searchGenres, currentStartNumber, perPage};
                 var totalAlbumsForSearch = db.Query<Album>(sql, parameters).ToList();
 
-                var orderByStatement = @" ORDER BY a.Artist ASC 
-                                       OFFSET @currentStartNumber ROWS
+                var orderByStatement = " ORDER by";
+                if (sortBy == "Artist")
+                {
+                    orderByStatement += " a.Artist";
+                }
+                if (sortBy == "Title")
+                {
+                    orderByStatement += " a.Title";
+                }
+                if (sortBy == "Year")
+                {
+                    orderByStatement += " a.ReleaseYear";
+                }
+                if (direction == "ASC")
+                {
+                    orderByStatement += " ASC";
+                }
+                if (direction == "DESC")
+                {
+                    orderByStatement += " DESC";
+                }
+
+                orderByStatement += @" OFFSET @currentStartNumber ROWS
                                        FETCH NEXT @perPage ROWS ONLY";
                 sql += orderByStatement;
                 var albums = db.Query<Album>(sql, parameters).ToList();

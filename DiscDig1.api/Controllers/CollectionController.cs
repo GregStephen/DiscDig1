@@ -78,10 +78,10 @@ namespace DiscDig1.Controllers
             }
         }
 
-        [HttpGet("search/per_page={perPage}&current_page={currentPage}&q={term}&collection={id}&genres")]
-        public IActionResult SearchThruCollection(string term, Guid id, [FromQuery(Name="genre")]string[] searchGenres, int perPage, int currentPage)
+        [HttpGet("search/per_page={perPage}&current_page={currentPage}&q={term}&collection={id}&sortBy={sortBy}&direction={direction}&genres")]
+        public IActionResult SearchThruCollection(string term, Guid id, [FromQuery(Name="genre")]string[] searchGenres, int perPage, int currentPage, string sortBy, string direction)
         {
-            var result = _repo.SearchThruCollection(term, id, searchGenres, perPage, currentPage);
+            var result = _repo.SearchThruCollection(term, id, searchGenres, perPage, currentPage, sortBy, direction);
             if (result == null)
             {
                 return NotFound();
