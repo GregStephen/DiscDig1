@@ -3,12 +3,14 @@ import { FormGroup, Label, Input } from 'reactstrap';
 
 import Collection from '../Collection/Collection';
 import CollectionSearchBar from '../CollectionSearchBar/CollectionSearchBar';
+import CollectionSortBtn from '../CollectionSortBtn/CollectionSortBtn';
 import AddAlbumPagination from '../AddAlbumPagination/AddAlbumPagination';
 
 import collectionRequests from '../../Helpers/Data/collectionRequests';
 import genreRequests from '../../Helpers/Data/genreRequests';
 
 import './Home.scss';
+import CollectionSortDirectionSelect from '../CollectionSortDirectionBtn/CollectionSortDirectionSelect';
 
 
 const defaultCollection = {
@@ -36,7 +38,9 @@ class Home extends React.Component {
     totalPages: 0,
     currentPage: 0,
     genres: defaultGenres,
-    checkedGenres: defaultCheckedGenres
+    checkedGenres: defaultCheckedGenres,
+    sortByChoice: '',
+    sortDirectionChoice: 'ASC'
   };
 
   componentDidMount() {
@@ -171,6 +175,13 @@ class Home extends React.Component {
     this.displaySearchedCollection(searchedTerm, checkedGenres, page);
   }
 
+  sortStateChange = (sortType) => {
+    this.setState({ sortByChoice: sortType });
+  }
+
+  sortDirectionStateChange = (direction) => {
+    this.setState({sortDirectionChoice: direction})
+  }
   render() {
     const { userObj, collections } = this.props;
     const { collection, collectionChoice, searchedTerm, totalPages, currentPage, genres, checkedGenres } = this.state;
@@ -214,9 +225,13 @@ class Home extends React.Component {
             checkedGenres={checkedGenres}
             resetCheckboxes={this.resetCheckboxes}
             handleCheckbox={this.handleCheckbox}
-
           />
-
+          <CollectionSortBtn
+          sortStateChange={this.sortStateChange}
+          />
+          <CollectionSortDirectionSelect
+          sortDirectionStateChange={this.sortDirectionStateChange}
+          />
           <div className="col-12">
             {totalPages > 1 ?
               <AddAlbumPagination
