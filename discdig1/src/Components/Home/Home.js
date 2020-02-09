@@ -52,7 +52,6 @@ class Home extends React.Component {
   // when the collections get updated by deleting an album, it rerenders it with the updated collection
   componentDidUpdate({ collections }) {
     if (this.props.collections !== collections) {
-
       this.showChosenCollection(this.state.collectionChoice);
     }
   };
@@ -60,14 +59,14 @@ class Home extends React.Component {
   // Takes in an id of chosen collection and sets the state of the collection to that particular one and resets searchedTerm state
   showChosenCollection = (idOfChosenCollection) => {
     const { collections } = this.props;
+    const {sortByChoice, sortDirectionChoice} = this.state;
     const main = collections.find(collection => collection.name === 'Main');
     if (idOfChosenCollection === '') {
       this.setState({ collectionChoice: main.id })
       idOfChosenCollection = main.id
     }
 
-    collectionRequests.getCollectionById(idOfChosenCollection)
-      .then(collectionRequests.searchCollection('', idOfChosenCollection, this.state.checkedGenres, 1)
+    collectionRequests.searchCollection('', idOfChosenCollection, this.state.checkedGenres, 1, sortByChoice, sortDirectionChoice)
         .then((result) => {
           this.setState({
             collection: result,
@@ -75,8 +74,7 @@ class Home extends React.Component {
             totalPages: result.pagination.totalPages,
             genres: result.totalForEachGenre
           })
-        }).catch(err => console.error(err)))
-      .catch(err => console.error(err));
+        }).catch(err => console.error(err));
 
   };
 
@@ -103,7 +101,7 @@ class Home extends React.Component {
   }
 
   resetCheckboxes = () => {
-    const { collection } = this.state;
+    const { collection, sortByChoice, sortDirectionChoice } = this.state;
     const genreSearched = {};
     this.setState({ genres: defaultGenres })
     genreRequests.getAllGenres()
@@ -111,7 +109,7 @@ class Home extends React.Component {
         results.forEach((genre) => {
           genreSearched[genre.id] = true;
         })
-        collectionRequests.searchCollection(this.state.searchTerm, collection.id, genreSearched, 1)
+        collectionRequests.searchCollection(this.state.searchTerm, collection.id, genreSearched, 1, sortByChoice, sortDirectionChoice)
           .then((result) => {
             this.setState({ genres: result.totalForEachGenre });
           })
@@ -157,9 +155,9 @@ class Home extends React.Component {
   }
   // sets state of the collection by what results come up from the search bar
   displaySearchedCollection = (term, genres, page) => {
-    const { collection } = this.state;
+    const { collection, sortByChoice, sortDirectionChoice } = this.state;
     this.setState({ searchedTerm: term });
-    collectionRequests.searchCollection(term, collection.id, genres, page)
+    collectionRequests.searchCollection(term, collection.id, genres, page, sortByChoice, sortDirectionChoice)
       .then((result) => {
         this.setState({
           collection: result,
@@ -176,11 +174,15 @@ class Home extends React.Component {
   }
 
   sortStateChange = (sortType) => {
-    this.setState({ sortByChoice: sortType });
+    const { searchedTerm, checkedGenres } = this.state;
+    this.setState({ sortByChoice: sortType }, () => {
+      this.displaySearchedCollection(searchedTerm, checkedGenres, 1)});
   }
 
   sortDirectionStateChange = (direction) => {
-    this.setState({sortDirectionChoice: direction})
+    const { searchedTerm, checkedGenres } = this.state;
+    this.setState({ sortDirectionChoice: direction }, () => {
+      this.displaySearchedCollection(searchedTerm, checkedGenres, 1)});
   }
   render() {
     const { userObj, collections } = this.props;
@@ -227,10 +229,10 @@ class Home extends React.Component {
             handleCheckbox={this.handleCheckbox}
           />
           <CollectionSortBtn
-          sortStateChange={this.sortStateChange}
+            sortStateChange={this.sortStateChange}
           />
           <CollectionSortDirectionSelect
-          sortDirectionStateChange={this.sortDirectionStateChange}
+            sortDirectionStateChange={this.sortDirectionStateChange}
           />
           <div className="col-12">
             {totalPages > 1 ?
