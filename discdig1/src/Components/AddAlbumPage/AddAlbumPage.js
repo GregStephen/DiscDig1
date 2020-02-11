@@ -129,7 +129,7 @@ class AddAlbumPage extends React.Component {
       }
       let returnCode = '';
       if (result === 'no result'){
-      returnCode = <h2>No results! Please refine search</h2> }
+      returnCode = <h2 className="no-result">No results! Please refine search</h2> }
       else {
         returnCode =
         <div className="album-display row justify-content-around">

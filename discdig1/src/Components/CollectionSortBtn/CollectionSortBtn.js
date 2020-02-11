@@ -10,7 +10,7 @@ class CollectionSortBtn extends React.Component {
 
   render() {
     return (
-      <div className="col-7">
+      <div className="CollectionSortBtn col-7">
         <Form>
           <FormGroup>
             <Label for="sortByChoice"></Label>

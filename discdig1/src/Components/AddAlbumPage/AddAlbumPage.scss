@@ -6,6 +6,9 @@
   height: 100%;
   background-color: $background-color-transparent;
   padding-bottom: 5em;
+  .no-result {
+    margin-top:4em;
+  }
   .add-album-title {
     font-size: 1.5em;
   }

@@ -244,7 +244,7 @@ class Home extends React.Component {
               resetCheckboxes={this.resetCheckboxes}
               handleCheckbox={this.handleCheckbox}
             />
-            <div className="col-3 row">
+            <div className="col-3 row align-items-start">
               <CollectionSortBtn
                 sortStateChange={this.sortStateChange}
               />
@@ -253,7 +253,7 @@ class Home extends React.Component {
               />
             </div>
           </div>
-          <div className="col-12">
+          <div className="col-12 row justify-content-end">
 
             {totalPages > 1 ?
               <AddAlbumPagination
@@ -262,8 +262,9 @@ class Home extends React.Component {
                 changePage={this.changePage}
               />
               : ''}
+            <p className="col-3">{bottomNumber} - {topNumber} of {collection.numberInCollection} results</p>
+
           </div>
-          <p className="col-12">{bottomNumber} - {topNumber} of {collection.numberInCollection} results</p>
         </div>
         <Collection
           className="row"
