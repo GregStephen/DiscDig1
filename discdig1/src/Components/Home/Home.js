@@ -262,7 +262,9 @@ class Home extends React.Component {
                 changePage={this.changePage}
               />
               : ''}
-            <p className="col-3">{bottomNumber} - {topNumber} of {collection.numberInCollection} results</p>
+              {collection.numberInCollection !== 0 ? <p className="col-3">{bottomNumber} - {topNumber} of {collection.numberInCollection} result{collection.numberInCollection !== 1 ? 's' : ''}</p>
+              : '' }
+            
 
           </div>
         </div>

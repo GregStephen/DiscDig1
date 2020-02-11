@@ -138,15 +138,15 @@ namespace DiscDig1.Repositories
                 var sql = @"SELECT a.*
                             FROM [CollectionAlbum] ca
                             JOIN [Album] a
-                            ON ca.AlbumId = a.Id
-                            JOIN AlbumGenre ag
-                            ON a.Id = ag.AlbumId
-                            JOIN Genre g
-                            ON g.Id = ag.GenreId";
+                            ON ca.AlbumId = a.Id";
                 var whereStatement = " WHERE ca.CollectionId = @id ";
                 var regex = "%";
                 if (searchGenres.Length != 0)
                 {
+                    sql += @" JOIN AlbumGenre ag
+                            ON a.Id = ag.AlbumId
+                            JOIN Genre g
+                            ON g.Id = ag.GenreId";
                     whereStatement += "AND g.id in @searchGenres";
                 }
                 if (term != null)

@@ -117,7 +117,8 @@ class Collection extends React.Component {
             {searchedTerm !== '' ? <p>{collection.numberInCollection} results for {searchedTerm}</p>
               : ""}
             <div className="row justify-content-around">
-              {showCollection}
+              {collection.albums.length > 0 ? showCollection : 
+              <p className="no-albums">You have no albums to show! Try adding some first</p>}
             </div>
           </div>
         </div>
