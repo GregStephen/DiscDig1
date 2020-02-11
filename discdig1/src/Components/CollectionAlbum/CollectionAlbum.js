@@ -59,7 +59,7 @@ class CollectionAlbum extends React.Component {
             </Media>
             <p>{album.artist}</p>
             <p>Label: {album.label}</p>
-            <p>Released: {album.releaseYear}</p>
+            <p>Released: {album.releaseYear === 0 ? 'Unknown' : album.releaseYear}</p>
 
           </Media>
         </Media>

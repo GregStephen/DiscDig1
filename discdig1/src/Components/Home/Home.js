@@ -40,7 +40,9 @@ class Home extends React.Component {
     genres: defaultGenres,
     checkedGenres: defaultCheckedGenres,
     sortByChoice: '',
-    sortDirectionChoice: 'ASC'
+    sortDirectionChoice: 'ASC',
+    bottomNumber: 0,
+    topNumber: 0,
   };
 
   componentDidMount() {
@@ -56,6 +58,16 @@ class Home extends React.Component {
     }
   };
 
+  getCountOfResultsShown = () => {
+    const { currentPage, collection } = this.state;
+    const perPage = 10;
+    let topNumber = (currentPage * perPage);
+    const bottomNumber = (topNumber - (perPage - 1));
+    if (topNumber > collection.numberInCollection) {
+      topNumber = collection.numberInCollection;
+    }
+    this.setState({ bottomNumber, topNumber })
+  };
   // Takes in an id of chosen collection and sets the state of the collection to that particular one and resets searchedTerm state
   showChosenCollection = (idOfChosenCollection) => {
     const { collections } = this.props;
@@ -73,7 +85,7 @@ class Home extends React.Component {
           currentPage: result.pagination.currentPage,
           totalPages: result.pagination.totalPages,
           genres: result.totalForEachGenre
-        })
+        }, () => this.getCountOfResultsShown())
       }).catch(err => console.error(err));
 
   };
@@ -164,7 +176,7 @@ class Home extends React.Component {
           currentPage: result.pagination.currentPage,
           totalPages: result.pagination.totalPages,
           genres: result.totalForEachGenre
-        })
+        }, () => this.getCountOfResultsShown())
       }).catch(err => console.error(err));
   };
 
@@ -188,7 +200,7 @@ class Home extends React.Component {
   }
   render() {
     const { userObj, collections } = this.props;
-    const { collection, collectionChoice, searchedTerm, totalPages, currentPage, genres, checkedGenres } = this.state;
+    const { collection, collectionChoice, searchedTerm, totalPages, currentPage, genres, checkedGenres, bottomNumber, topNumber } = this.state;
 
     const returnOptions = () => {
       if (collections.length !== 0) {
@@ -242,6 +254,7 @@ class Home extends React.Component {
             </div>
           </div>
           <div className="col-12">
+
             {totalPages > 1 ?
               <AddAlbumPagination
                 currentPage={currentPage}
@@ -250,6 +263,7 @@ class Home extends React.Component {
               />
               : ''}
           </div>
+          <p className="col-12">{bottomNumber} - {topNumber} of {collection.numberInCollection} results</p>
         </div>
         <Collection
           className="row"

@@ -10,7 +10,7 @@ class CollectionSortDirectionSelect extends React.Component {
 
   render() {
     return (
-      <div className="col-6">
+      <div className="col-5">
         <Form>
           <FormGroup>
             <Label for="sortByDirectionChoice"></Label>

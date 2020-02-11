@@ -1,3 +1,5 @@
+@import '../../styles/variables';
+
 .CollectionSearchBar {
   .genre-filter-btn {
     margin-top: .25em;
@@ -6,5 +8,11 @@
     -webkit-transition: none;
     transition: none;
     display: none;
+}
+.collapse{
+  background-color: $secondary-background-color;
+  box-shadow: 3px 3px 3px grey;
+  border-top: .3px solid grey;
+  border-left: .3px solid grey;
 }
 }

@@ -70,7 +70,7 @@ class AlbumWidget extends React.Component {
           <div className="col-12">
             <ListGroup>
               <ListGroupItem>Artist(s): {displayArtists}</ListGroupItem>
-              {genres.length > 0  ?
+              {genres.length > 0 ?
                 <ListGroupItem>Genre: {showGenres}</ListGroupItem>
                 : ''}
               {styles.length > 0 ?
@@ -78,7 +78,7 @@ class AlbumWidget extends React.Component {
                 : ''}
               <ListGroupItem>Label: {showLabel}</ListGroupItem>
               <ListGroupItem>Country: {album.country}</ListGroupItem>
-              <ListGroupItem>Released: {album.released}</ListGroupItem>
+              <ListGroupItem>Released: {album.released === null ? 'Unknown' : album.released}</ListGroupItem>
             </ListGroup>
           </div>
         </Card>
