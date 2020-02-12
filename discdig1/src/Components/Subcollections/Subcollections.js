@@ -63,6 +63,7 @@ class Subcollections extends React.Component {
     createNewSubColl(toSend).then(() => {
       this.toggle();
       this.loadPage();
+      this.setState({ newSubcollection: '' });
     })
   }
 
@@ -117,7 +118,9 @@ class Subcollections extends React.Component {
 
 
         <div className="subcollections-list row">
-        {createSubcollectionList}
+          {subCollections.length > 0 ?
+          createSubcollectionList
+        : <p className="no-subcollections col-12">You don't have any subcollections yet. Click above to create one!</p>}
         </div>
 
 

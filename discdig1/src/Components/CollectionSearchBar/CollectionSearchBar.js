@@ -136,7 +136,7 @@ class CollectionSearchBar extends React.Component {
             onExited={this.onExited}
             
           >
-            <FormGroup check className="row" inline>
+            <FormGroup check className="row justify-content-center" inline>
               {makeCheckboxes}
             </FormGroup>
           </Collapse>
