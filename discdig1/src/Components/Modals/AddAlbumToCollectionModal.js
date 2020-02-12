@@ -35,7 +35,13 @@ class AddAlbumToCollectionModal extends React.Component {
     const {album} = this.props;
     discogRequests.getAlbumById(album.id)
      .then((result) => {
-       const image = result.images[0];
+       let image = {
+         resource_url: 'https://i.pinimg.com/originals/b3/ed/8d/b3ed8d773439c086d52b7b0d1147fda3.jpg'
+       };
+       if (result.images !== null) {
+         image = result.images[0];
+       }
+
        const artist = result.artists[0];
        const label = result.labels[0];
        let styles = [];
@@ -84,7 +90,9 @@ class AddAlbumToCollectionModal extends React.Component {
       <div className="AddAlbumToCollectionModal container">
         <ModalBody className="row">
           <Card className="col-12">
-          <CardImg src={newAlbum.imgUrl} alt={newAlbum.title}/>
+            {newAlbum.imgUrl !== undefined ? <CardImg src={newAlbum.imgUrl} alt={newAlbum.title}/> 
+            : ''}
+
           <CardTitle>Are you sure you want to add this version of {newAlbum.title} to your collection?</CardTitle>
           <CardText>Make sure that the Cat#: {catno} matches the one in your collection!</CardText>
           <CardText>Released: {newAlbum.releaseYear === 0 ? 'Unknown' : newAlbum.releaseYear}</CardText>

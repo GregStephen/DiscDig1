@@ -45,11 +45,15 @@ class Album extends React.Component {
   
   render() {
    const {album} = this.props;
+   let thumb = 'https://i.pinimg.com/originals/b3/ed/8d/b3ed8d773439c086d52b7b0d1147fda3.jpg'
+   if (album.thumb !== '') {
+     thumb = album.thumb
+   }
     return (
       <div className="Album col-5">
         <Media>
           <Media left>
-            <Media className="album-img" object src={album.thumb} alt={album.title}/>
+            <Media className="album-img" object src={thumb} alt={album.title}/>
           </Media>
           <Media body>
             <Media heading>
