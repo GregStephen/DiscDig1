@@ -66,7 +66,7 @@ class Album extends React.Component {
              }
           </Media>
         </Media>
-      <Modal isOpen={this.state.addAlbumModalIsOpen} toggle={this.toggleModal}>
+      <Modal isOpen={this.state.addAlbumModalIsOpen} toggle={this.toggleModalOpen}>
         <ModalHeader toggle={this.addAlbumModalIsOpen}>Add To Collection</ModalHeader>
         <AddAlbumToCollectionModal
         toggleModalOpen={ this.toggleModalOpen }

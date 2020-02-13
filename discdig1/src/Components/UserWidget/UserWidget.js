@@ -65,7 +65,7 @@ class UserWidget extends React.Component {
             </ListGroup>
           </CardBody>
         </Card>
-        <Modal size='lg' isOpen={this.state.userPageModalIsOpen} toggle={this.toggleModal}>
+        <Modal size={modalOpen === 'avatar' ? 'lg' : 'md'} isOpen={this.state.userPageModalIsOpen} toggle={this.toggleModalOpen}>
           <ModalHeader toggle={this.userPageModalIsOpen}>
             {modalOpen === 'name' ? 'Edit Name' : 
             modalOpen === 'avatar' ? 'Change Avatar' :

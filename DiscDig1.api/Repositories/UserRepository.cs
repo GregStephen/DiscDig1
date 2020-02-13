@@ -70,6 +70,7 @@ namespace DiscDig1.Repositories
                 var dashboardData = new DashboardData();
                 dashboardData.TopGenre = GetUsersTopGenre(userId);
                 dashboardData.TopArtist = GetUsersTopArtist(userId);
+                dashboardData.TopDecade = GetUsersTopDecade(userId);
                 return dashboardData;
             }
         }
@@ -93,6 +94,25 @@ namespace DiscDig1.Repositories
                             ORDER BY TotalInCollection DESC";
                 var parameters = new { userId };
                 return db.QueryFirstOrDefault<TopGenre>(sql, parameters);
+            }
+        }
+
+        public TopDecade GetUsersTopDecade(Guid userId)
+        {
+            using (var db =
+                new SqlConnection(_connectionString))
+                {
+                var sql = @"SELECT TOP(1) (FLOOR(a.ReleaseYear/10) * 10) AS Decade, Count(*) AS TotalInCollection
+                            FROM [Collection] c
+                            JOIN [CollectionAlbum] ca
+                            ON ca.CollectionId = c.Id
+                            JOIN [Album] a
+                            ON a.Id = ca.AlbumId
+                            WHERE c.UserId = @userId AND c.[name] = 'Main'
+                            GROUP BY FLOOR(a.ReleaseYear/ 10)
+                            ORDER BY TotalInCollection DESC";
+                var parameters = new { userId };
+                return db.QueryFirstOrDefault<TopDecade>(sql, parameters);
             }
         }
 

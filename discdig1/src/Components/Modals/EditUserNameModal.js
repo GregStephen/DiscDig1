@@ -49,8 +49,8 @@ class EditUserInfoModal extends React.Component {
   render() {
     const { updatedUser } = this.state;
     return (
-      <div className="EditUserInfoModal container">
-      <Form className="row justify-content-center" onSubmit={this.formSubmit}>
+      <div className="EditUserInfoModal">
+      <Form onSubmit={this.formSubmit}>
         <ModalBody>
           <FormGroup>
             <Label for="firstName">First Name:</Label>
