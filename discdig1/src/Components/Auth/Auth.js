@@ -1,5 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Modal, ModalHeader } from 'reactstrap';
+
+import PasswordResetModal from './PasswordResetModal';
 
 import './Auth.scss';
 
@@ -7,7 +10,8 @@ class Auth extends React.Component {
   state = {
     email: '',
     password: '',
-    errorMsg: ''
+    errorMsg: '',
+    passwordResetModal: false,
   }
 
   componentDidUpdate({ error }) {
@@ -19,7 +23,7 @@ class Auth extends React.Component {
   logIntoDiscDig = (e) => {
     e.preventDefault();
     const { email, password } = this.state;
-    const {logIn} = this.props;
+    const { logIn } = this.props;
     logIn(email, password);
   }
 
@@ -29,6 +33,12 @@ class Auth extends React.Component {
     });
   };
 
+
+  toggleResetPasswordModal = () => {
+    this.setState(prevState => ({
+      passwordResetModal: !prevState.passwordResetModal,
+    }));
+  }
 
   render() {
     const { email, password, errorMsg } = this.state;
@@ -47,31 +57,40 @@ class Auth extends React.Component {
               <div className="form-group">
                 <label htmlFor="email">Email</label>
                 <input
-                type="email"
-                className="form-control"
-                id="email"
-                value={email}
-                onChange={this.handleChange}
-                placeholder="John@DiscDig.com"
-                required
+                  type="email"
+                  className="form-control"
+                  id="email"
+                  value={email}
+                  onChange={this.handleChange}
+                  placeholder="John@DiscDig.com"
+                  required
                 />
               </div>
               <div className="form-group">
                 <label htmlFor="password">Password</label>
                 <input
-                type="password"
-                className="form-control"
-                id="password"
-                value={password}
-                onChange={this.handleChange}
-                required
+                  type="password"
+                  className="form-control"
+                  id="password"
+                  value={password}
+                  onChange={this.handleChange}
+                  required
                 />
+                <small className="form-text text-muted">
+                  <button type="button" className="forgotPasswordBtn" onClick={this.toggleResetPasswordModal}>Forgot Your Password?</button>
+                </small>
               </div>
               <button type="submit" className="btn btn-success">Log In</button>
               <p className="error">{errorMsg}</p>
             </form>
           </div>
         </div>
+        <Modal isOpen={this.state.passwordResetModal} toggle={this.toggleModal}>
+          <ModalHeader toggle={this.toggleResetPasswordModal}>Reset Password</ModalHeader>
+          <PasswordResetModal
+            toggleResetPasswordModal={this.toggleResetPasswordModal}
+          />
+        </Modal>
       </div>
     )
   }
