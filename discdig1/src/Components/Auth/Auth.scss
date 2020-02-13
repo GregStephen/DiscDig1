@@ -24,6 +24,18 @@
       background-color: $background-color-transparent;
       border: 3px solid black;
       border-radius: 1em;
+      .forgotPasswordBtn {
+        background:none;
+        color:inherit;
+        border:none; 
+        padding:0!important;
+        font: inherit;
+        cursor: pointer;
+      }
+      .forgotPasswordBtn:hover {
+        color: blue;
+        text-decoration: underline;
+      }
     }
   }
 }
