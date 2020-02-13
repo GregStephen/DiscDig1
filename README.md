@@ -21,7 +21,7 @@ When 'Create An Account' is pressed on the Landing Page they get taken to this N
 
 Once their account is created, they are taken to their home page.  When first created the home colleciton is the only collection available and it will show no albums but instead prompt them to add some to their collection. 
 
-![New Home Page](./Assets/Screenshots/new_user_home.png)
+![New Home Page](./Assets/Screenshots/new_user_home.PNG)
 
 Once they add albums to their collection they will appear in their 'Main' collection first. Here they can search through them, sort them, delete them, and add them to a subcollection.
 
@@ -31,19 +31,19 @@ Once they add albums to their collection they will appear in their 'Main' collec
 
 The user has the ability to search with a term, either the artist or album name. Using a regular expression, the results will be anything that has what the user searched anywhere in the name. They can also filter their search through genres. The genre filter buttons also show in real time how many results would show if they clicked the button.
 
-![Genre Search](./Assets/Screenshots/search_genre_filter.png)
+![Genre Search](./Assets/Screenshots/search_genre_filter.PNG)
 
 #### Sort By
 
 The user has the ability to sort their collection by artist name, album name and year. They can choose whether to sort any of those ways, ascending or descending.
 
-![Sort By](./Assets/Screenshots/sort_by.png)
+![Sort By](./Assets/Screenshots/sort_by.PNG)
 
 #### Pagination
 
 If the user has more than 10 albums in their collection then a pagination will appear above and below their collection, allowing them to go to whichever page they wish. The pagination also appears on the Add Album Page.
 
-![Pagination](./Assets/Screenshots/pagination.png)
+![Pagination](./Assets/Screenshots/pagination.PNG)
 
 #### Send to Subcollection / Delete from collection
 
@@ -51,7 +51,7 @@ The user is able to select any of the albums in their collection. They then can 
 
 This area also allows the user to add the selected albums to whichever subcollection is selected in the dropdown input.
 
-![Send To/Delete](./Assets/Screenshots/home_page_sidebar.png)
+![Send To/Delete](./Assets/Screenshots/home_page_sidebar.PNG)
 
 #### Subcollection Page
 
@@ -63,13 +63,13 @@ The user can manage their subcollections on this page.
 
 They can add a new subcollection simply by inputting a name.
 
-![Add New Subcollection](./Assets/Screenshots/add_new_subcollections.png)
+![Add New Subcollection](./Assets/Screenshots/add_new_subcollections.PNG)
 
 #### Edit / Delete Subcollection
 
 Once the subcollection is created they can change it's name or delete it completely.
 
-![Edit / Delete Subcollection](./Assets/Screenshots/change_subcollection_name.png)
+![Edit / Delete Subcollection](./Assets/Screenshots/change_subcollection_name.PNG)
 
 #### Album Page
 
@@ -81,7 +81,7 @@ The user is able to click any of the album titles in their collection and it wil
 
 By clicking the 'Show More Images' button the user is shown a modal with a Carousel of images related to the album.
 
-![Album Images](./Assets/Screenshots/all_images_modal.png)
+![Album Images](./Assets/Screenshots/all_images_modal.PNG)
 
 #### Add Album Page
 
@@ -99,7 +99,7 @@ If the user searches by artist only, a list of potential artists will appear all
 
 Once the user selects an album a modal will show confirming their choice and prompting the user to check to make sure it is in fact the correct album.
 
-![Add To Collection Check](./Assets/Screenshots/add_to_collection_modal.png)
+![Add To Collection Check](./Assets/Screenshots/add_to_collection_modal.PNG)
 
 #### User Profile Page
 
