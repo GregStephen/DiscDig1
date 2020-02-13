@@ -17,7 +17,7 @@ class CollectionSearchBar extends React.Component {
 
   componentDidUpdate({ collectionChoice }) {
     if (this.props.collectionChoice !== collectionChoice) {
-      this.setState( { collapse: false, status: 'Closed', searchTerm: '' });
+      this.setState({ collapse: false, status: 'Closed', searchTerm: '' });
     }
   };
 
@@ -54,7 +54,7 @@ class CollectionSearchBar extends React.Component {
     e.preventDefault();
     e.stopPropagation();
     this.toggle();
-    const {resetCheckboxes} = this.props;
+    const { resetCheckboxes } = this.props;
     resetCheckboxes();
   }
 
@@ -78,14 +78,9 @@ class CollectionSearchBar extends React.Component {
 
   // this is for the checkboxes
   handleChange = (e) => {
-    const {handleCheckbox} = this.props;
+    const { handleCheckbox } = this.props;
     handleCheckbox(e);
   }
-
-  // this should reset the checkboxes when the button is clicked so they are no longer checked
-
-
-
 
   render() {
     const { collection, genres } = this.props;
@@ -98,8 +93,8 @@ class CollectionSearchBar extends React.Component {
       />
     ))
     return (
-      <div className="CollectionSearchBar col-sm-12 col-lg-6">
-        <Form onSubmit={this.searchOnSubmit}>
+      <div className="CollectionSearchBar col-sm-12 col-lg-6 offset-lg-3">
+        <Form onSubmit={this.searchOnSubmit} className="container">
           {collection.id === undefined ?
             <InputGroup>
               <Input
@@ -139,8 +134,9 @@ class CollectionSearchBar extends React.Component {
             onEntered={this.onEntered}
             onExiting={this.onExiting}
             onExited={this.onExited}
+            
           >
-            <FormGroup check className="row">
+            <FormGroup check className="row justify-content-center" inline>
               {makeCheckboxes}
             </FormGroup>
           </Collapse>

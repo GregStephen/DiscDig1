@@ -16,7 +16,14 @@ class AlbumWidget extends React.Component {
   render() {
     const { album } = this.props;
     const images = album.images;
-    const image = images.find(image => image.type === "primary");
+    let image = {
+      resource_url: 'https://i.pinimg.com/originals/b3/ed/8d/b3ed8d773439c086d52b7b0d1147fda3.jpg'
+    };
+
+    if (images !== null) {
+      image = images.find(image => image.type === "primary");
+    }
+
     let genres = [];
     let styles = [];
     if (album.styles != null) {
@@ -70,7 +77,7 @@ class AlbumWidget extends React.Component {
           <div className="col-12">
             <ListGroup>
               <ListGroupItem>Artist(s): {displayArtists}</ListGroupItem>
-              {genres.length > 0  ?
+              {genres.length > 0 ?
                 <ListGroupItem>Genre: {showGenres}</ListGroupItem>
                 : ''}
               {styles.length > 0 ?
@@ -78,7 +85,7 @@ class AlbumWidget extends React.Component {
                 : ''}
               <ListGroupItem>Label: {showLabel}</ListGroupItem>
               <ListGroupItem>Country: {album.country}</ListGroupItem>
-              <ListGroupItem>Released: {album.released}</ListGroupItem>
+              <ListGroupItem>Released: {album.released === null ? 'Unknown' : album.released}</ListGroupItem>
             </ListGroup>
           </div>
         </Card>

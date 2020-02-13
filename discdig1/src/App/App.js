@@ -77,14 +77,13 @@ class App extends React.Component {
         this.getAllUsersCollections(userObj)
         this.setState({ userObj })
       })
-      .then(() => this.setState({ authorized: true }))
       .catch(err => this.setState({ error: err.message }))
   };
 
   getAllUsersCollections = (userObj) => {
     collectionRequests.getAllUsersCollectionsByUserId(userObj.id)
       .then((result) => {
-        this.setState({ collections: result })
+        this.setState({ collections: result }, () => this.setState({ authorized: true}))
       })
       .catch(err => console.error(err));
   };

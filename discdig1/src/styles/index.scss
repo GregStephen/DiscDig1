@@ -1,3 +1,5 @@
+@import './variables';
+
 body {
   margin: 0;
   font-family: 'Righteous', cursive;
@@ -6,6 +8,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-image: url('https://mmmmaven.com/wp-content/uploads/1280-jp-record-shelf-1.jpg');
   background-repeat: repeat;
+  .modal-header {
+    background-color: $background-color;
+  }
+  .modal-footer {
+    background-color: $background-color;
+  }
 }
 
 #root {

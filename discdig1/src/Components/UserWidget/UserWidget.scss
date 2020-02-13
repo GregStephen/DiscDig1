@@ -17,6 +17,7 @@
     }
     .profile-modal {
       cursor: pointer;
+      background-color: $background-color;
     }
     a:not([href]):not([tabindex]):hover {
       text-decoration: underline;

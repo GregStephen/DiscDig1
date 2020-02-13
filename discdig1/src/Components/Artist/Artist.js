@@ -9,21 +9,25 @@ class Artist extends React.Component {
   }
 
   render() {
-    const {artist} = this.props;
+    const { artist } = this.props;
+    let thumb = 'https://image.flaticon.com/icons/svg/767/767455.svg';
+    if (artist.thumb !== '') {
+      thumb = artist.thumb;
+    }
     return (
       <div className="Artist col-5">
-      <Media>
-        <Media left>
-          <Media className="artist-img" object src={artist.thumb} alt={artist.title}/>
-        </Media>
-        <Media body>
-          <Media heading>
-          {artist.title}
+        <Media>
+          <Media left>
+            <Media className="artist-img" object src={thumb} alt={artist.title} />
           </Media>
-          <Button onClick={this.searchThisArtist} className="albums-by-btn">View Albums by this Artist</Button>
+          <Media body>
+            <Media heading>
+              {artist.title}
+            </Media>
+            <Button onClick={this.searchThisArtist} className="albums-by-btn">View Albums by this Artist</Button>
+          </Media>
         </Media>
-      </Media>
-    </div>
+      </div>
     )
   }
 };

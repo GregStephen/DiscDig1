@@ -25,6 +25,7 @@ class NewUser extends React.Component {
     avatars: [],
     email: '',
     password: '',
+    confirmPassword: '',
     error: ''
   };
 
@@ -65,8 +66,13 @@ class NewUser extends React.Component {
 
   formSubmit = (e) => {
     e.preventDefault();
-    const { email, password } = this.state;
+    const { email, password, confirmPassword } = this.state;
     const { logIn } = this.props;
+    if (password !== confirmPassword) {
+      this.setState({ error: 'Passwords must match'});
+      return;
+    }
+    
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((cred) => {
         cred.user.getIdToken()
@@ -82,7 +88,7 @@ class NewUser extends React.Component {
 
   render() {
     const {
-      newUser, email, password, error, avatars
+      newUser, email, password, confirmPassword, error, avatars
     } = this.state;
 
     const showAvatars = avatars.map((avatar, index) => (
@@ -142,6 +148,17 @@ class NewUser extends React.Component {
               className="form-control"
               id="password"
               value={password}
+              onChange={this.handleChange}
+              required
+              />
+            </div>
+            <div className="form-group col-11 col-md-9 col-lg-8">
+              <Label for="confirmPassword">Confirm Password</Label>
+              <Input
+              type="password"
+              className="form-control"
+              id="confirmPassword"
+              value={confirmPassword}
               onChange={this.handleChange}
               required
               />

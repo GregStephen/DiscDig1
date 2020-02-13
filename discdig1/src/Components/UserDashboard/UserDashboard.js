@@ -11,7 +11,7 @@ const defaultDash = {
 
 class UserDashboard extends React.Component {
   state = {
-    dashboardData : defaultDash,
+    dashboardData: defaultDash,
     topGenre: {},
     topArtist: {},
     genrePercentage: 0,
@@ -24,14 +24,17 @@ class UserDashboard extends React.Component {
     const main = collections.find(collection => collection.name === 'Main');
     userRequests.getUserDashboardData(userObj.id)
       .then((result) => {
-        if (result !== null){
+        if (result !== null) {
           const genre = result.topGenre;
           const artist = result.topArtist;
+          const decade = result.topDecade;
           const genrePercentage = this.getPercentage(main.numberInCollection, genre.totalInCollection);
           const artistPercentage = this.getPercentage(main.numberInCollection, artist.totalInCollection);
-          this.setState({dashboardData: result, topGenre: genre, topArtist: artist, genrePercentage: genrePercentage, artistPercentage: artistPercentage, mainCollection: main})
-        }}
-        )
+          const decadePercentage = this.getPercentage(main.numberInCollection, decade.totalInCollection);
+          this.setState({ dashboardData: result, topGenre: genre, topArtist: artist, topDecade: decade, decadePercentage: decadePercentage, genrePercentage: genrePercentage, artistPercentage: artistPercentage, mainCollection: main })
+        }
+      }
+      )
       .catch(err => console.error(err))
   }
 
@@ -44,21 +47,23 @@ class UserDashboard extends React.Component {
   }
 
   render() {
-    const { topGenre, topArtist, genrePercentage, artistPercentage, mainCollection } = this.state;
+    const { topGenre, topArtist, topDecade, decadePercentage, genrePercentage, artistPercentage, mainCollection } = this.state;
 
     return (
       <div className="UserDashboard">
         <h3>Here's some info on your collection</h3>
-        {mainCollection.numberInCollection > 0 ? 
+        {mainCollection.numberInCollection > 0 ?
           <div>
             <p>Total collection: {mainCollection.numberInCollection}</p>
             <p>Most of your collection is: {topGenre.genre} </p>
-            <p>Total {topGenre.genre} albums: {topGenre.totalInCollection} or { genrePercentage}% of your collection</p>
+            <p>Total {topGenre.genre} albums: {topGenre.totalInCollection} or {genrePercentage}% of your collection</p>
             <p>Top Artist Owned: {topArtist.artist}</p>
             <p>You own {topArtist.totalInCollection} {topArtist.totalInCollection > 1 ? 'albums' : 'album'} by {topArtist.artist} which is {artistPercentage}% of your collection</p>
+            <p>Favorite Decade: {topDecade.decade}s</p>
+            <p>Total albums from {topDecade.decade}s: {topDecade.totalInCollection} or {decadePercentage}% of your collection</p>
           </div>
-      : <p> You have nothing in your collection yet</p>}
-  
+          : <p> You have nothing in your collection yet</p>}
+
       </div>
     )
   }

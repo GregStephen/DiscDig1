@@ -64,8 +64,8 @@ class ChangePasswordModal extends React.Component {
   render() {
     const { updatedPassword, error } = this.state;
     return (
-      <div className='ChangePasswordModal container'>
-        <Form className="row justify-content-center" onSubmit={this.formSubmit}>
+      <div className='ChangePasswordModal'>
+        <Form onSubmit={this.formSubmit}>
         <ModalBody>
           <FormGroup>
             <Label for="oldPassword">Old Password</Label>

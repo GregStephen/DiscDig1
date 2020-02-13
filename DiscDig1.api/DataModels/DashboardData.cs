@@ -9,5 +9,6 @@ namespace DiscDig1.DataModels
     {
         public TopGenre TopGenre { get; set; }
         public TopArtist TopArtist { get; set; } 
+        public TopDecade TopDecade { get; set; }
     }
 }

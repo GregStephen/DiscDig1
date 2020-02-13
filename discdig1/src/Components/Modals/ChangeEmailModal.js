@@ -64,8 +64,8 @@ class ChangeEmailModal extends React.Component {
   render() {
     const { updatedEmail, error } = this.state;
     return (
-      <div className='ChangeEmailModal container'>
-        <Form className="row justify-content-center" onSubmit={this.formSubmit}>
+      <div className='ChangeEmailModal'>
+        <Form onSubmit={this.formSubmit}>
           <ModalBody>
             <FormGroup>
               <Label for="password">Password</Label>
