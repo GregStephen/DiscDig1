@@ -63,7 +63,7 @@ The user can manage their subcollections on this page.
 
 They can add a new subcollection simply by inputting a name.
 
-![Add New Subcollection](./Assets/Screenshots/add_new_subcollections.PNG)
+![Add New Subcollection](./Assets/Screenshots/add_new_subcollection.png)
 
 #### Edit / Delete Subcollection
 
