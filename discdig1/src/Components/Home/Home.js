@@ -106,10 +106,13 @@ class Home extends React.Component {
   };
 
   handleCheckbox = (e) => {
+    const { searchedTerm } = this.state;
     const tempGenres = { ...this.state.checkedGenres }
     tempGenres[e.target.id] = e.target.checked;
     this.setState({
       checkedGenres: tempGenres
+    }, () => {
+      this.displaySearchedCollection(searchedTerm, this.state.checkedGenres, 1)
     })
   }
 
