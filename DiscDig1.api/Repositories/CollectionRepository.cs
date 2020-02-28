@@ -135,7 +135,7 @@ namespace DiscDig1.Repositories
             {
                 var currentStartNumber = ((perPage * currentPage) - perPage);
                 var collection = new AlbumCollection();
-                var sql = @"SELECT a.*
+                var sql = @"SELECT DISTINCT a.*
                             FROM [CollectionAlbum] ca
                             JOIN [Album] a
                             ON ca.AlbumId = a.Id";
