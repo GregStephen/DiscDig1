@@ -94,6 +94,17 @@ class AddAlbumPage extends React.Component {
     this.displaySearchedAlbums(artistTerm, albumTerm, page);
   }
 
+  getResult(albums, artists) {
+    let result = 'no result';
+    if (albums.length !== 0) {
+      result = 'album';
+    }
+    else if (artists.length !== 0) {
+      result = 'artist';
+    }
+    return result;
+  }
+
   render() {
     const { albums, artists, totalResults, currentPage, totalPages, topNumber, bottomNumber } = this.state;
     const showAlbums = albums.map(album => (
@@ -117,16 +128,7 @@ class AddAlbumPage extends React.Component {
 
     const showResults = () => {
       const { albums, artists } = this.state;
-      let result = ""
-      if (albums.length !== 0) {
-        result = 'album'
-      }
-      else if (artists.length !== 0) {
-        result = 'artist'
-      }
-      else {
-        result = 'no result'
-      }
+      let result = this.getResult(albums, artists);
       let returnCode = '';
       if (result === 'no result'){
       returnCode = <h2 className="no-result">No results! Please refine search</h2> }
@@ -155,10 +157,8 @@ class AddAlbumPage extends React.Component {
           </div>
         </div>
       }
-
       return returnCode;
     };
-
 
     return (
       <div className="AddAlbumPage container">

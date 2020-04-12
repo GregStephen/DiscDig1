@@ -68,7 +68,6 @@ class AddToSubcollection extends React.Component {
       {this.state.chosenSubcollectionId === '' ? '' :
         <Button className="subcollection-btn" type="submit">Add Selected to this Subcollection</Button>
       }
-
         </Form>
       </div>
     )
