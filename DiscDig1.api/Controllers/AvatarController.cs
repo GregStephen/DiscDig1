@@ -9,6 +9,9 @@ using Microsoft.Extensions.Logging;
 
 namespace DiscDig1.Controllers
 {
+    /// <summary>
+    /// The Controller for the Avatar data models
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class AvatarController : ControllerBase
@@ -21,7 +24,10 @@ namespace DiscDig1.Controllers
             _logger = logger;
             _repo = repo;
         }
-
+        /// <summary>
+        /// Gets all of the avatars
+        /// </summary>
+        /// <returns>IEnumerable of all avatar data models</returns>
         [HttpGet]
         public IActionResult GetAllAvatars()
         {

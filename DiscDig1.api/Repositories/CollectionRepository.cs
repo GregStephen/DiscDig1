@@ -129,6 +129,18 @@ namespace DiscDig1.Repositories
             return pagination;
         }
 
+
+        /// <summary>
+        /// Searches through the users collections with different possible parameters and returns a new AlbumCollection model that contains the albums that meet the parameters
+        /// </summary>
+        /// <param name="term">The string instance of what was searched</param>
+        /// <param name="id">The unique Id of the collection being searched</param>
+        /// <param name="searchGenres">A list of strings for the genres that are selected</param>
+        /// <param name="perPage">The integer representing the number of results contained on each page</param>
+        /// <param name="currentPage">The integer representing the current page being viewed</param>
+        /// <param name="sortBy">The string dictating which category {Artist, Title, Year} to sort by</param>
+        /// <param name="direction">The string {ASC, DESC} which determines which way to sort the results</param>
+        /// <returns>An AlbumCollection data model that fits the required parameters</returns>
         public AlbumCollection SearchThruCollection(string term, Guid id, string[] searchGenres, int perPage, int currentPage, string sortBy, string direction)
         {
             using (var db = new SqlConnection(_connectionString))
