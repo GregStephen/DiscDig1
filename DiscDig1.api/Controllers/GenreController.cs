@@ -9,6 +9,13 @@ using Microsoft.Extensions.Logging;
 
 namespace DiscDig1.Controllers
 {
+    /// <summary>
+    /// Controller for the Genre
+    /// 
+    /// GETS
+    /// Get IEnumerable of all GenreForSearch Data Models
+    /// Get IEnumerable of GenreForSearch Data Model for specific collection and specific genre
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class GenreController : ControllerBase
@@ -23,6 +30,10 @@ namespace DiscDig1.Controllers
             _repo = repo;
         }
 
+        /// <summary>
+        /// Returns IEnumerable of all GenreForSearch Data Models
+        /// </summary>
+        /// <returns>IEnumerable of all GenreForSearch Data Models</returns>
         [HttpGet]
         public IActionResult GetAllGenres()
         {
@@ -37,6 +48,12 @@ namespace DiscDig1.Controllers
             }
         }
 
+        /// <summary>
+        /// Returns IEnumerable of GenreForSearch data model for a specific collection and genre
+        /// </summary>
+        /// <param name="collectionId">The unique Id for the collection</param>
+        /// <param name="genreId">The unique Id for the genre</param>
+        /// <returns>IEnumerable of GenreForSearch data model</returns>
         [HttpGet("collection={collectionId}/genre={genreId}")]
         public IActionResult GetTotalForEachGenreInCollection(Guid collectionId, Guid genreId)
         {

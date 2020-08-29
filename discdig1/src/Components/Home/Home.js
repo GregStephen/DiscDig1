@@ -228,7 +228,6 @@ class Home extends React.Component {
                 onChange={this.changeCollectionState}
               >
                 {returnOptions()}
-
               </Input>
             </div>
           </FormGroup>
@@ -253,7 +252,6 @@ class Home extends React.Component {
             </div>
           </div>
           <div className="col-12 row justify-content-end">
-
             {totalPages > 1 ?
               <AddAlbumPagination
                 currentPage={currentPage}
@@ -261,10 +259,10 @@ class Home extends React.Component {
                 changePage={this.changePage}
               />
               : ''}
-            {collection.numberInCollection !== 0 ? <p className="col-3">{bottomNumber} - {topNumber} of {collection.numberInCollection} result{collection.numberInCollection !== 1 ? 's' : ''}</p>
+            {collection.numberInCollection !== 0 ?
+              <p className="col-3">{bottomNumber} - {topNumber} of {collection.numberInCollection} result
+              {collection.numberInCollection !== 1 ? 's' : ''}</p>
               : ''}
-
-
           </div>
         </div>
         <Collection
@@ -285,7 +283,6 @@ class Home extends React.Component {
             />
             : ''}
         </div>
-
       </div>
     )
   }

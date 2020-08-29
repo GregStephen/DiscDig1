@@ -9,6 +9,9 @@ using Microsoft.Extensions.Logging;
 
 namespace DiscDig1.Controllers
 {
+    /// <summary>
+    /// Controller that accesses the Discog api
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class DiscogController : ControllerBase
@@ -22,6 +25,13 @@ namespace DiscDig1.Controllers
             _repo = repo;
         }
 
+        /// <summary>
+        /// Retrieves albums from discog that match certain parameters
+        /// </summary>
+        /// <param name="artistTerm">(Optional) The string of the artist searched for</param>
+        /// <param name="albumTerm">(Optional) The string of the album searched for</param>
+        /// <param name="page">The integer of the page being searched</param>
+        /// <returns>DiscogResponse Data Model</returns>
         [HttpGet("artist/{artistTerm}/album/{albumTerm}/page/{page}")]
         public IActionResult GetAlbumsFromDiscog(string artistTerm, string albumTerm, int page)
         {
@@ -35,6 +45,12 @@ namespace DiscDig1.Controllers
                 return Ok(response);
             }
         }
+
+        /// <summary>
+        /// Gets an album from Discog API by the specific album ID
+        /// </summary>
+        /// <param name="id">The Id of the album needed</param>
+        /// <returns>DiscogResponse Data Model</returns>
         [HttpGet("album/{id}")]
         public IActionResult GetAlbumById(int id)
         {

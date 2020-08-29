@@ -10,8 +10,12 @@ using Microsoft.Extensions.Logging;
 
 namespace DiscDig1.Controllers
 {
+    /// <summary>
+    /// The controller for Album
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
+    
     public class AlbumController : ControllerBase
     {
         private readonly ILogger<AlbumController> _logger;
@@ -22,6 +26,11 @@ namespace DiscDig1.Controllers
             _logger = logger;
             _repo = repo;
         }
+        /// <summary>
+        /// WIll add a new album model to the database
+        /// </summary>
+        /// <param name="newAlbum"></param>
+        /// <returns>IActionResult of Created with the album information or Bad Request if failed</returns>
         [HttpPost]
         public IActionResult AddNewAlbumToDatabase(NewAlbumDTO newAlbum)
         {
