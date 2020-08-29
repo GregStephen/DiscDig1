@@ -26,6 +26,11 @@ namespace DiscDig1.Repositories
             _styleRepo = styleRepo;
         }
 
+        /// <summary>
+        /// Returns the users main collection by the unique user id
+        /// </summary>
+        /// <param name="userId">Unique user Id</param>
+        /// <returns>Album Collection Data Model</returns>
         public AlbumCollection GetUsersMainCollection(Guid userId)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -54,6 +59,11 @@ namespace DiscDig1.Repositories
             }
         }
 
+        /// <summary>
+        /// Returns a List of all Album Collection Data Models related to Users unique Id
+        /// </summary>
+        /// <param name="userId">Unique Id of user</param>
+        /// <returns>List of Album Collection Data Models</returns>
         public List<AlbumCollection> GetAllCollectionsByUserId(Guid userId)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -68,6 +78,11 @@ namespace DiscDig1.Repositories
             }
         }
 
+        /// <summary>
+        /// Returns subcollection info for an individual user related to their unique id
+        /// </summary>
+        /// <param name="userId">Users unique Id</param>
+        /// <returns>IEnumerable of SumCollectionsInfo Data Models</returns>
         public IEnumerable<SubCollectionsInfo> GetAllCollectionInfoByUserId(Guid userId)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -79,6 +94,11 @@ namespace DiscDig1.Repositories
                 return db.Query<SubCollectionsInfo>(sql, parameters);
             }
         }
+        /// <summary>
+        /// Retrieve a collections name by its unique Id
+        /// </summary>
+        /// <param name="id">Unique Collections Id</param>
+        /// <returns>String of the name of the collection</returns>
         public string GetCollectionNameById(Guid id)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -91,6 +111,11 @@ namespace DiscDig1.Repositories
                 return name;
             }
         }
+        /// <summary>
+        /// Retrieves album collection by its unique Id
+        /// </summary>
+        /// <param name="id">An albums unique Id</param>
+        /// <returns>AlbumCollection Data Model</returns>
         public AlbumCollection GetUsersCollectionById(Guid id)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -117,6 +142,13 @@ namespace DiscDig1.Repositories
             }
         }
 
+        /// <summary>
+        /// Creates the pagination needed
+        /// </summary>
+        /// <param name="currentPage">The current page</param>
+        /// <param name="totalAlbums">The total number of albums available</param>
+        /// <param name="perPage">How many results shown per page</param>
+        /// <returns>DiscDigPagination data model</returns>
         public DiscDigPagination CreatePagination(int currentPage, int totalAlbums, int perPage)
         {
             var pagination = new DiscDigPagination();
@@ -227,6 +259,12 @@ namespace DiscDig1.Repositories
                 return collection;
             }
         }
+
+        /// <summary>
+        /// Creates the main collection for the user when the account is created
+        /// </summary>
+        /// <param name="newUserId">Users Unique Id</param>
+        /// <returns>True if created</returns>
         public bool addMainCollectionForNewUser(Guid newUserId)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -246,6 +284,11 @@ namespace DiscDig1.Repositories
             }
         }
 
+        /// <summary>
+        /// Retrieves the users main collection id by the users unique Id
+        /// </summary>
+        /// <param name="userId">Users Unique Id</param>
+        /// <returns>Collections Unique Id</returns>
         public Guid GetUsersMainCollectionId(Guid userId)
         {
             using (var db = new SqlConnection(_connectionString))
