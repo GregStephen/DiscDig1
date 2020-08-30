@@ -18,6 +18,12 @@ namespace DiscDig1.Repositories
             _connectionString = configuration.GetValue<string>("ConnectionString");
         }
 
+        /// <summary>
+        /// Returns an IEnumerable of objects containing the genre name, id and total number of albums that are contained in a collection that match that genre
+        /// </summary>
+        /// <param name="regex">A regular expression searching the title or artist of albums in collection</param>
+        /// <param name="id"></param>
+        /// <returns>IEnumberable of objects containing the genre name, id and total number of albums</returns>
         public IEnumerable<GenreForSearch> GetAlbumsInCategories(string regex, Guid id)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -42,6 +48,12 @@ namespace DiscDig1.Repositories
             }
         }
 
+        /// <summary>
+        /// Gets the unfiltered total of albums in each genre in the specific collection
+        /// </summary>
+        /// <param name="collectionId">Unique Collection Id</param>
+        /// <param name="genreId">Unique Genre Id</param>
+        /// <returns>IEnumerable of objects containing the genre name, id and total number of albums </returns>
         public IEnumerable<GenreForSearch> GetTotalForEachGenreInCollection(Guid collectionId, Guid genreId)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -66,6 +78,10 @@ namespace DiscDig1.Repositories
                 return db.Query<GenreForSearch>(sql, parameters);
             }
         }
+        /// <summary>
+        /// Returns every genre that is in the database
+        /// </summary>
+        /// <returns>IEnumerable of objects containing genre name and id</returns>
         public IEnumerable<GenreForSearch> GetAllGenresForSearch()
         {
             using (var db = new SqlConnection(_connectionString))
@@ -75,6 +91,11 @@ namespace DiscDig1.Repositories
                 return db.Query<GenreForSearch>(sql);
             }
         }
+        /// <summary>
+        /// Creates a new genre in the database
+        /// </summary>
+        /// <param name="name">String representing genre name</param>
+        /// <returns>Unique Id created by database on creation</returns>
         public Guid CreateNewGenre(string name)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -92,6 +113,12 @@ namespace DiscDig1.Repositories
                 return db.QueryFirst<Guid>(sql, parameters);
             }
         }
+
+        /// <summary>
+        /// Retrieve the unique Genre Id by its string name
+        /// </summary>
+        /// <param name="name">String representing genre name</param>
+        /// <returns>Unique Genre Id</returns>
         public Guid GetGenreIdByName(string name)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -103,11 +130,19 @@ namespace DiscDig1.Repositories
                 return db.QueryFirstOrDefault<Guid>(sql, parameters);
             }
         }
+        /// <summary>
+        /// Adds the genre and albums unique ids to database table
+        /// </summary>
+        /// <param name="albumId">Unique Album Id</param>
+        /// <param name="genreName">String representation of genre name</param>
+        /// <returns>True if no errors thrown</returns>
         public bool AddGenreToAlbum(Guid albumId, string genreName)
         {
             using (var db = new SqlConnection(_connectionString))
             {
+                // retrieves genres id by name given
                 var genreId = GetGenreIdByName(genreName);
+                // if no genre found in DB, create it
                 if (genreId == default)
                 {
                     genreId = CreateNewGenre(genreName);
@@ -127,6 +162,11 @@ namespace DiscDig1.Repositories
             }
         }
 
+        /// <summary>
+        /// Create a list genre names for specific album
+        /// </summary>
+        /// <param name="albumId">Unique Album Id</param>
+        /// <returns>A list of strings representing the genre names</returns>
         public List<string> GetListOfGenreNamesForAlbum(Guid albumId)
         {
             using (var db = new SqlConnection(_connectionString))

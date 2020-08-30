@@ -18,6 +18,10 @@ namespace DiscDig1.Repositories
             _connectionString = configuration.GetValue<string>("ConnectionString");
         }
 
+        /// <summary>
+        /// Retrieves all the available Avatars
+        /// </summary>
+        /// <returns>IEnumerable of Avatar data models</returns>
         public IEnumerable<Avatar> GetAllAvatars()
         {
             using (var db = new SqlConnection(_connectionString))
@@ -27,6 +31,11 @@ namespace DiscDig1.Repositories
             }
         }
 
+        /// <summary>
+        /// Retrieves one Avatar from its unique Id
+        /// </summary>
+        /// <param name="id">Unique Id of the Avatar needed</param>
+        /// <returns>Avatar Data Model</returns>
         public Avatar GetAvatarById(Guid id)
         {
             using (var db = new SqlConnection(_connectionString))
