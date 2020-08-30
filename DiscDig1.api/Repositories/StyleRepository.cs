@@ -17,6 +17,12 @@ namespace DiscDig1.Repositories
             _connectionString = configuration.GetValue<string>("ConnectionString");
         }
 
+
+        /// <summary>
+        /// Creates a new style in the Database
+        /// </summary>
+        /// <param name="name">String representing style name</param>
+        /// <returns>Unique style Id from created from Database</returns>
         public Guid CreateNewStyle(string name)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -34,6 +40,12 @@ namespace DiscDig1.Repositories
                 return db.QueryFirst<Guid>(sql, parameters);
             }
         }
+
+        /// <summary>
+        /// Gets the unique style Id from its name
+        /// </summary>
+        /// <param name="name">String representing style name</param>
+        /// <returns>Unique Style Id</returns>
         public Guid GetStyleIdByName(string name)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -45,11 +57,19 @@ namespace DiscDig1.Repositories
                 return db.QueryFirstOrDefault<Guid>(sql, parameters);
             }
         }
+
+        /// <summary>
+        /// Adds the style and albums unique ids to database table
+        /// </summary>
+        /// <param name="albumId">Unique Album Id</param>
+        /// <param name="styleName">String representing style name</param>
+        /// <returns>True if no errors trown</returns>
         public bool AddStyleToAlbum(Guid albumId, string styleName)
         {
             using (var db = new SqlConnection(_connectionString))
             {
                 var styleId = GetStyleIdByName(styleName);
+                // if no style is found in DB, create new one
                 if (styleId == default)
                 {
                     styleId = CreateNewStyle(styleName);
@@ -68,6 +88,12 @@ namespace DiscDig1.Repositories
                 return (db.Execute(sql, parameters) == 1);
             }
         }
+
+        /// <summary>
+        /// Retrieve a list of style names from specified album
+        /// </summary>
+        /// <param name="albumId">Unique Album Id</param>
+        /// <returns>List of strings representing style names</returns>
         public List<string> GetListOfStyleNamesForAlbum(Guid albumId)
         {
             using (var db = new SqlConnection(_connectionString))
