@@ -48,6 +48,7 @@ namespace DiscDig1.Repositories
                 var parameters = new { mainId };
                 var albums = db.Query<Album>(sql, parameters).ToList();
                 
+                // adds the genre and style string to each album
                 foreach (Album album in albums)
                 {
                     album.Genre = _genreRepo.GetListOfGenreNamesForAlbum(album.Id);
@@ -143,7 +144,7 @@ namespace DiscDig1.Repositories
         }
 
         /// <summary>
-        /// Creates the pagination needed
+        /// Creates the pagination object
         /// </summary>
         /// <param name="currentPage">The current page</param>
         /// <param name="totalAlbums">The total number of albums available</param>
@@ -163,7 +164,7 @@ namespace DiscDig1.Repositories
 
 
         /// <summary>
-        /// Searches through the users collections with different possible parameters and returns a new AlbumCollection model that contains the albums that meet the parameters
+        /// Searches through the users collections with different possible parameters and returns a new AlbumCollection model that contains the albums that meet the parameters and pagination object
         /// </summary>
         /// <param name="term">The string instance of what was searched</param>
         /// <param name="id">The unique Id of the collection being searched</param>
@@ -177,14 +178,23 @@ namespace DiscDig1.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
+                // finds the current first item to show on the page
                 var currentStartNumber = ((perPage * currentPage) - perPage);
+
+                // creates the new collection to return
                 var collection = new AlbumCollection();
+
                 var sql = @"SELECT DISTINCT a.*
                             FROM [CollectionAlbum] ca
                             JOIN [Album] a
                             ON ca.AlbumId = a.Id";
+
+                // generic where statement
                 var whereStatement = " WHERE ca.CollectionId = @id ";
+
                 var regex = "%";
+
+                // if some genres were selected 
                 if (searchGenres.Length != 0)
                 {
                     sql += @" JOIN AlbumGenre ag
@@ -193,32 +203,38 @@ namespace DiscDig1.Repositories
                             ON g.Id = ag.GenreId";
                     whereStatement += "AND g.id in @searchGenres";
                 }
+                // if something was searched for add regex to where statement
                 if (term != null)
                 {
-
                     char[] charArr = term.ToCharArray();
                     foreach (char ch in charArr)
                     {
                         regex += "[" + ch + "]";
                     }
                     regex += "%";
+                    // if no genres were specified
                     if (searchGenres.Length == 0)
                     {
                         whereStatement = " WHERE ca.CollectionId = @id AND ([Title] LIKE @regex OR [Artist] LIKE @regex)";
                     }
+                    // if some genres were specified adds to where statment
                     else
                     {
                         whereStatement = @" WHERE ca.CollectionId = @id AND ([Title] LIKE @regex OR [Artist] LIKE @regex)
                                             AND g.id in @searchGenres";
                     }
                 }
+                // adds the where statement to the end of the sql call
                 sql += whereStatement;
 
                 collection.Id = id;
                 collection.Name = GetCollectionNameById(id);
                 var parameters = new { regex, id, searchGenres, currentStartNumber, perPage};
+
+                // returns all the albums in a list before offset is added in to get total in search
                 var totalAlbumsForSearch = db.Query<Album>(sql, parameters).ToList();
 
+                // creates the order by statement from parameters given
                 var orderByStatement = " ORDER by";
                 if (sortBy == "Artist")
                 {
@@ -243,14 +259,23 @@ namespace DiscDig1.Repositories
 
                 orderByStatement += @" OFFSET @currentStartNumber ROWS
                                        FETCH NEXT @perPage ROWS ONLY";
+
+                // adds the order by statement to the sql call
                 sql += orderByStatement;
+
+                // returns the list AFTER the offset and orderby to display correctly
                 var albums = db.Query<Album>(sql, parameters).ToList();
+
+                // adds the genre and style string for each album in the collection
                 foreach (Album album in albums)
                 {
                     album.Genre = _genreRepo.GetListOfGenreNamesForAlbum(album.Id);
                     album.Style = _styleRepo.GetListOfStyleNamesForAlbum(album.Id);
                 }
+                // gets the genre total results for the search parameters
                 var genreTotalResults = _genreRepo.GetAlbumsInCategories(regex, id);
+
+                // fills in the collection object
                 collection.Albums = albums;
                 collection.NumberInCollection = totalAlbumsForSearch.Count;
                 collection.TotalForEachGenre = genreTotalResults;
@@ -301,6 +326,11 @@ namespace DiscDig1.Repositories
             }
         }
 
+        /// <summary>
+        /// Retrieves the users subcollection info by the users unique Id
+        /// </summary>
+        /// <param name="userId">Users Unique Id</param>
+        /// <returns>IEnumerable of SubCollectionsInfo Data Models</returns>
         public IEnumerable<SubCollectionsInfo> GetUsersSubCollections(Guid userId)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -313,6 +343,11 @@ namespace DiscDig1.Repositories
             }
         }
 
+        /// <summary>
+        /// Creates a new empty subcollection 
+        /// </summary>
+        /// <param name="newSubDTO">Object {Name: name of subcollection, UserId: unique user id}</param>
+        /// <returns>True if no issues</returns>
         public bool AddNewSubcollection(NewSubDTO newSubDTO)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -327,20 +362,28 @@ namespace DiscDig1.Repositories
                 return (db.Execute(sql, newSubDTO) == 1);
             }
         }
+        /// <summary>
+        /// Adds a new album into the users main collection.
 
+        /// </summary>
+        /// <param name="albumToCollectionDTO">Object</param>
+        /// <returns>True if no errors</returns>
         public bool AddNewAlbumToMainCollection(AlbumToCollectionDTO albumToCollectionDTO)
         {
             using (var db = new SqlConnection(_connectionString))
             {
                 var album = albumToCollectionDTO.NewAlbum;
                 Guid albumId;
+                // First checks to see if album has already been added into Discdig DB from Discog DB
                 var albumCheck = _albumRepo.GetAlbumIdByDiscogId(album.DiscogId);
                 if (albumCheck == default)
                 {
+                    // adds the album id into Discdig DB
                     albumId = _albumRepo.AddNewAlbumToDatabase(album);
                 }
                 else
                 {
+                    // sets the album id to what is returned from the check
                     albumId = albumCheck;
                 }
                 var mainId = GetUsersMainCollectionId(albumToCollectionDTO.UserId);
@@ -359,6 +402,11 @@ namespace DiscDig1.Repositories
             }
         }
 
+        /// <summary>
+        /// Add one or more albums into selected subcollection
+        /// </summary>
+        /// <param name="addToSubcollection">Object</param>
+        /// <returns>True if no errors</returns>
         public bool AddAlbumsToSubcollection(AddToSubcollectionDTO addToSubcollection)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -366,6 +414,7 @@ namespace DiscDig1.Repositories
                 var albumId = addToSubcollection.AlbumsToAdd;
                 var collectionId = addToSubcollection.CollectionId;
                 List<Object> parameters = new List<Object>();
+                // creates a new list of objects to add 
                 foreach (Guid id in albumId)
                 {
                     var obj = new
@@ -389,6 +438,12 @@ namespace DiscDig1.Repositories
             }
         }
 
+        /// <summary>
+        /// Checks to see if album exists in the users main collection already
+        /// </summary>
+        /// <param name="userId">Users unique Id</param>
+        /// <param name="albumDiscogId">Unique Discog Id</param>
+        /// <returns>False if album is not in collection, True if album is in collection</returns>
         public bool CheckToSeeIfAlbumExistsInUsersMainCollectionAlready(Guid userId, int albumDiscogId)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -411,6 +466,11 @@ namespace DiscDig1.Repositories
             }
         }
 
+        /// <summary>
+        /// Retrieves list of subcollection Ids by the users unique Id
+        /// </summary>
+        /// <param name="userId">Unique User Id</param>
+        /// <returns>List of Subcollections Unique Ids</returns>
         public List<Guid> GetSubCollectionIdsByUserId(Guid userId)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -422,6 +482,11 @@ namespace DiscDig1.Repositories
                 return db.Query<Guid>(sql, parameters).ToList();
             }
         }
+        /// <summary>
+        /// Deletes selected albums from a selected collection
+        /// </summary>
+        /// <param name="albumsToDelete">Onhect</param>
+        /// <returns>True if no errors</returns>
         public bool DeleteTheseAlbumsFromTheCollection(AlbumsToDelete albumsToDelete)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -444,6 +509,11 @@ namespace DiscDig1.Repositories
             }
         }
 
+        /// <summary>
+        /// Retrieves the users unique Id by the unique collection Id
+        /// </summary>
+        /// <param name="collectionId">Unique Id</param>
+        /// <returns>Users Unique Id</returns>
         public Guid GetUserIdFromCollectionId(Guid collectionId)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -455,6 +525,12 @@ namespace DiscDig1.Repositories
                 return db.QueryFirst<Guid>(sql, parameters);
             }
         }
+
+        /// <summary>
+        /// Retrieves an IEnumerable of unique album Ids from a unique collection id  
+        /// </summary>
+        /// <param name="id">Unique Collection Id</param>
+        /// <returns>IEnumerable of Unique Album Ids</returns>
         public IEnumerable<Guid> AlbumIdsForSubcollection(Guid id)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -466,6 +542,12 @@ namespace DiscDig1.Repositories
                 return db.Query<Guid>(sql, parameters);
             }
         }
+
+        /// <summary>
+        /// Deletes the selected subcollection
+        /// </summary>
+        /// <param name="id">Subcollection Unique Id</param>
+        /// <returns>True if no errors thrown</returns>
         public bool DeleteThisSubcollection(Guid id)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -483,6 +565,11 @@ namespace DiscDig1.Repositories
             }
         }
 
+        /// <summary>
+        /// Changes the name of the selected subcollection
+        /// </summary>
+        /// <param name="changeSubNameDTO">Object</param>
+        /// <returns>True if no errors thrown</returns>
         public bool ChangeSubCollectionName(ChangeSubNameDTO changeSubNameDTO)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -494,6 +581,11 @@ namespace DiscDig1.Repositories
             }
         }
 
+        /// <summary>
+        /// Deletes all of the users collections
+        /// </summary>
+        /// <param name="userId">Users Unique Id</param>
+        /// <returns>True if no errors thrown</returns>
         public bool DeleteAllUsersCollections(Guid userId)
         {
             using (var db = new SqlConnection(_connectionString))
