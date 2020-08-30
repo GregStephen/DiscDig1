@@ -23,6 +23,11 @@ namespace DiscDig1.Repositories
             _collectionRepo = collectionRepo;
         }
 
+        /// <summary>
+        /// Gets User data model by unique Firebase Id
+        /// </summary>
+        /// <param name="firebaseId">Unique Firebase Id</param>
+        /// <returns>User Data Model</returns>
         public User GetUserByFirebaseId(string firebaseId)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -43,6 +48,11 @@ namespace DiscDig1.Repositories
             }
         }
 
+        /// <summary>
+        /// Gets User data model from unique user id
+        /// </summary>
+        /// <param name="userId">Unique User Id</param>
+        /// <returns>User Data Model</returns>
         public User GetUserById(Guid userId)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -63,6 +73,11 @@ namespace DiscDig1.Repositories
             }
         }
 
+        /// <summary>
+        /// Gets the users dashboard data from their unique id
+        /// </summary>
+        /// <param name="userId">Unique User Id</param>
+        /// <returns>DashboardData Data Model</returns>
         public DashboardData GetUsersDashboardData(Guid userId)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -75,6 +90,12 @@ namespace DiscDig1.Repositories
             }
         }
 
+
+        /// <summary>
+        /// Retrieves the Top Genre from users collection
+        /// </summary>
+        /// <param name="userId">Unique User Id</param>
+        /// <returns>TopGenre Data Model</returns>
         public TopGenre GetUsersTopGenre(Guid userId)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -97,6 +118,11 @@ namespace DiscDig1.Repositories
             }
         }
 
+        /// <summary>
+        /// Retrieves the top decade from users collection
+        /// </summary>
+        /// <param name="userId">Unique User Id</param>
+        /// <returns>TopDecade Data Model</returns>
         public TopDecade GetUsersTopDecade(Guid userId)
         {
             using (var db =
@@ -116,6 +142,11 @@ namespace DiscDig1.Repositories
             }
         }
 
+        /// <summary>
+        /// Retrieves the top Artist from users collection
+        /// </summary>
+        /// <param name="userId">Unique User Id</param>
+        /// <returns>TopArtist Data Model</returns>
         public TopArtist GetUsersTopArtist(Guid userId)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -133,6 +164,12 @@ namespace DiscDig1.Repositories
                 return db.QueryFirstOrDefault<TopArtist>(sql, parameters);
             }
         }
+
+        /// <summary>
+        /// Edits the Users name
+        /// </summary>
+        /// <param name="editedUser">Object {FirstName: string, LastName: string, Id: GUID}</param>
+        /// <returns>True if no errors thrown</returns>
         public bool EditUser(EditUserDTO editedUser)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -146,6 +183,11 @@ namespace DiscDig1.Repositories
             }
         }
 
+        /// <summary>
+        /// Changes the users Avatar
+        /// </summary>
+        /// <param name="changeAvatarDTO">Object {Id: GUID, AvatarId: GUID}</param>
+        /// <returns>True if no errors thrown</returns>
         public bool ChangeAvatar(ChangeAvatarDTO changeAvatarDTO)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -158,6 +200,11 @@ namespace DiscDig1.Repositories
             }
         }
 
+        /// <summary>
+        /// Deletes the user and all their collections from the database
+        /// </summary>
+        /// <param name="userId">Unique User Id</param>
+        /// <returns>True if no errors thrown</returns>
         public bool DeleteUser(Guid userId)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -169,6 +216,12 @@ namespace DiscDig1.Repositories
                 return db.Execute(sql, parameters) == 1;
             }
         }
+
+        /// <summary>
+        /// Creates a new user in the database and creates their empty main collection
+        /// </summary>
+        /// <param name="newUser">Object{FirstName: string, LastName: string, FirebaseUid:GUID, AvatarId:GUID}</param>
+        /// <returns>True if no errors thrown</returns>
         public bool AddNewUserToDatabase(NewUserDTO newUser)
         {
             using (var db = new SqlConnection(_connectionString))
