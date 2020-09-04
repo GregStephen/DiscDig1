@@ -15,7 +15,7 @@ class Artist extends React.Component {
       thumb = artist.thumb;
     }
     return (
-      <div className="Artist col-5">
+      <div className="Artist col-12 col-lg-5">
         <Media>
           <Media left>
             <Media className="artist-img" object src={thumb} alt={artist.title} />

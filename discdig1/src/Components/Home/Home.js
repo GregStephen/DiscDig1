@@ -251,7 +251,7 @@ class Home extends React.Component {
               resetCheckboxes={this.resetCheckboxes}
               handleCheckbox={this.handleCheckbox}
             />
-            <div className="col-3 row align-items-start">
+            <div className="col-12 col-lg-4 offset-lg-8 mt-1 row align-items-start">
               <CollectionSortBtn
                 sortStateChange={this.sortStateChange}
               />

@@ -51,7 +51,7 @@ class Album extends React.Component {
       thumb = album.thumb;
     }
     return (
-      <div className="Album col-5">
+      <div className="Album col-12 col-lg-5">
         <Media>
           <Media left>
             <Media className="album-img" object src={thumb} alt={album.title} />
