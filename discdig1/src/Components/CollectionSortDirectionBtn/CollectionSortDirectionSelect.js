@@ -11,7 +11,7 @@ class CollectionSortDirectionSelect extends React.Component {
 
   render() {
     return (
-      <div className="CollectionSortDirectionSelect col-5">
+      <div className="CollectionSortDirectionSelect col-5 col-lg-6 offset-2 offset-lg-0">
         <Form>
           <FormGroup>
             <Label for="sortByDirectionChoice"></Label>
