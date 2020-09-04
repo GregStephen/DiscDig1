@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import {
   Badge,
@@ -7,10 +8,10 @@ import {
   Card,
   CardImg,
   CardTitle,
-  CardText
+  CardText,
 } from 'reactstrap';
 
-import discogRequests from '../../Helpers/Data/discogRequests'; 
+import discogRequests from '../../Helpers/Data/discogRequests';
 
 import './Modal.scss';
 
@@ -22,8 +23,8 @@ const defaultAlbum = {
   releaseYear: '',
   discogId: '',
   genre: [],
-  style: []
-}
+  style: [],
+};
 
 class AddAlbumToCollectionModal extends React.Component {
   state = {
@@ -32,32 +33,32 @@ class AddAlbumToCollectionModal extends React.Component {
   };
 
   componentDidMount() {
-    const {album} = this.props;
+    const { album } = this.props;
     discogRequests.getAlbumById(album.id)
-     .then((result) => {
-       let image = {
-         resource_url: 'https://i.pinimg.com/originals/b3/ed/8d/b3ed8d773439c086d52b7b0d1147fda3.jpg'
-       };
-       if (result.images !== null) {
-         image = result.images[0];
-       }
+      .then((result) => {
+        let image = {
+          resource_url: 'https://i.pinimg.com/originals/b3/ed/8d/b3ed8d773439c086d52b7b0d1147fda3.jpg',
+        };
+        if (result.images !== null) {
+          image = result.images[0];
+        }
 
-       const artist = result.artists[0];
-       const label = result.labels[0];
-       let styles = [];
-       if (result.styles != null) {
-         styles = result.styles;
-       }
-       const tempAlbum = {...this.state.newAlbum}
-       tempAlbum.title = result.title;
-       tempAlbum.imgUrl = image.resource_url;
-       tempAlbum.artist = artist.name;
-       tempAlbum.genre = result.genres;
-       tempAlbum.style = styles;
-       tempAlbum.discogId = result.id;
-       tempAlbum.releaseYear = result.year;
-       tempAlbum.label = label.name;
-       this.setState({ newAlbum : tempAlbum, catno: album.catno });
+        const artist = result.artists[0];
+        const label = result.labels[0];
+        let styles = [];
+        if (result.styles != null) {
+          styles = result.styles;
+        }
+        const tempAlbum = { ...this.state.newAlbum };
+        tempAlbum.title = result.title;
+        tempAlbum.imgUrl = image.resource_url;
+        tempAlbum.artist = artist.name;
+        tempAlbum.genre = result.genres;
+        tempAlbum.style = styles;
+        tempAlbum.discogId = result.id;
+        tempAlbum.releaseYear = result.year;
+        tempAlbum.label = label.name;
+        this.setState({ newAlbum: tempAlbum, catno: album.catno });
       });
   }
 
@@ -67,8 +68,8 @@ class AddAlbumToCollectionModal extends React.Component {
   };
 
   addAlbum = () => {
-    const {newAlbum} = this.state;
-    const {userObj, addAlbumToMain} = this.props;
+    const { newAlbum } = this.state;
+    const { userObj, addAlbumToMain } = this.props;
     const albumToAdd = {};
     albumToAdd.newAlbum = newAlbum;
     albumToAdd.userId = userObj.id;
@@ -80,35 +81,35 @@ class AddAlbumToCollectionModal extends React.Component {
     const { newAlbum, catno } = this.state;
     const genres = newAlbum.genre;
     const styles = newAlbum.style;
-    const showGenres = genres.map(genre => (
+    const showGenres = genres.map((genre) => (
       <Badge key={genre}color="primary" pill>{genre}</Badge>
     ));
-    const showStyles = styles.map(style => (
+    const showStyles = styles.map((style) => (
       <Badge key={style} color="primary" pill>{style}</Badge>
-    ))
+    ));
     return (
       <div className="AddAlbumToCollectionModal container">
         <ModalBody className="row">
           <Card className="col-12">
-            {newAlbum.imgUrl !== undefined ? <CardImg src={newAlbum.imgUrl} alt={newAlbum.title}/> 
-            : ''}
+            {newAlbum.imgUrl !== undefined ? <CardImg src={newAlbum.imgUrl} alt={newAlbum.title}/>
+              : ''}
 
           <CardTitle>Are you sure you want to add this version of {newAlbum.title} to your collection?</CardTitle>
           <CardText>Make sure that the Cat#: {catno} matches the one in your collection!</CardText>
           <CardText>Released: {newAlbum.releaseYear === 0 ? 'Unknown' : newAlbum.releaseYear}</CardText>
           <CardText>By: {newAlbum.artist}</CardText>
-          { genres.length > 0 ? 
-          <div>
+          { genres.length > 0
+            ? <div>
             <h5>Genres:</h5>
             {showGenres}
           </div>
-          : '' }
-          { styles.length > 0 ? 
-          <div>
+            : '' }
+          { styles.length > 0
+            ? <div>
             <h5>Styles:</h5>
             {showStyles}
           </div>
-          : '' }
+            : '' }
           </Card>
         </ModalBody>
         <ModalFooter>
@@ -116,8 +117,8 @@ class AddAlbumToCollectionModal extends React.Component {
           <Button color="secondary" value="delete" onClick={this.toggleModal}>Nevermind</Button>
         </ModalFooter>
       </div>
-    )
+    );
   }
-};
+}
 
 export default AddAlbumToCollectionModal;

@@ -9,7 +9,7 @@ class TrackList extends React.Component {
         <th scope="row">{track.position}</th>
         <td>{track.title}</td>
       </tr>
-    ))
+    ));
 
     return (
       <div className="TrackList">
@@ -27,8 +27,8 @@ class TrackList extends React.Component {
           </Table>
         </Card>
       </div>
-    )
+    );
   }
-};
+}
 
 export default TrackList;

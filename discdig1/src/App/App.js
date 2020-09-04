@@ -26,14 +26,14 @@ fbConnect();
 
 const PublicRoute = ({ component: Component, authorized, ...rest }) => {
   // props contains Location, Match, and History
-  const routeChecker = props => (authorized === false ? <Component authorized={authorized}{...props} {...rest} /> : <Redirect to={{ pathname: '/home', state: { from: props.location } }} />);
-  return <Route {...rest} render={props => routeChecker(props)} />;
+  const routeChecker = (props) => (authorized === false ? <Component authorized={authorized}{...props} {...rest} /> : <Redirect to={{ pathname: '/home', state: { from: props.location } }} />);
+  return <Route {...rest} render={(props) => routeChecker(props)} />;
 };
 
 const PrivateRoute = ({ component: Component, authorized, ...rest }) => {
   // props contains Location, Match, and History
-  const routeChecker = props => (authorized === true ? <Component authorized={authorized} {...props} {...rest} /> : <Redirect to={{ pathname: '/auth', state: { from: props.location } }} />);
-  return <Route {...rest} render={props => routeChecker(props)} />;
+  const routeChecker = (props) => (authorized === true ? <Component authorized={authorized} {...props} {...rest} /> : <Redirect to={{ pathname: '/auth', state: { from: props.location } }} />);
+  return <Route {...rest} render={(props) => routeChecker(props)} />;
 };
 
 const defaultUser = {
@@ -43,15 +43,15 @@ const defaultUser = {
   firebaseUid: '',
   avatar: {
     imgUrl: '',
-    name: ''
-  }
+    name: '',
+  },
 };
 
 class App extends React.Component {
   state = {
     userObj: defaultUser,
     authorized: false,
-    collections: []
+    collections: [],
   }
 
 
@@ -62,83 +62,83 @@ class App extends React.Component {
         this.setState({ authorized: false, userObj: defaultUser });
       }
     });
-  };
+  }
 
   componentWillUnmount() {
     this.removeListener();
-  };
+  }
 
   logIn = (email, password) => {
     firebase.auth().signInWithEmailAndPassword(email, password)
-      .then(cred => cred.user.getIdToken())
-      .then(token => sessionStorage.setItem('token', token))
+      .then((cred) => cred.user.getIdToken())
+      .then((token) => sessionStorage.setItem('token', token))
       .then(() => userRequests.getUserByFirebaseUid(firebase.auth().currentUser.uid))
       .then((userObj) => {
-        this.getAllUsersCollections(userObj)
-        this.setState({ userObj })
+        this.getAllUsersCollections(userObj);
+        this.setState({ userObj });
       })
-      .catch(err => this.setState({ error: err.message }))
+      .catch((err) => this.setState({ error: err.message }));
   };
 
   getAllUsersCollections = (userObj) => {
     collectionRequests.getAllUsersCollectionsByUserId(userObj.id)
       .then((result) => {
-        this.setState({ collections: result }, () => this.setState({ authorized: true}))
+        this.setState({ collections: result }, () => this.setState({ authorized: true }));
       })
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
   };
 
   refreshUserObj = () => {
     const { userObj } = this.state;
     userRequests.getUserById(userObj.id)
       .then((refreshedUserObj) => {
-        this.setState({ userObj: refreshedUserObj })
+        this.setState({ userObj: refreshedUserObj });
       })
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
   }
 
   deleteSub = (subId) => new Promise((resolve, reject) => {
     const { userObj } = this.state;
     collectionRequests.deleteThisSubcollection(subId)
       .then(() => {
-        this.getAllUsersCollections(userObj)
-        resolve('deleted')
+        this.getAllUsersCollections(userObj);
+        resolve('deleted');
       })
-      .catch(err => reject(err));
+      .catch((err) => reject(err));
   })
 
   createNewSubColl = (toSend) => new Promise((resolve, reject) => {
     const { userObj } = this.state;
     collectionRequests.addNewSubcollection(toSend)
       .then(() => {
-        this.getAllUsersCollections(userObj)
+        this.getAllUsersCollections(userObj);
         resolve('created');
       })
-      .catch(err => reject(err));
+      .catch((err) => reject(err));
   });
 
   changeSubName = (subObj) => new Promise((resolve, reject) => {
     const { userObj } = this.state;
     collectionRequests.changeSubName(subObj)
       .then(() => {
-        this.getAllUsersCollections(userObj)
+        this.getAllUsersCollections(userObj);
         resolve('changed name');
       })
-      .catch(err => reject(err));
+      .catch((err) => reject(err));
   });
 
   deleteThisUser = () => {
     const { userObj } = this.state;
     userRequests.deleteUser(userObj.id)
       .then(() => {
-        var user = firebase.auth().currentUser;
-        user.delete().then(function () {
+        const user = firebase.auth().currentUser;
+        user.delete().then(() => {
           // bye bitch.
-        }).catch(function (error) {
-          console.error(error)
+        }).catch((error) => {
+          console.error(error);
         });
       })
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
   };
 
   editThisUser = (userToEdit) => {
@@ -146,13 +146,13 @@ class App extends React.Component {
       .then(() => {
         this.refreshUserObj();
       })
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
   };
 
   changeThisAvatar = (changedAvater) => {
     userRequests.changeAvatar(changedAvater)
       .then(() => this.refreshUserObj())
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
   }
 
   addThisAlbumToMain = (albumToAdd) => new Promise((resolve, reject) => {
@@ -160,9 +160,9 @@ class App extends React.Component {
     collectionRequests.addAlbumToMainCollection(albumToAdd)
       .then(() => {
         resolve('added');
-        this.getAllUsersCollections(userObj)
+        this.getAllUsersCollections(userObj);
       })
-      .catch(err => reject(err))
+      .catch((err) => reject(err));
   });
 
   deleteAllTheseAlbums = (obj) => new Promise((resolve, reject) => {
@@ -170,20 +170,22 @@ class App extends React.Component {
     collectionRequests.deleteTheseAlbumsFromCollection(obj)
       .then(() => {
         resolve('deleted');
-        this.getAllUsersCollections(userObj)
+        this.getAllUsersCollections(userObj);
       })
-      .catch(err => reject(err))
+      .catch((err) => reject(err));
   })
 
   addSelectedAlbumsToSubCollection = (objToAdd) => {
     const { userObj } = this.state;
     collectionRequests.addAlbumsToSubcollection(objToAdd)
       .then(() => this.getAllUsersCollections(userObj))
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
   };
 
   render() {
-    const { authorized, userObj, collections, error } = this.state;
+    const {
+      authorized, userObj, collections, error,
+    } = this.state;
     return (
       <div className="App">
         <Router>
@@ -202,7 +204,6 @@ class App extends React.Component {
       </div>
     );
   }
-
 }
 
 export default App;

@@ -1,5 +1,7 @@
 import React from 'react';
-import { Card, CardTitle, CardText, Button, Collapse, Form, Input, InputGroup, InputGroupAddon } from 'reactstrap';
+import {
+  Card, CardTitle, CardText, Button, Collapse, Form, Input, InputGroup, InputGroupAddon,
+} from 'reactstrap';
 import './SubcollectionObject.scss';
 
 class SubcollectionObject extends React.Component {
@@ -10,9 +12,9 @@ class SubcollectionObject extends React.Component {
   };
 
   componentDidMount() {
-    const {subCollection} = this.props
-    this.setState({subCollectionName: subCollection.name})
-  };
+    const { subCollection } = this.props;
+    this.setState({ subCollectionName: subCollection.name });
+  }
 
   onEntering = () => {
     this.setState({ status: 'Opening...' });
@@ -31,7 +33,7 @@ class SubcollectionObject extends React.Component {
   };
 
   toggle = () => {
-    this.setState(state => ({ collapse: !state.collapse }));
+    this.setState((state) => ({ collapse: !state.collapse }));
   };
 
 
@@ -42,44 +44,44 @@ class SubcollectionObject extends React.Component {
 
   changeSubcollectionName = (e) => {
     e.preventDefault();
-    const {subCollectionName} = this.state;
-    const {changeSubColName, subCollection} = this.props;
+    const { subCollectionName } = this.state;
+    const { changeSubColName, subCollection } = this.props;
     const subObj = {
       newSubCollectionName: subCollectionName,
-      collectionId: subCollection.id
-    }
+      collectionId: subCollection.id,
+    };
     changeSubColName(subObj);
     this.toggle();
   };
-  
+
   subcollectionNameChange = (e) => {
-    this.setState({ subCollectionName: e.target.value })
+    this.setState({ subCollectionName: e.target.value });
   };
 
   render() {
-    const {subCollection} = this.props;
-    const {subCollectionName, status} = this.state;
+    const { subCollection } = this.props;
+    const { subCollectionName, status } = this.state;
     return (
       <div className="SubcollectionObject col-sm-12 col-md-6 col-lg-4">
         <Card body className="sub-object-card">
-        {status === 'Closed' ? <CardTitle className="subcollection-title">{subCollectionName}</CardTitle> : '' }
+          {status === 'Closed' ? <CardTitle className="subcollection-title">{subCollectionName}</CardTitle> : ''}
           <Collapse
-          className="no-transition"
-          isOpen={this.state.collapse}
-          onEntering={this.onEntering}
-          onEntered={this.onEntered}
-          onExiting={this.onExiting}
-          onExited={this.onExited}
+            className="no-transition"
+            isOpen={this.state.collapse}
+            onEntering={this.onEntering}
+            onEntered={this.onEntered}
+            onExiting={this.onExiting}
+            onExited={this.onExited}
           >
             <Form onSubmit={this.changeSubcollectionName}>
               <InputGroup>
-                <Input 
-                maxLength="30"
-                type="text"
-                name={subCollection.id}
-                id={subCollection.id}
-                value={this.state.subCollectionName}
-                onChange={this.subcollectionNameChange}/>
+                <Input
+                  maxLength="30"
+                  type="text"
+                  name={subCollection.id}
+                  id={subCollection.id}
+                  value={this.state.subCollectionName}
+                  onChange={this.subcollectionNameChange} />
                 <InputGroupAddon addonType="append">
                   <Button type="submit" className="searchBtn btn btn-success">edit</Button>
                 </InputGroupAddon>
@@ -88,11 +90,11 @@ class SubcollectionObject extends React.Component {
           </Collapse>
           <CardText>Number of Albums: {subCollection.numberInCollection} </CardText>
           {status === 'Closed' ? <Button className="btn-info" onClick={this.toggle}>Change Name</Button>
-          : ''}
+            : ''}
           <Button className="btn-danger" onClick={this.deleteSubcollection}>Delete</Button>
         </Card>
       </div>
-    )
+    );
   }
 }
 

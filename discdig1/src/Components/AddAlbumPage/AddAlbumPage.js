@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React from 'react';
 
 import AddAlbumPagination from '../AddAlbumPagination/AddAlbumPagination';
@@ -27,17 +28,17 @@ class AddAlbumPage extends React.Component {
 
   componentDidMount() {
     this.getMainCollection();
-  };
+  }
 
   componentDidUpdate({ collections }) {
     if (this.props.collections !== collections) {
       this.getMainCollection();
     }
-  };
+  }
 
   getMainCollection = () => {
     const { collections } = this.props;
-    const main = collections.filter(collection => collection.name === 'Main');
+    const main = collections.filter((collection) => collection.name === 'Main');
     this.setState({ mainCollectionAlbums: main[0].albums });
   };
 
@@ -51,20 +52,19 @@ class AddAlbumPage extends React.Component {
             totalResults: results.pagination.items,
             pagination: results.pagination,
             currentPage: results.pagination.page,
-            totalPages: results.pagination.pages
-          })
+            totalPages: results.pagination.pages,
+          },
+        );
         this.getCountOfResultsShown();
         if (resultCheck.length === 0) {
-          this.setState({ artists: [], albums: [] })
-        }
-        else if (resultCheck[0].type === "release") {
+          this.setState({ artists: [], albums: [] });
+        } else if (resultCheck[0].type === 'release') {
           this.setState({ albums: results.results, artists: [] });
-        }
-        else if (resultCheck[0].type === "artist") {
-          this.setState({ artists: results.results, albums: [] })
+        } else if (resultCheck[0].type === 'artist') {
+          this.setState({ artists: results.results, albums: [] });
         }
       })
-      .catch(err => console.error(err))
+      .catch((err) => console.error(err));
   };
 
   getCountOfResultsShown = () => {
@@ -75,12 +75,12 @@ class AddAlbumPage extends React.Component {
     if (topNumber > totalResults) {
       topNumber = totalResults;
     }
-    this.setState({ bottomNumber, topNumber })
+    this.setState({ bottomNumber, topNumber });
   };
 
   getAlbumsByThisArtist = (artistName) => {
     const albumSearch = 'searchAll';
-    this.setState({ albumTerm: 'searchAll', artistTerm: artistName })
+    this.setState({ albumTerm: 'searchAll', artistTerm: artistName });
     this.displaySearchedAlbums(artistName, albumSearch, 1);
   };
 
@@ -98,16 +98,17 @@ class AddAlbumPage extends React.Component {
     let result = 'no result';
     if (albums.length !== 0) {
       result = 'album';
-    }
-    else if (artists.length !== 0) {
+    } else if (artists.length !== 0) {
       result = 'artist';
     }
     return result;
   }
 
   render() {
-    const { albums, artists, totalResults, currentPage, totalPages, topNumber, bottomNumber } = this.state;
-    const showAlbums = albums.map(album => (
+    const {
+      albums, artists, totalResults, currentPage, totalPages, topNumber, bottomNumber,
+    } = this.state;
+    const showAlbums = albums.map((album) => (
       <Album
         key={album.id}
         album={album}
@@ -115,47 +116,45 @@ class AddAlbumPage extends React.Component {
         addAlbToMain={this.addAlbToMain}
         mainCollectionAlbums={this.state.mainCollectionAlbums}
       />
-    ))
+    ));
 
-    const showArtists = artists.map(artist => (
+    const showArtists = artists.map((artist) => (
       <Artist
         key={artist.id}
         artist={artist}
         getAlbumsByThisArtist={this.getAlbumsByThisArtist}
       />
-    ))
+    ));
 
 
     const showResults = () => {
-      const { albums, artists } = this.state;
-      let result = this.getResult(albums, artists);
+      const result = this.getResult(albums, artists);
       let returnCode = '';
-      if (result === 'no result'){
-      returnCode = <h2 className="no-result">No results! Please refine search</h2> }
-      else {
-        returnCode =
-        <div className="album-display row justify-content-around">
+      if (result === 'no result') {
+        returnCode = <h2 className="no-result">No results! Please refine search</h2>;
+      } else {
+        returnCode = <div className="album-display row justify-content-around">
           <div className="row col-12 justify-content-center">
             <p className="col-12">{bottomNumber} - {topNumber} of {totalResults} results</p>
-            {totalPages > 1 ?
-              <AddAlbumPagination
+            {totalPages > 1
+              ? <AddAlbumPagination
                 currentPage={currentPage}
                 totalPages={totalPages}
                 changePage={this.changePage}
               />
               : ''}
           </div>
-            {result === 'album' ? showAlbums : result === 'artist' ? showArtists : ''}
-            <div className="row col-12 justify-content-center">
-            {totalPages > 1 ?
-              <AddAlbumPagination
+          {result === 'album' ? showAlbums : result === 'artist' ? showArtists : ''}
+          <div className="row col-12 justify-content-center">
+            {totalPages > 1
+              ? <AddAlbumPagination
                 currentPage={currentPage}
                 totalPages={totalPages}
                 changePage={this.changePage}
               />
               : ''}
           </div>
-        </div>
+        </div>;
       }
       return returnCode;
     };
@@ -167,8 +166,8 @@ class AddAlbumPage extends React.Component {
           displaySearchedAlbums={this.displaySearchedAlbums} />
         {showResults()}
       </div>
-    )
+    );
   }
-};
+}
 
 export default AddAlbumPage;

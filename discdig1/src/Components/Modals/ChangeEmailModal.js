@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Button, ModalBody, ModalFooter, FormGroup, Form, Label, Input
+  Button, ModalBody, ModalFooter, FormGroup, Form, Label, Input,
 } from 'reactstrap';
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -9,11 +9,11 @@ import PropTypes from 'prop-types';
 
 class ChangeEmailModal extends React.Component {
   state = {
-    updatedEmail : {
+    updatedEmail: {
       password: '',
-      newEmail: ''
+      newEmail: '',
     },
-    error: ''
+    error: '',
   };
 
   static propTypes = {
@@ -27,31 +27,31 @@ class ChangeEmailModal extends React.Component {
   };
 
   reauthenticate = (currentPassword) => {
-    var user = firebase.auth().currentUser;
-    var cred = firebase.auth.EmailAuthProvider.credential(
-        user.email, currentPassword);
+    const user = firebase.auth().currentUser;
+    const cred = firebase.auth.EmailAuthProvider.credential(
+      user.email, currentPassword,
+    );
     return user.reauthenticateWithCredential(cred);
   };
 
   changeEmail = (currentPassword, newEmail) => {
     this.reauthenticate(currentPassword).then(() => {
-      var user = firebase.auth().currentUser;
+      const user = firebase.auth().currentUser;
       user.updateEmail(newEmail)
         .then(() => {
           this.toggleModal();
           // maybe alert them somehow that their email change was successful
-        }).catch((error) => { this.setState({error: error.message}) });
-      }).catch((error) => { 
-        if (error.code === "auth/wrong-password")
-        {
-          this.setState({ error: 'Password is not correct'})
-        }
+        }).catch((error) => { this.setState({ error: error.message }); });
+    }).catch((error) => {
+      if (error.code === 'auth/wrong-password') {
+        this.setState({ error: 'Password is not correct' });
+      }
     });
   }
 
   formSubmit = (e) => {
     e.preventDefault();
-    const {updatedEmail} = this.state;
+    const { updatedEmail } = this.state;
     this.changeEmail(updatedEmail.password, updatedEmail.newEmail);
   };
 
@@ -95,7 +95,7 @@ class ChangeEmailModal extends React.Component {
           </ModalFooter>
         </Form>
       </div>
-    )
+    );
   }
 }
 

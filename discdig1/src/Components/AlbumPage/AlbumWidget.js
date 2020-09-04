@@ -1,5 +1,7 @@
 import React from 'react';
-import { Button, Card, ListGroup, ListGroupItem, Modal, ModalHeader } from 'reactstrap';
+import {
+  Button, Card, ListGroup, ListGroupItem, Modal, ModalHeader,
+} from 'reactstrap';
 import ShowMoreAlbumImagesModal from '../Modals/ShowMoreAlbumImagesModal';
 
 class AlbumWidget extends React.Component {
@@ -8,20 +10,20 @@ class AlbumWidget extends React.Component {
   }
 
   toggleModalOpen = () => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       showMoreAlbumImagesModalIsOpen: !prevState.showMoreAlbumImagesModalIsOpen,
     }));
   };
 
   render() {
     const { album } = this.props;
-    const images = album.images;
+    const { images } = album;
     let image = {
-      resource_url: 'https://i.pinimg.com/originals/b3/ed/8d/b3ed8d773439c086d52b7b0d1147fda3.jpg'
+      resource_url: 'https://i.pinimg.com/originals/b3/ed/8d/b3ed8d773439c086d52b7b0d1147fda3.jpg',
     };
 
     if (images !== null) {
-      image = images.find(image => image.type === "primary");
+      image = images.find((img) => img.type === 'primary');
     }
 
     let genres = [];
@@ -34,37 +36,33 @@ class AlbumWidget extends React.Component {
     }
     const displayArtists = album.artists.map((artist, i) => {
       if (i === 0) {
-        return `${artist.name}`
+        return `${artist.name}`;
       }
-      else {
-        return `, ${artist.name}`
-      }
+
+      return `, ${artist.name}`;
     });
     const showGenres = genres.map((genre, i) => {
       if (i === 0) {
-        return `${genre}`
+        return `${genre}`;
       }
-      else {
-        return `, ${genre}`
-      }
+
+      return `, ${genre}`;
     });
 
     const showStyles = styles.map((style, i) => {
       if (i === 0) {
-        return `${style}`
+        return `${style}`;
       }
-      else {
-        return `, ${style}`
-      }
+
+      return `, ${style}`;
     });
 
     const showLabel = album.labels.map((label, i) => {
       if (i === 0) {
-        return `${label.name}`
+        return `${label.name}`;
       }
-      else {
-        return `, ${label.name}`
-      }
+
+      return `, ${label.name}`;
     });
 
     return (
@@ -77,11 +75,11 @@ class AlbumWidget extends React.Component {
           <div className="col-12">
             <ListGroup>
               <ListGroupItem>Artist(s): {displayArtists}</ListGroupItem>
-              {genres.length > 0 ?
-                <ListGroupItem>Genre: {showGenres}</ListGroupItem>
+              {genres.length > 0
+                ? <ListGroupItem>Genre: {showGenres}</ListGroupItem>
                 : ''}
-              {styles.length > 0 ?
-                <ListGroupItem>Style: {showStyles}</ListGroupItem>
+              {styles.length > 0
+                ? <ListGroupItem>Style: {showStyles}</ListGroupItem>
                 : ''}
               <ListGroupItem>Label: {showLabel}</ListGroupItem>
               <ListGroupItem>Country: {album.country}</ListGroupItem>
@@ -99,8 +97,8 @@ class AlbumWidget extends React.Component {
           />
         </Modal>
       </div>
-    )
+    );
   }
-};
+}
 
 export default AlbumWidget;

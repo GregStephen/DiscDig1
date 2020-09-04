@@ -15,44 +15,44 @@ const defaultAlbum = {
   artists: [
     {
       name: '',
-      id: 0
-    }
+      id: 0,
+    },
   ],
   companies: [
     {
       entity_type_name: '',
-      name: ''
-    }
+      name: '',
+    },
   ],
   country: '',
   extraartists: [
     {
       name: '',
-      role: ''
-    }
+      role: '',
+    },
   ],
   genres: [],
   images: [
     {
       resource_url: '',
       type: 'primary',
-    }
+    },
   ],
   labels: [
     {
-      name: ''
-    }
+      name: '',
+    },
   ],
   released: '',
   styles: [],
   tracklist: [
     {
       position: '',
-      title: ''
-    }
+      title: '',
+    },
   ],
-  year: 0
-}
+  year: 0,
+};
 
 class AlbumPage extends React.Component {
   state = {
@@ -62,13 +62,13 @@ class AlbumPage extends React.Component {
   getAlbumInfo = () => {
     const albumId = this.props.match.params.id;
     discogRequests.getAlbumById(albumId)
-      .then(result => this.setState({ album: result }))
-      .catch(err => console.error(err));
+      .then((result) => this.setState({ album: result }))
+      .catch((err) => console.error(err));
   };
 
   componentDidMount() {
     this.getAlbumInfo();
-  };
+  }
 
   render() {
     const { album } = this.state;
@@ -80,8 +80,8 @@ class AlbumPage extends React.Component {
             album={album}
           />
           {
-            album.extraartists.length > 0 ?
-              <AlbumCredits
+            album.extraartists.length > 0
+              ? <AlbumCredits
                 albumCredits={album.extraartists}
               />
               : ''
@@ -90,16 +90,16 @@ class AlbumPage extends React.Component {
             tracklist={album.tracklist}
           />
           {
-            album.companies.length > 0 ?
-              <AlbumCompanies
+            album.companies.length > 0
+              ? <AlbumCompanies
                 companies={album.companies}
               />
               : ''
           }
         </CardColumns>
       </div>
-    )
+    );
   }
-};
+}
 
 export default AlbumPage;

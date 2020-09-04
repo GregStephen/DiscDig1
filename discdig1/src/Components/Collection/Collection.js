@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import { Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
@@ -9,7 +10,7 @@ import AddToSubcollection from '../AddToSubcollection/AddToSubcollection';
 import './Collection.scss';
 
 const defaultCheckedAlbums = {
-  0: false
+  0: false,
 };
 
 class Collection extends React.Component {
@@ -23,7 +24,7 @@ class Collection extends React.Component {
     if (this.props.collection !== collection) {
       this.setState({ checkedAlbums: defaultCheckedAlbums });
     }
-  };
+  }
 
   // sets the state for whichever album is checked or then unchecked
   handleAlbumChecks = (e) => {
@@ -37,9 +38,7 @@ class Collection extends React.Component {
   deleteSelectedAlbums = () => {
     const { collection, deleteAlbums } = this.props;
     const { checkedAlbums } = this.state;
-    const albumsToDelete = Object.keys(checkedAlbums).filter(function (id) {
-      return checkedAlbums[id]
-    })
+    const albumsToDelete = Object.keys(checkedAlbums).filter((id) => checkedAlbums[id]);
     const objectForDeletion = {};
     objectForDeletion.collectionId = collection.id;
     objectForDeletion.deleteTheseAlbums = albumsToDelete;
@@ -50,22 +49,20 @@ class Collection extends React.Component {
     const { checkedAlbums } = this.state;
     const { addAlbumToSubCollection, collections } = this.props;
     // creates an array of the ids of the albums checked
-    const albumsToAdd = Object.keys(checkedAlbums).filter(function (id) {
-      return checkedAlbums[id]
-    })
+    const albumsToAdd = Object.keys(checkedAlbums).filter((id) => checkedAlbums[id]);
 
     // gets the array of albums that already exist in the chosen subcollection
-    const subCollectionBeingAddedTo = collections.filter(coll => coll.id === subcollectionChoice);
+    const subCollectionBeingAddedTo = collections.filter((coll) => coll.id === subcollectionChoice);
     const subCollectionBeingAddedToAlbumsList = subCollectionBeingAddedTo[0].albums;
 
     // checks to see if each album is already in the subcollection
     const albumsToAddNotDuplicated = [];
     albumsToAdd.forEach((album) => {
-      const check = subCollectionBeingAddedToAlbumsList.filter(existingAlbum => existingAlbum.id === album);
+      const check = subCollectionBeingAddedToAlbumsList.filter((existingAlbum) => existingAlbum.id === album);
       if (check.length === 0) {
         albumsToAddNotDuplicated.push(album);
       }
-    })
+    });
 
     // creates the object of albums and subcollection id to push
     if (albumsToAddNotDuplicated.length > 0) {
@@ -79,12 +76,12 @@ class Collection extends React.Component {
   // sets the state of whichever subcollection is chosen
   changeSubCollection = (e) => {
     const tempChosenCollectionId = e.target.value;
-    this.setState({ chosenSubcollectionId: tempChosenCollectionId })
+    this.setState({ chosenSubcollectionId: tempChosenCollectionId });
   }
 
   render() {
     const { collection, searchedTerm } = this.props;
-    const albums = collection.albums;
+    const { albums } = collection;
     const showCollection = albums.map((album) => (
       <CollectionAlbum
         album={album}
@@ -95,7 +92,7 @@ class Collection extends React.Component {
         chosenSubcollectionId={this.state.chosenSubcollectionId}
         collections={this.props.collections}
       />
-    ))
+    ));
 
     return (
       <div className="Collection container">
@@ -108,24 +105,24 @@ class Collection extends React.Component {
               changeSubCollection={this.changeSubCollection}
             />
             <Link className="btn btn-info subcollection-btn" to='/subcollections'> Manage Subcollections</Link>
-            {collection.id !== undefined ?
-              <Button className="btn-danger subcollection-btn" onClick={this.deleteSelectedAlbums}>Delete Selected Albums</Button>
+            {collection.id !== undefined
+              ? <Button className="btn-danger subcollection-btn" onClick={this.deleteSelectedAlbums}>Delete Selected Albums</Button>
               : ''}
           </div>
           <div className="col-sm-12 col-lg-9">
             <p className="collection-name">{collection.name}</p>
             {searchedTerm !== '' ? <p>{collection.numberInCollection} results for {searchedTerm}</p>
-              : ""}
+              : ''}
             <div className="row justify-content-around">
-              {collection.albums.length > 0 ? showCollection : 
-              <p className="no-albums">You have no albums to show! Try adding some first</p>}
+              {collection.albums.length > 0 ? showCollection
+                : <p className="no-albums">You have no albums to show! Try adding some first</p>}
             </div>
           </div>
         </div>
 
       </div>
-    )
+    );
   }
-};
+}
 
 export default Collection;

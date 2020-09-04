@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Media, CustomInput, Label
+  Media, CustomInput, Label,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
@@ -13,25 +13,24 @@ class CollectionAlbum extends React.Component {
 
   getAlreadyAddedStatus = () => {
     const { collections, chosenSubcollectionId, album } = this.props;
-    const selectedCol = collections.filter(collection => collection.id === chosenSubcollectionId);
+    const selectedCol = collections.filter((collection) => collection.id === chosenSubcollectionId);
     const albumsList = selectedCol.albums;
     if (albumsList !== undefined) {
-      if (albumsList.some(singleAlbum => singleAlbum.discogId === album.id)) {
-        this.setState({ alreadyAddedToSub: true })
+      if (albumsList.some((singleAlbum) => singleAlbum.discogId === album.id)) {
+        this.setState({ alreadyAddedToSub: true });
       }
     }
   };
 
   componentDidMount() {
     this.getAlreadyAddedStatus();
-
-  };
+  }
 
   componentDidUpdate({ chosenSubcollectionId }) {
     if (this.props.chosenSubcollectionId !== chosenSubcollectionId) {
-      this.getAlreadyAddedStatus()
+      this.getAlreadyAddedStatus();
     }
-  };
+  }
 
   render() {
     const { album, isChecked, onCheck } = this.props;
@@ -64,8 +63,8 @@ class CollectionAlbum extends React.Component {
           </Media>
         </Media>
       </div>
-    )
+    );
   }
-};
+}
 
 export default CollectionAlbum;

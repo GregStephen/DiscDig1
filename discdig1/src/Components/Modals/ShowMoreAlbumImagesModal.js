@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import {
   Button,
@@ -14,19 +15,20 @@ import './Modal.scss';
 class ShowMoreAlbumImagesModal extends React.Component {
   state = {
     activeIndex: 0,
-    imagesToShow: []
+    imagesToShow: [],
   }
 
-  componentDidMount(){
-    const {images} = this.props
-    this.setState({imagesToShow: images })
+  componentDidMount() {
+    const { images } = this.props;
+    this.setState({ imagesToShow: images });
   }
 
   componentDidUpdate({ images }) {
     if (this.props.images !== images) {
       this.setState({ imagesToShow: images });
     }
-  };
+  }
+
   onExiting = () => {
     this.animating = true;
   }
@@ -36,14 +38,14 @@ class ShowMoreAlbumImagesModal extends React.Component {
   }
 
   next = () => {
-    const {images} = this.props;
+    const { images } = this.props;
     if (this.animating) return;
     const nextIndex = this.state.activeIndex === images.length - 1 ? 0 : this.state.activeIndex + 1;
     this.setState({ activeIndex: nextIndex });
   }
 
   previous = () => {
-    const {images} = this.props;
+    const { images } = this.props;
     if (this.animating) return;
     const nextIndex = this.state.activeIndex === 0 ? images.length - 1 : this.state.activeIndex - 1;
     this.setState({ activeIndex: nextIndex });
@@ -53,13 +55,14 @@ class ShowMoreAlbumImagesModal extends React.Component {
     if (this.animating) return;
     this.setState({ activeIndex: newIndex });
   }
+
   toggleModal = () => {
     const { toggleModalOpen } = this.props;
     toggleModalOpen();
   };
 
   render() {
-    const { activeIndex} = this.state;
+    const { activeIndex } = this.state;
     const { images } = this.props;
     const slides = images.map((image, i) => (
       <CarouselItem
@@ -69,7 +72,7 @@ class ShowMoreAlbumImagesModal extends React.Component {
       >
         <img src={image.resource_url} alt={image.resource_url} />
       </CarouselItem>
-    ))
+    ));
 
     return (
       <div className="ShowMoreAlbumImagesModal">
@@ -91,8 +94,8 @@ class ShowMoreAlbumImagesModal extends React.Component {
           <Button color="secondary" value="delete" onClick={this.toggleModal}>Close</Button>
         </ModalFooter>
       </div>
-    )
+    );
   }
-};
+}
 
 export default ShowMoreAlbumImagesModal;

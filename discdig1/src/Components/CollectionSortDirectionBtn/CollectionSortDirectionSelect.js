@@ -1,8 +1,9 @@
 import React from 'react';
-import { Form, FormGroup, Input, Label } from 'reactstrap';
+import {
+  Form, FormGroup, Input, Label,
+} from 'reactstrap';
 
 class CollectionSortDirectionSelect extends React.Component {
-
   changeSortDirectionState = (e) => {
     const { sortDirectionStateChange } = this.props;
     sortDirectionStateChange(e.target.value);
@@ -26,8 +27,8 @@ class CollectionSortDirectionSelect extends React.Component {
           </FormGroup>
         </Form>
       </div>
-    )
+    );
   }
-};
+}
 
 export default CollectionSortDirectionSelect;

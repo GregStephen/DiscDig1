@@ -16,7 +16,7 @@ import './NewUser.scss';
 const defaultNewUser = {
   firstName: '',
   lastName: '',
-  avatarId: ''
+  avatarId: '',
 };
 
 class NewUser extends React.Component {
@@ -26,15 +26,15 @@ class NewUser extends React.Component {
     email: '',
     password: '',
     confirmPassword: '',
-    error: ''
+    error: '',
   };
 
   componentDidMount() {
     // sets state of all avatars from db
     avatarRequests.getAllAvatars()
-      .then(avatars => this.setState({ avatars }))
-      .catch(err => console.error('trouble getting avatars', err));
-  };
+      .then((avatars) => this.setState({ avatars }))
+      .catch((err) => console.error('trouble getting avatars', err));
+  }
 
 
   // puts border on selected avatar and sets it to state
@@ -69,104 +69,104 @@ class NewUser extends React.Component {
     const { email, password, confirmPassword } = this.state;
     const { logIn } = this.props;
     if (password !== confirmPassword) {
-      this.setState({ error: 'Passwords must match'});
+      this.setState({ error: 'Passwords must match' });
       return;
     }
-    
+
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((cred) => {
         cred.user.getIdToken()
-        .then(token => sessionStorage.setItem('token', token))
+          .then((token) => sessionStorage.setItem('token', token));
         const saveMe = { ...this.state.newUser };
         saveMe.firebaseUid = firebase.auth().currentUser.uid;
         userRequests.addNewUser(saveMe)
           .then(() => logIn(email, password))
-          .catch(err => console.error('unable to save', err));
+          .catch((err) => console.error('unable to save', err));
       })
-      .catch(err => this.setState({ error: err.message }));
+      .catch((err) => this.setState({ error: err.message }));
   }
 
   render() {
     const {
-      newUser, email, password, confirmPassword, error, avatars
+      newUser, email, password, confirmPassword, error, avatars,
     } = this.state;
 
     const showAvatars = avatars.map((avatar, index) => (
       <AvatarSelectionButton
-      avatar={ avatar }
-      index={ index }
-      selectAvatar={ this.selectAvatar }
-      key={ avatar.id }
+        avatar={avatar}
+        index={index}
+        selectAvatar={this.selectAvatar}
+        key={avatar.id}
       />
-    ))
+    ));
 
     return (
       <div className="NewUser container">
         <div className="new-user-form">
-        <h1 className="join-header">Create an account!</h1>
+          <h1 className="join-header">Create an account!</h1>
           <Form className="row justify-content-center" onSubmit={this.formSubmit}>
             <div className="form-group col-11 col-md-6 col-lg-4">
               <Label for="firstName">First Name</Label>
               <Input
-              type="text"
-              className="form-control"
-              id="firstName"
-              value={newUser.firstName}
-              onChange={this.formFieldStringState}
-              placeholder="John"
-              required
+                type="text"
+                className="form-control"
+                id="firstName"
+                value={newUser.firstName}
+                onChange={this.formFieldStringState}
+                placeholder="John"
+                required
               />
             </div>
             <div className="form-group col-11 col-md-6 col-lg-4">
               <Label for="lastName">Last Name</Label>
               <Input
-              type="text"
-              className="form-control"
-              id="lastName"
-              value={newUser.lastName}
-              onChange={this.formFieldStringState}
-              placeholder="Smith"
-              required
+                type="text"
+                className="form-control"
+                id="lastName"
+                value={newUser.lastName}
+                onChange={this.formFieldStringState}
+                placeholder="Smith"
+                required
               />
             </div>
             <div className="form-group col-11 col-md-9 col-lg-8">
               <Label for="email">Email</Label>
               <Input
-              type="email"
-              className="form-control"
-              id="email"
-              value={email}
-              onChange={this.handleChange}
-              placeholder="John@DiscDig.com"
-              required
+                type="email"
+                className="form-control"
+                id="email"
+                value={email}
+                onChange={this.handleChange}
+                placeholder="John@DiscDig.com"
+                required
               />
             </div>
             <div className="form-group col-11 col-md-9 col-lg-8">
               <Label for="password">Password</Label>
               <Input
-              type="password"
-              className="form-control"
-              id="password"
-              value={password}
-              onChange={this.handleChange}
-              required
+                type="password"
+                className="form-control"
+                id="password"
+                value={password}
+                onChange={this.handleChange}
+                required
               />
             </div>
             <div className="form-group col-11 col-md-9 col-lg-8">
               <Label for="confirmPassword">Confirm Password</Label>
               <Input
-              type="password"
-              className="form-control"
-              id="confirmPassword"
-              value={confirmPassword}
-              onChange={this.handleChange}
-              required
+                type="password"
+                className="form-control"
+                id="confirmPassword"
+                value={confirmPassword}
+                onChange={this.handleChange}
+                required
               />
             </div>
             <div className="form-group col-12 row justify-content-center">
               <p className="avatar-select-header col-12">Select Your Avatar</p>
               <div className="row col-10 justify-content-around">
-                { showAvatars }
+                {showAvatars}
               </div>
             </div>
             <h2 className="error col-12">{error}</h2>
@@ -174,8 +174,8 @@ class NewUser extends React.Component {
           </Form>
         </div>
       </div>
-    )
+    );
   }
-};
+}
 
 export default NewUser;

@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Input, Button, Form } from 'reactstrap';
@@ -13,36 +15,36 @@ class SearchBar extends React.Component {
   };
 
   state = {
-    artistSearch : "",
-    albumSearch : "",
+    artistSearch: '',
+    albumSearch: '',
   }
 
   // this searches the database when the user clicks on the search button
   searchOnSubmit = (e) => {
     e.preventDefault();
-    const {artistSearch, albumSearch} = this.state;
+    const { artistSearch, albumSearch } = this.state;
     this.search(artistSearch, albumSearch);
   }
 
   // this is the actual search function
   search = (artistSearch, albumSearch) => {
-    const {displaySearchedAlbums} = this.props;
-    if (artistSearch === ''){
-      artistSearch = 'null'
+    const { displaySearchedAlbums } = this.props;
+    if (artistSearch === '') {
+      artistSearch = 'null';
     }
     if (albumSearch === '') {
-      albumSearch = 'null'
+      albumSearch = 'null';
     }
 
-    displaySearchedAlbums(artistSearch, albumSearch, 1); 
+    displaySearchedAlbums(artistSearch, albumSearch, 1);
   }
 
   // When the user types on the search bar it changes state and searches
   formFieldStringState = (e) => {
-    this.setState({ [e.target.id] : e.target.value });
-  //  this.search(e.target.value);
+    this.setState({ [e.target.id]: e.target.value });
+    //  this.search(e.target.value);
   }
-  
+
   componentDidMount() {
     this._isMounted = true;
   }
@@ -55,7 +57,7 @@ class SearchBar extends React.Component {
     return (
       <div className="SearchBar container">
         <Form onSubmit={this.searchOnSubmit} className="row justify-content-center">
-            <Input 
+          <Input
             className="col-sm-10 col-lg-4 offset-lg-1"
             maxLength="40"
             type="search"
@@ -63,8 +65,8 @@ class SearchBar extends React.Component {
             id="artistSearch"
             placeholder="artist"
             value={this.state.artistSearch}
-            onChange={this.formFieldStringState}/>
-            <Input 
+            onChange={this.formFieldStringState} />
+          <Input
             className="col-sm-10 col-lg-4 offset-lg-1"
             maxLength="40"
             type="search"
@@ -72,11 +74,11 @@ class SearchBar extends React.Component {
             id="albumSearch"
             placeholder="album"
             value={this.state.albumSearch}
-            onChange={this.formFieldStringState}/>
-            <Button type="submit" className="searchBtn btn btn-success col-sm-3 col-lg-1 offset-lg-1">Search</Button>
+            onChange={this.formFieldStringState} />
+          <Button type="submit" className="searchBtn btn btn-success col-sm-3 col-lg-1 offset-lg-1">Search</Button>
         </Form>
       </div>
-    )
+    );
   }
 }
 
