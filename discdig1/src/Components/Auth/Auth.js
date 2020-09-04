@@ -18,7 +18,7 @@ class Auth extends React.Component {
     if (this.props.error !== error) {
       this.setState({ errorMsg: this.props.error });
     }
-  };
+  }
 
   logIntoDiscDig = (e) => {
     e.preventDefault();
@@ -35,7 +35,7 @@ class Auth extends React.Component {
 
 
   toggleResetPasswordModal = () => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       passwordResetModal: !prevState.passwordResetModal,
     }));
   }
@@ -92,8 +92,8 @@ class Auth extends React.Component {
           />
         </Modal>
       </div>
-    )
+    );
   }
-};
+}
 
 export default Auth;

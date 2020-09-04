@@ -18,7 +18,7 @@ class DeleteUserModal extends React.Component {
   };
 
   confirmDeletion = () => {
-    const {userDeleted} = this.props;
+    const { userDeleted } = this.props;
     this.toggleModal();
     userDeleted();
   };
@@ -35,7 +35,7 @@ class DeleteUserModal extends React.Component {
           <Button color="secondary" value="delete" onClick={this.toggleModal}>No, I don't want to delete myself</Button>
         </ModalFooter>
       </div>
-    )
+    );
   }
 }
 

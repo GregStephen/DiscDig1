@@ -1,5 +1,5 @@
 import React from 'react';
-import { Media, Button } from 'reactstrap'
+import { Media, Button } from 'reactstrap';
 import './Artist.scss';
 
 class Artist extends React.Component {
@@ -28,8 +28,8 @@ class Artist extends React.Component {
           </Media>
         </Media>
       </div>
-    )
+    );
   }
-};
+}
 
 export default Artist;

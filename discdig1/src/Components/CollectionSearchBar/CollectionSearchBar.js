@@ -1,5 +1,8 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
-import { Input, InputGroup, InputGroupAddon, Button, Form, Collapse, FormGroup } from 'reactstrap';
+import {
+  Input, InputGroup, InputGroupAddon, Button, Form, Collapse, FormGroup,
+} from 'reactstrap';
 
 import GenreCheckBox from '../GenreCheckBox/GenreCheckBox';
 
@@ -10,7 +13,7 @@ class CollectionSearchBar extends React.Component {
   _isMounted = false;
 
   state = {
-    searchTerm: "",
+    searchTerm: '',
     collapse: false,
     status: 'Closed',
   }
@@ -19,7 +22,7 @@ class CollectionSearchBar extends React.Component {
     if (this.props.collectionChoice !== collectionChoice) {
       this.setState({ collapse: false, status: 'Closed', searchTerm: '' });
     }
-  };
+  }
 
   componentDidMount() {
     this._isMounted = true;
@@ -46,7 +49,7 @@ class CollectionSearchBar extends React.Component {
   }
 
   toggle = () => {
-    this.setState(state => ({ collapse: !state.collapse }));
+    this.setState((state) => ({ collapse: !state.collapse }));
   }
 
   // when you close the category filters it clears out the checkboxes that have been clicked
@@ -84,19 +87,19 @@ class CollectionSearchBar extends React.Component {
 
   render() {
     const { collection, genres } = this.props;
-    const makeCheckboxes = genres.map(genre => (
+    const makeCheckboxes = genres.map((genre) => (
       <GenreCheckBox
         key={genre.id}
         genre={genre}
         onChange={this.handleChange}
         isChecked={this.props.checkedGenres[genre.id]}
       />
-    ))
+    ));
     return (
       <div className="CollectionSearchBar col-sm-12 col-lg-6 offset-lg-3">
         <Form onSubmit={this.searchOnSubmit} className="container">
-          {collection.id === undefined ?
-            <InputGroup>
+          {collection.id === undefined
+            ? <InputGroup>
               <Input
                 maxLength="40"
                 type="search"
@@ -109,8 +112,7 @@ class CollectionSearchBar extends React.Component {
                 <Button disabled type="submit" className="searchBtn btn btn-success">Search</Button>
               </InputGroupAddon>
             </InputGroup>
-            :
-            <InputGroup>
+            : <InputGroup>
               <Input
                 maxLength="40"
                 type="search"
@@ -134,7 +136,7 @@ class CollectionSearchBar extends React.Component {
             onEntered={this.onEntered}
             onExiting={this.onExiting}
             onExited={this.onExited}
-            
+
           >
             <FormGroup check className="row justify-content-center" inline>
               {makeCheckboxes}
@@ -142,7 +144,7 @@ class CollectionSearchBar extends React.Component {
           </Collapse>
         </Form>
       </div>
-    )
+    );
   }
 }
 

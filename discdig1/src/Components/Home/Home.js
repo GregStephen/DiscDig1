@@ -1,3 +1,7 @@
+/* eslint-disable consistent-return */
+/* eslint-disable no-return-assign */
+/* eslint-disable no-param-reassign */
+/* eslint-disable max-len */
 import React from 'react';
 import { FormGroup, Label, Input } from 'reactstrap';
 
@@ -22,13 +26,13 @@ const defaultGenres = [
   {
     id: '0',
     name: '',
-    totalAlbums: 0
-  }
+    totalAlbums: 0,
+  },
 ];
 
 const defaultCheckedGenres = {
-  0: false
-}
+  0: false,
+};
 
 class Home extends React.Component {
   state = {
@@ -57,7 +61,7 @@ class Home extends React.Component {
     if (this.props.collections !== collections) {
       this.showChosenCollection(this.state.collectionChoice);
     }
-  };
+  }
 
   getCountOfResultsShown = () => {
     const { currentPage, collection } = this.state;
@@ -67,17 +71,17 @@ class Home extends React.Component {
     if (topNumber > collection.numberInCollection) {
       topNumber = collection.numberInCollection;
     }
-    this.setState({ bottomNumber, topNumber })
+    this.setState({ bottomNumber, topNumber });
   };
 
   // Takes in an id of chosen collection and sets the state of the collection to that particular one and resets searchedTerm state
   showChosenCollection = (idOfChosenCollection) => {
     const { collections } = this.props;
     const { sortByChoice, sortDirectionChoice } = this.state;
-    const main = collections.find(collection => collection.name === 'Main');
+    const main = collections.find((collection) => collection.name === 'Main');
     if (idOfChosenCollection === '') {
-      this.setState({ collectionChoice: main.id })
-      idOfChosenCollection = main.id
+      this.setState({ collectionChoice: main.id });
+      idOfChosenCollection = main.id;
     }
 
     collectionRequests.searchCollection('', idOfChosenCollection, this.state.checkedGenres, 1, sortByChoice, sortDirectionChoice)
@@ -86,10 +90,9 @@ class Home extends React.Component {
           collection: result,
           currentPage: result.pagination.currentPage,
           totalPages: result.pagination.totalPages,
-          genres: result.totalForEachGenre
-        }, () => this.getCountOfResultsShown())
-      }).catch(err => console.error(err));
-
+          genres: result.totalForEachGenre,
+        }, () => this.getCountOfResultsShown());
+      }).catch((err) => console.error(err));
   };
 
   // Takes in an object and then passes it up to App.js to delete it and then rerenders with componentDidUpdate
@@ -107,31 +110,33 @@ class Home extends React.Component {
 
   handleCheckbox = (e) => {
     const { searchedTerm } = this.state;
-    const tempGenres = { ...this.state.checkedGenres }
+    const tempGenres = { ...this.state.checkedGenres };
     tempGenres[e.target.id] = e.target.checked;
     this.setState({
-      checkedGenres: tempGenres
+      checkedGenres: tempGenres,
     }, () => {
-      this.displaySearchedCollection(searchedTerm, this.state.checkedGenres, 1)
-    })
+      this.displaySearchedCollection(searchedTerm, this.state.checkedGenres, 1);
+    });
   }
 
   resetCheckboxes = () => {
-    const { collection, sortByChoice, sortDirectionChoice, searchedTerm } = this.state;
+    const {
+      collection, sortByChoice, sortDirectionChoice, searchedTerm,
+    } = this.state;
     this.setState({ genres: defaultGenres });
     genreRequests.getAllGenres()
       .then((results) => {
-        let checkboxes = {};
+        const checkboxes = {};
         results.forEach((result) => {
-          checkboxes[result.id] = false
-        })
+          checkboxes[result.id] = false;
+        });
         this.setState({ checkedGenres: checkboxes }, () => {
           collectionRequests.searchCollection(searchedTerm, collection.id, this.state.checkedGenres, 1, sortByChoice, sortDirectionChoice)
             .then((result) => {
-              this.setState({ genres: result.totalForEachGenre })
-            })
-        })
-      }).catch(err => console.error(err));
+              this.setState({ genres: result.totalForEachGenre });
+            });
+        });
+      }).catch((err) => console.error(err));
   }
 
   setCheckboxes = () => {
@@ -142,16 +147,16 @@ class Home extends React.Component {
       .then((results) => {
         results.forEach((genre) => {
           genreRequests.getTotalForEachGenreByCollection(genre.id, collection.id)
-            .then((result) => genre.totalAlbums = result.totalAlbums)
-        })
+            .then((result) => genre.totalAlbums = result.totalAlbums);
+        });
         this.setState({ genres: results });
-        let checkboxes = {};
-        results.forEach((result => {
-          checkboxes[result.id] = false
-        }))
-        this.setState({ checkedGenres: checkboxes })
+        const checkboxes = {};
+        results.forEach(((result) => {
+          checkboxes[result.id] = false;
+        }));
+        this.setState({ checkedGenres: checkboxes });
       })
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
   }
 
   // Passes in an object to App.js to add albums to a selected subcollection
@@ -162,8 +167,9 @@ class Home extends React.Component {
 
   searchThisTerm = (term) => {
     const { checkedGenres } = this.state;
-    this.displaySearchedCollection(term, checkedGenres, 1)
+    this.displaySearchedCollection(term, checkedGenres, 1);
   }
+
   // sets state of the collection by what results come up from the search bar
   displaySearchedCollection = (term, genres, page) => {
     const { collection, sortByChoice, sortDirectionChoice } = this.state;
@@ -174,9 +180,9 @@ class Home extends React.Component {
           collection: result,
           currentPage: result.pagination.currentPage,
           totalPages: result.pagination.totalPages,
-          genres: result.totalForEachGenre
-        }, () => this.getCountOfResultsShown())
-      }).catch(err => console.error(err));
+          genres: result.totalForEachGenre,
+        }, () => this.getCountOfResultsShown());
+      }).catch((err) => console.error(err));
   };
 
   changePage = (page) => {
@@ -187,31 +193,34 @@ class Home extends React.Component {
   sortStateChange = (sortType) => {
     const { searchedTerm, checkedGenres } = this.state;
     this.setState({ sortByChoice: sortType }, () => {
-      this.displaySearchedCollection(searchedTerm, checkedGenres, 1)
+      this.displaySearchedCollection(searchedTerm, checkedGenres, 1);
     });
   }
 
   sortDirectionStateChange = (direction) => {
     const { searchedTerm, checkedGenres } = this.state;
     this.setState({ sortDirectionChoice: direction }, () => {
-      this.displaySearchedCollection(searchedTerm, checkedGenres, 1)
+      this.displaySearchedCollection(searchedTerm, checkedGenres, 1);
     });
   }
+
   render() {
     const { userObj, collections } = this.props;
-    const { collection, collectionChoice, searchedTerm, totalPages, currentPage, genres, checkedGenres, bottomNumber, topNumber } = this.state;
+    const {
+      collection, collectionChoice, searchedTerm, totalPages, currentPage, genres, checkedGenres, bottomNumber, topNumber,
+    } = this.state;
 
     const returnOptions = () => {
       if (collections.length !== 0) {
-        const main = collections.find(collection => collection.name === 'Main');
-        const subs = collections.filter(collection => collection.name !== 'Main');
-        const options = subs.map(subCollection => (
+        const main = collections.find((collectionFiltered) => collectionFiltered.name === 'Main');
+        const subs = collections.filter((collectionFiltered) => collectionFiltered.name !== 'Main');
+        const options = subs.map((subCollection) => (
           <option key={subCollection.id} value={subCollection.id}>{subCollection.name} ({subCollection.numberInCollection})</option>
-        ))
+        ));
         options.unshift(<option key={main.id} value={main.id}>{main.name} ({main.numberInCollection})</option>);
         return options;
       }
-    }
+    };
 
     return (
       <div className="Home container">
@@ -252,15 +261,15 @@ class Home extends React.Component {
             </div>
           </div>
           <div className="col-12 row justify-content-end">
-            {totalPages > 1 ?
-              <AddAlbumPagination
+            {totalPages > 1
+              ? <AddAlbumPagination
                 currentPage={currentPage}
                 totalPages={totalPages}
                 changePage={this.changePage}
               />
               : ''}
-            {collection.numberInCollection !== 0 ?
-              <p className="col-3">{bottomNumber} - {topNumber} of {collection.numberInCollection} result
+            {collection.numberInCollection !== 0
+              ? <p className="col-3">{bottomNumber} - {topNumber} of {collection.numberInCollection} result
               {collection.numberInCollection !== 1 ? 's' : ''}</p>
               : ''}
           </div>
@@ -275,8 +284,8 @@ class Home extends React.Component {
           collections={this.props.collections}
         />
         <div className="row">
-          {totalPages > 1 ?
-            <AddAlbumPagination
+          {totalPages > 1
+            ? <AddAlbumPagination
               currentPage={currentPage}
               totalPages={totalPages}
               changePage={this.changePage}
@@ -284,8 +293,8 @@ class Home extends React.Component {
             : ''}
         </div>
       </div>
-    )
+    );
   }
-};
+}
 
 export default Home;

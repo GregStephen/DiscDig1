@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 
 import userRequests from '../../Helpers/Data/userRequests';
@@ -6,8 +7,8 @@ import './UserDashboard.scss';
 
 const defaultDash = {
   topGenre: {},
-  topArtist: {}
-}
+  topArtist: {},
+};
 
 class UserDashboard extends React.Component {
   state = {
@@ -16,12 +17,12 @@ class UserDashboard extends React.Component {
     topArtist: {},
     genrePercentage: 0,
     artistPercentage: 0,
-    mainCollection: {}
+    mainCollection: {},
   };
 
   componentDidMount() {
     const { userObj, collections } = this.props;
-    const main = collections.find(collection => collection.name === 'Main');
+    const main = collections.find((collection) => collection.name === 'Main');
     userRequests.getUserDashboardData(userObj.id)
       .then((result) => {
         if (result !== null) {
@@ -31,29 +32,32 @@ class UserDashboard extends React.Component {
           const genrePercentage = this.getPercentage(main.numberInCollection, genre.totalInCollection);
           const artistPercentage = this.getPercentage(main.numberInCollection, artist.totalInCollection);
           const decadePercentage = this.getPercentage(main.numberInCollection, decade.totalInCollection);
-          this.setState({ dashboardData: result, topGenre: genre, topArtist: artist, topDecade: decade, decadePercentage: decadePercentage, genrePercentage: genrePercentage, artistPercentage: artistPercentage, mainCollection: main })
+          this.setState({
+            dashboardData: result, topGenre: genre, topArtist: artist, topDecade: decade, decadePercentage, genrePercentage, artistPercentage, mainCollection: main,
+          });
         }
-      }
-      )
-      .catch(err => console.error(err))
+      })
+      .catch((err) => console.error(err));
   }
 
   getPercentage = (total, part) => {
-    let percentage = ((part / total) * 100)
+    let percentage = ((part / total) * 100);
     if (percentage % 1 !== 0) {
-      percentage = percentage.toFixed(2)
+      percentage = percentage.toFixed(2);
     }
     return percentage;
   }
 
   render() {
-    const { topGenre, topArtist, topDecade, decadePercentage, genrePercentage, artistPercentage, mainCollection } = this.state;
+    const {
+      topGenre, topArtist, topDecade, decadePercentage, genrePercentage, artistPercentage, mainCollection,
+    } = this.state;
 
     return (
       <div className="UserDashboard">
         <h3>Here's some info on your collection</h3>
-        {mainCollection.numberInCollection > 0 ?
-          <div>
+        {mainCollection.numberInCollection > 0
+          ? <div>
             <p>Total collection: {mainCollection.numberInCollection}</p>
             <p>Most of your collection is: {topGenre.genre} </p>
             <p>Total {topGenre.genre} albums: {topGenre.totalInCollection} or {genrePercentage}% of your collection</p>
@@ -65,7 +69,7 @@ class UserDashboard extends React.Component {
           : <p> You have nothing in your collection yet</p>}
 
       </div>
-    )
+    );
   }
 }
 

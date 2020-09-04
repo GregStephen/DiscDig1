@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React from 'react';
 import {
   Card,
@@ -8,7 +9,8 @@ import {
   ListGroup,
   ListGroupItem,
   Modal,
-  ModalHeader}
+  ModalHeader,
+}
   from 'reactstrap';
 import moment from 'moment';
 
@@ -27,8 +29,8 @@ class UserWidget extends React.Component {
   }
 
   toggleModalOpen = (value) => {
-    this.setState({ modalOpen: value })
-    this.setState(prevState => ({
+    this.setState({ modalOpen: value });
+    this.setState((prevState) => ({
       userPageModalIsOpen: !prevState.userPageModalIsOpen,
     }));
   };
@@ -57,7 +59,7 @@ class UserWidget extends React.Component {
             <CardSubtitle>Proud Digger since: {displayDate}</CardSubtitle>
             <CardImg className="profile-avatar" src={avatar.imgUrl} alt={avatar.name} />
             <ListGroup flush>
-              <ListGroupItem className="profile-modal" tag="a"  onClick={() => this.toggleModalOpen('name')}>Change Name</ListGroupItem>
+              <ListGroupItem className="profile-modal" tag="a" onClick={() => this.toggleModalOpen('name')}>Change Name</ListGroupItem>
               <ListGroupItem className="profile-modal" tag="a" onClick={() => this.toggleModalOpen('avatar')}>Change Avatar</ListGroupItem>
               <ListGroupItem className="profile-modal" tag="a" onClick={() => this.toggleModalOpen('email')}>Change Email</ListGroupItem>
               <ListGroupItem className="profile-modal" tag="a" onClick={() => this.toggleModalOpen('password')}>Change Password</ListGroupItem>
@@ -67,47 +69,47 @@ class UserWidget extends React.Component {
         </Card>
         <Modal size={modalOpen === 'avatar' ? 'lg' : 'md'} isOpen={this.state.userPageModalIsOpen} toggle={this.toggleModalOpen}>
           <ModalHeader toggle={this.userPageModalIsOpen}>
-            {modalOpen === 'name' ? 'Edit Name' : 
-            modalOpen === 'avatar' ? 'Change Avatar' :
-            modalOpen === 'password' ? 'Change Password' : 
-            modalOpen === 'email' ? 'Change Email' : 
-            modalOpen === 'delete' ? 'Delete Account' : ''}
+            {modalOpen === 'name' ? 'Edit Name'
+              : modalOpen === 'avatar' ? 'Change Avatar'
+                : modalOpen === 'password' ? 'Change Password'
+                  : modalOpen === 'email' ? 'Change Email'
+                    : modalOpen === 'delete' ? 'Delete Account' : ''}
           </ModalHeader>
-          { modalOpen === 'name' ? 
-            <EditUserNameModal
-            toggleModalOpen= { this.toggleModalOpen } 
-            userObj= { userObj }  
-            userEdited= { this.userEdited }                 
-            /> 
-            : modalOpen === 'avatar' ?
-            <ChangeAvatarModal
-            toggleModalOpen= { this.toggleModalOpen }
-            userObj= { userObj }
-            avatar= { avatar }
-            avatarChanged= { this.avatarChanged }
+          {modalOpen === 'name'
+            ? <EditUserNameModal
+              toggleModalOpen={this.toggleModalOpen}
+              userObj={userObj}
+              userEdited={this.userEdited}
             />
-            : modalOpen === 'password' ?
-            <ChangePasswordModal
-            toggleModalOpen= { this.toggleModalOpen } 
-            userObj= { userObj }               
-            />
-            : modalOpen === 'email' ?
-            <ChangeEmailModal
-            toggleModalOpen= { this.toggleModalOpen }
-            userObj= { userObj }
-            />
-            : modalOpen === 'delete' ? 
-            <DeleteUserModal
-            toggleModalOpen= { this.toggleModalOpen } 
-            userObj= { userObj }
-            userDeleted= { this.userDeleted } 
-            />
-            : ''
+            : modalOpen === 'avatar'
+              ? <ChangeAvatarModal
+                toggleModalOpen={this.toggleModalOpen}
+                userObj={userObj}
+                avatar={avatar}
+                avatarChanged={this.avatarChanged}
+              />
+              : modalOpen === 'password'
+                ? <ChangePasswordModal
+                  toggleModalOpen={this.toggleModalOpen}
+                  userObj={userObj}
+                />
+                : modalOpen === 'email'
+                  ? <ChangeEmailModal
+                    toggleModalOpen={this.toggleModalOpen}
+                    userObj={userObj}
+                  />
+                  : modalOpen === 'delete'
+                    ? <DeleteUserModal
+                      toggleModalOpen={this.toggleModalOpen}
+                      userObj={userObj}
+                      userDeleted={this.userDeleted}
+                    />
+                    : ''
           }
-          </Modal>
+        </Modal>
       </div>
-    )
+    );
   }
-};
+}
 
 export default UserWidget;

@@ -1,5 +1,7 @@
 import React from 'react';
-import { Button, Collapse, Form, Input, InputGroup, InputGroupAddon } from 'reactstrap';
+import {
+  Button, Collapse, Form, Input, InputGroup, InputGroupAddon,
+} from 'reactstrap';
 
 import SubcollectionObject from '../SubcollectionObject/SubcollectionObject';
 
@@ -15,17 +17,17 @@ class Subcollections extends React.Component {
 
   componentDidMount() {
     this.loadPage();
-  };
+  }
 
   componentDidUpdate({ collections }) {
     if (this.props.collections !== collections) {
       this.loadPage();
     }
-  };
+  }
 
   loadPage = () => {
     const { collections } = this.props;
-    const subs = collections.filter(collection => collection.name !== 'Main');
+    const subs = collections.filter((collection) => collection.name !== 'Main');
     this.setState({ subCollections: subs });
   };
 
@@ -46,11 +48,11 @@ class Subcollections extends React.Component {
   }
 
   toggle = () => {
-    this.setState(state => ({ collapse: !state.collapse }));
+    this.setState((state) => ({ collapse: !state.collapse }));
   }
 
   newSubcollectionNameChange = (e) => {
-    this.setState({ newSubcollection: e.target.value })
+    this.setState({ newSubcollection: e.target.value });
   };
 
   createNewSubcollection = (e) => {
@@ -64,7 +66,7 @@ class Subcollections extends React.Component {
       this.toggle();
       this.loadPage();
       this.setState({ newSubcollection: '' });
-    })
+    });
   }
 
   deleteThisSub = (subId) => {
@@ -86,7 +88,7 @@ class Subcollections extends React.Component {
         deleteThisSub={this.deleteThisSub}
         changeSubColName={this.changeSubColName}
       />
-    ))
+    ));
     return (
       <div className="Subcollections container">
         <Button className="btn-info" onClick={this.toggle}>Add New Subcollection</Button>
@@ -118,15 +120,15 @@ class Subcollections extends React.Component {
 
 
         <div className="subcollections-list row">
-          {subCollections.length > 0 ?
-          createSubcollectionList
-        : <p className="no-subcollections col-12">You don't have any subcollections yet. Click above to create one!</p>}
+          {subCollections.length > 0
+            ? createSubcollectionList
+            : <p className="no-subcollections col-12">You don't have any subcollections yet. Click above to create one!</p>}
         </div>
 
 
       </div>
-    )
+    );
   }
-};
+}
 
 export default Subcollections;

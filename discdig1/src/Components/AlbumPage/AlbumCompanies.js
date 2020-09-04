@@ -1,5 +1,7 @@
 import React from 'react';
-import { Card, CardTitle, ListGroup, ListGroupItem } from 'reactstrap';
+import {
+  Card, CardTitle, ListGroup, ListGroupItem,
+} from 'reactstrap';
 
 class AlbumCompanies extends React.Component {
   render() {
@@ -17,8 +19,8 @@ class AlbumCompanies extends React.Component {
           </ListGroup>
         </Card>
       </div>
-    )
+    );
   }
-};
+}
 
 export default AlbumCompanies;
